@@ -74,19 +74,20 @@ public partial class CategoryOverview
         }
 
         this.PriceHistory = new List<Price>();
+        var rnd = new Random();
         for (var i = 0; i < 30; i++)
         {
             this.PriceHistory.Add(
                                   new Price()
                                   {
-                                      Value = 15 - i * 0.15,
+                                      Value = 10 + rnd.NextDouble() * 10,
                                       TimeStamp = DateTime.Now.AddDays(-i * 8),
                                       Product = new Product()
                                                 {
                                                     Brand = "Test",
                                                     Name = $"Test Product A-{i}",
                                                     ArticleNumber = "123456",
-                                                    Store = new Store() { Name = "Billa" },
+                                                    Store = new Store() { Name = i % 2 == 0 ? "Store A" : "Store B" },
                                                     Url = "#",
                                                 },
                                   });

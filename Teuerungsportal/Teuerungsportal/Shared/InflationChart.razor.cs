@@ -14,10 +14,6 @@ public partial class InflationChart
     [EditorRequired]
     public ICollection<Price> ChartData { get; set; } = new List<Price>();
 
-    [Parameter]
-    [EditorRequired]
-    public string Label { get; set; } = string.Empty;
-
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
@@ -30,37 +26,83 @@ public partial class InflationChart
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        var labels = new List<string>();
+        var dateLabels = new List<DateTime>();
+        var chartSeries = new List<ChartSeries>();
+        var storeLabels = new List<string>();
 
-        var orderedData = this.ChartData.OrderBy(v => v.TimeStamp).
-                               GroupBy(
-                                       v => new
-                                            {
-                                                v.TimeStamp.Year,
-                                                v.TimeStamp.Month,
-                                            }).
-                               Select(
-                                      cv => new
-                                            {
-                                                Key = cv.Key,
-                                                AveragePrice = cv.Average(p => p.Value),
-                                            });
-
-        var chartData = new List<double>();
-        foreach (var entry in orderedData)
+        for (var i = 11; i >= 0; i--)
         {
-            var date = new DateTime(entry.Key.Year, entry.Key.Month, 1);
-            labels.Add($"{date:MM.yyyy}");
-            chartData.Add(entry.AveragePrice);
+            var today = DateTime.Today;
+            dateLabels.Add(new DateTime(today.Year, today.Month, 1).AddMonths(-i));
         }
 
-        this.ProcessedChartData.Add(
-                                    new ChartSeries()
-                                    {
-                                        Name = this.Label,
-                                        Data = chartData.ToArray()
-                                    });
+        var storeData = this.ChartData.OrderBy(p => p.TimeStamp).GroupBy(p => p.Product!.Store!.Name).ToList();
+        foreach (var store in storeData)
+        {
+            if (!storeLabels.Contains(store.Key))
+            {
+                storeLabels.Add(store.Key);
+            }
 
-        this.Labels = labels.ToArray();
+            var storePrices = store.ToList();
+            var processedStoreData = this.ProcessChartData(storePrices, dateLabels);
+
+            chartSeries.Add(
+                            new ChartSeries()
+                            {
+                                Name = store.Key,
+                                Data = processedStoreData.ToArray(),
+                            });
+        }
+
+        if (chartSeries.Count > 1)
+        {
+            this.ProcessedChartData = chartSeries;
+        }
+        
+        var totalData = this.ProcessChartData(this.ChartData, dateLabels);
+        chartSeries.Add(
+                        new ChartSeries()
+                        {
+                            Name = this.L["total"],
+                            Data = totalData.ToArray(),
+                        });
+
+        this.Labels = dateLabels.Select(d => d.ToString("MM.yyyy")).ToArray();
+    }
+
+    private List<double> ProcessChartData(ICollection<Price> prices, ICollection<DateTime> dates)
+    {
+        var orderedTotalData = prices.OrderBy(v => v.TimeStamp).
+                                    GroupBy(
+                                            v => new
+                                                 {
+                                                     v.TimeStamp.Year,
+                                                     v.TimeStamp.Month,
+                                                 }).
+                                    Select(
+                                           cv => new
+                                                 {
+                                                     Date = new DateTime(cv.Key.Year, cv.Key.Month, 1),
+                                                     AveragePrice = cv.Average(p => p.Value),
+                                                 }).
+                                    ToList();
+
+        var currentTotalValue = orderedTotalData.First().AveragePrice;
+        var chartTotalData = new List<double>(12);
+        foreach (var date in dates)
+        {
+            var foundEntry = orderedTotalData.FirstOrDefault(d => d.Date == date);
+            if (foundEntry == null)
+            {
+                chartTotalData.Add(currentTotalValue);
+                continue;
+            }
+
+            currentTotalValue = foundEntry.AveragePrice;
+            chartTotalData.Add(foundEntry.AveragePrice);
+        }
+
+        return chartTotalData;
     }
 }
