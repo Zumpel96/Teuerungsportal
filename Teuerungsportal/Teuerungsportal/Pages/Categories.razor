@@ -1,8 +1,8 @@
 ﻿@page "/categories"
 
-<PageTitle>Teuerungsportal - Kategorien</PageTitle>
-<MudText Typo="Typo.h1">Kategorien</MudText>
-<MudAlert Severity="Severity.Info">Hier finden Sie eine Gesamtübersicht aller indexierten Kategorien. Klicken Sie einfach auf eine Kategorie um in die entsprechende Übersicht zu gelangen.</MudAlert>
+<PageTitle>Teuerungsportal - @L?["category"]</PageTitle>
+<MudText Typo="Typo.h1">@L?["categories"]</MudText>
+<MudAlert Severity="Severity.Info">@L?["categoriesInfo"]</MudAlert>
 
 <div class="d-flex justify-center align-content-center">
     @foreach (var category in CategoriesList)
@@ -14,7 +14,7 @@
             {
                 <MudList Clickable="true">
                     <MudListSubheader>
-                        Subkategorien
+                        @L?["subCategories"]
                     </MudListSubheader>
 
                     <MudDivider/>
@@ -25,7 +25,7 @@
                         {
                             <MudListItem Text="@subCategory.Name">
                                 <NestedList>
-                                    <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}")>Übersicht</MudListItem>
+                                    <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}")>@L?["overview"]</MudListItem>
                                     @foreach (var subSubCategory in subCategory.SubCategories)
                                     {
                                         <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}/{subSubCategory.Name}")>@subSubCategory.Name</MudListItem>

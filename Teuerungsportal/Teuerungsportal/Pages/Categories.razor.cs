@@ -1,9 +1,15 @@
 namespace Teuerungsportal.Pages;
 
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Teuerungsportal.Helpers;
+using Teuerungsportal.Resources;
 
 public partial class Categories
 {
+    [Inject]
+    private IStringLocalizer<Language>? L { get; set; }
+
     private ICollection<Category> CategoriesList { get; set; } = new List<Category>();
 
     private string SearchTerm { get; set; } = string.Empty;
@@ -25,9 +31,21 @@ public partial class Categories
                                                             Name = "Test B-C",
                                                             SubCategories = new List<Category>()
                                                                             {
-                                                                                new Category() { Name = "Test B-C-A" },
-                                                                                new Category() { Name = "Test B-C-B" },
-                                                                                new Category() { Name = "Test B-C-C" },
+                                                                                new Category()
+                                                                                {
+                                                                                    Name =
+                                                                                    "Test B-C-A"
+                                                                                },
+                                                                                new Category()
+                                                                                {
+                                                                                    Name =
+                                                                                    "Test B-C-B"
+                                                                                },
+                                                                                new Category()
+                                                                                {
+                                                                                    Name =
+                                                                                    "Test B-C-C"
+                                                                                },
                                                                             }
                                                         },
                                                     },

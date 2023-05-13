@@ -1,7 +1,14 @@
 ﻿<MudNavMenu>
+    <MudText Typo="Typo.h6" Class="px-4">@L?["appName"]</MudText>
+    <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">@L?["appInfo"]</MudText>
+    <MudDivider Class="my-2"/>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
     <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">Counter</MudNavLink>
     <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix">Fetch data</MudNavLink>
-    <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">Kategorien</MudNavLink>
-    <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+    <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">@L?["categories"]</MudNavLink>
+    <MudNavGroup Title="@L?["language"]">
+        <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>
+        <MudNavLink OnClick="@(() =>ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
 </MudNavMenu>
