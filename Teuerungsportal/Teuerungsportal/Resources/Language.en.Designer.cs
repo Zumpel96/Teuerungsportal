@@ -141,6 +141,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Price History.
+        /// </summary>
+        internal static string history {
+            get {
+                return ResourceManager.GetString("history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         internal static string language {

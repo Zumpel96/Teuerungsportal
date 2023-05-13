@@ -20,6 +20,8 @@ public partial class CategoryOverview
 
     private ICollection<Price> RecentPriceChanges { get; set; } = new List<Price>();
 
+    private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -69,6 +71,25 @@ public partial class CategoryOverview
                                                           Url = "#",
                                                       },
                                         });
+        }
+
+        this.PriceHistory = new List<Price>();
+        for (var i = 0; i < 30; i++)
+        {
+            this.PriceHistory.Add(
+                                  new Price()
+                                  {
+                                      Value = 15 - i * 0.15,
+                                      TimeStamp = DateTime.Now.AddDays(-i * 8),
+                                      Product = new Product()
+                                                {
+                                                    Brand = "Test",
+                                                    Name = $"Test Product A-{i}",
+                                                    ArticleNumber = "123456",
+                                                    Store = "Billa",
+                                                    Url = "#",
+                                                },
+                                  });
         }
     }
 }

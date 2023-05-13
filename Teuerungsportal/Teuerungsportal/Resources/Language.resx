@@ -72,4 +72,7 @@
     <data name="categoryInfo" xml:space="preserve">
         <value>Hier können Sie alle Infos zu der aktuellen Kategorie sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
     </data>
+    <data name="history" xml:space="preserve">
+        <value>Preisverlauf</value>
+    </data>
 </root>

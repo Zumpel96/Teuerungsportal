@@ -23,6 +23,8 @@
                 <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Round(priceChange, 2):N2}€")</MudChip>
             }
         </MudTd>
-        <MudTd>></MudTd>
+        <MudTd>
+            <MudIcon Icon="@Icons.Material.Filled.ArrowForwardIos"/>
+        </MudTd>
     </RowTemplate>
 </MudTable>

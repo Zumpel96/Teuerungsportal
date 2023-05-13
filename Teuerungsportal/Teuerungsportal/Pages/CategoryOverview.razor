@@ -12,6 +12,13 @@
             <MudAlert Severity="Severity.Info" Class="my-3">@L?["categoryInfo"]</MudAlert>
             <MudDivider/>
         </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="mud-width-full pa-3">
+                <MudText Typo="Typo.h3">@L?["history"]</MudText>
+                
+                <InflationChart ChartData="@PriceHistory" Label="@CategoryName"/>
+            </MudPaper>
+        </MudItem>
         <MudItem xs="12" md="6">
             <MudPaper Class="mud-width-full pa-3">
                 <MudText Typo="Typo.h3">@L?["subCategories"]</MudText>
