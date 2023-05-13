@@ -12,7 +12,7 @@ public class Product
 
     public string Brand { get; set; } = string.Empty;
 
-    public string Store { get; set; } = string.Empty;
+    public Store? Store { get; set; }
 
     public Category? Category { get; set; }
 }

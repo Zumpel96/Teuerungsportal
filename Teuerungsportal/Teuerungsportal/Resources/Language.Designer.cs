@@ -240,6 +240,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hier finden Sie eine Gesamtübersicht aller gefilterten Geschäfte. Klicken Sie einfach auf ein Geschäft um in die entsprechende Übersicht zu gelangen..
+        /// </summary>
+        internal static string storesInfo {
+            get {
+                return ResourceManager.GetString("storesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unterkategorien.
         /// </summary>
         internal static string subCategories {

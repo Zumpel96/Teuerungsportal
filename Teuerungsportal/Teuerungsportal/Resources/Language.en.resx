@@ -81,4 +81,7 @@
     <data name="stores" xml:space="preserve">
         <value>Stores</value>
     </data>
+    <data name="storesInfo" xml:space="preserve">
+        <value>Here you can find a complete overview of all crawled stores. Simply click on a store to access the corresponding overview.</value>
+    </data>
 </root>
