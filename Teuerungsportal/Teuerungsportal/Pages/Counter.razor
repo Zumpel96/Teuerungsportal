@@ -2,18 +2,8 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<MudText Typo="Typo.h1">WCounter</MudText>
 
-<p role="status">Current count: @currentCount</p>
+<MudText Typo="Typo.body1">Current count: @CurrentCount</MudText>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-
-}
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@IncrementCount">Click me</MudButton>
