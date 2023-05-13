@@ -231,6 +231,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hier können Sie alle Infos zum aktuellen Geschäft sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen..
+        /// </summary>
+        internal static string storeInfo {
+            get {
+                return ResourceManager.GetString("storeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Geschäfte.
         /// </summary>
         internal static string stores {

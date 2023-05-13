@@ -84,4 +84,7 @@
     <data name="storesInfo" xml:space="preserve">
         <value>Hier finden Sie eine Gesamtübersicht aller gefilterten Geschäfte. Klicken Sie einfach auf ein Geschäft um in die entsprechende Übersicht zu gelangen.</value>
     </data>
+    <data name="storeInfo" xml:space="preserve">
+        <value>Hier können Sie alle Infos zum aktuellen Geschäft sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
+    </data>
 </root>
