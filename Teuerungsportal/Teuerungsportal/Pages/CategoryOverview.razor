@@ -1,0 +1,54 @@
+﻿@page "/categories/{categoryName}"
+
+<PageTitle>@L?["appName"] - @L?["category"]</PageTitle>
+
+@if (CurrentCategory != null)
+{
+    <MudBreadcrumbs Items="@ParentCategories"/>
+
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h1">@CurrentCategory.Name</MudText>
+            <MudAlert Severity="Severity.Info" Class="my-3">@L?["categoryInfo"]</MudAlert>
+            <MudDivider/>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudPaper Class="mud-width-full pa-3">
+                <MudText Typo="Typo.h3">@L?["subCategories"]</MudText>
+
+                @if (CurrentCategory.SubCategories.Any())
+                {
+                    <MudList>
+                        @foreach (var subCategory in CurrentCategory.SubCategories)
+                        {
+                            <MudListItem Href=@($"/categories/{subCategory.Name}")>
+                                @subCategory.Name
+                            </MudListItem>
+                        }
+                    </MudList>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">@L?["noSubCategories"]</MudText>
+                    <MudText Typo="Typo.h6">@L?["noSubCategoriesText"]</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" md="6">
+            <MudPaper Class="mud-width-full pa-3">
+                <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
+
+                @if (RecentPriceChanges.Any())
+                {
+                    <RecentPriceChanges PriceChanges="@RecentPriceChanges"/>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">@L?["noRecentPriceChanges"]</MudText>
+                    <MudText Typo="Typo.h6">@L?["noRecentPriceChangesText"]</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}

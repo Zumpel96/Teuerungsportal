@@ -26,17 +26,17 @@
                         {
                             <MudListItem Text="@subCategory.Name">
                                 <NestedList>
-                                    <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}")>@L?["overview"]</MudListItem>
+                                    <MudListItem Href=@($"/categories/{subCategory.Name}")>@L?["overview"]</MudListItem>
                                     @foreach (var subSubCategory in subCategory.SubCategories)
                                     {
-                                        <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}/{subSubCategory.Name}")>@subSubCategory.Name</MudListItem>
+                                        <MudListItem Href=@($"/categories/{subSubCategory.Name}")>@subSubCategory.Name</MudListItem>
                                     }
                                 </NestedList>
                             </MudListItem>
                         }
                         else
                         {
-                            <MudListItem Href=@($"/categories/{category.Name}/{subCategory.Name}")>@subCategory.Name</MudListItem>
+                            <MudListItem Href=@($"/categories/{subCategory.Name}")>@subCategory.Name</MudListItem>
                         }
                     }
                 </MudList>
