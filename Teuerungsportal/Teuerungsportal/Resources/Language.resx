@@ -48,4 +48,28 @@
     <data name="language" xml:space="preserve">
         <value>Sprache</value>
     </data>
+    <data name="noRecentPriceChanges" xml:space="preserve">
+        <value>Keine Preisänderungen</value>
+    </data>
+    <data name="noRecentPriceChangesText" xml:space="preserve">
+        <value>Aktuell gab es noch keine Preisänderungen.</value>
+    </data>
+    <data name="changeDateTime" xml:space="preserve">
+        <value>Datum</value>
+    </data>
+    <data name="productName" xml:space="preserve">
+        <value>Produkt</value>
+    </data>
+    <data name="store" xml:space="preserve">
+        <value>Geschäft</value>
+    </data>
+    <data name="price" xml:space="preserve">
+        <value>Preis</value>
+    </data>
+    <data name="recentPriceChanges" xml:space="preserve">
+        <value>Preisänderungen</value>
+    </data>
+    <data name="categoryInfo" xml:space="preserve">
+        <value>Hier können Sie alle Infos zu der aktuellen Kategorie sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
+    </data>
 </root>
