@@ -67,7 +67,7 @@ public partial class CategoryOverview
                                                           Brand = "Test",
                                                           Name = $"Test Product A-{i}",
                                                           ArticleNumber = "123456",
-                                                          Store = "Billa",
+                                                          Store = new Store() { Name = "Billa" },
                                                           Url = "#",
                                                       },
                                         });
@@ -86,7 +86,7 @@ public partial class CategoryOverview
                                                     Brand = "Test",
                                                     Name = $"Test Product A-{i}",
                                                     ArticleNumber = "123456",
-                                                    Store = "Billa",
+                                                    Store = new Store() { Name = "Billa" },
                                                     Url = "#",
                                                 },
                                   });

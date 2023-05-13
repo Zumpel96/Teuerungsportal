@@ -1,0 +1,15 @@
+﻿@page "/stores"
+
+<PageTitle>@L?["appName"] - @L?["stores"]</PageTitle>
+<MudText Typo="Typo.h1">@L?["stores"]</MudText>
+<MudAlert Severity="Severity.Info" Class="my-3">@L?["storesInfo"]</MudAlert>
+<MudDivider/>
+
+<div class="d-flex justify-center align-content-center">
+    @foreach (var store in StoresList)
+    {
+        <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
+            <MudLink Href=@($"/stores/{store.Name}") Typo="Typo.h3">@store.Name</MudLink>
+        </MudPaper>
+    }
+</div>
