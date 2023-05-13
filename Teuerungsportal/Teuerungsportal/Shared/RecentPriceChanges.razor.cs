@@ -15,9 +15,27 @@ public partial class RecentPriceChanges
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         this.PriceChanges = this.PriceChanges.OrderByDescending(pc => pc.TimeStamp).ToList();
+    }
+
+    public void Redirect(Product? product)
+    {
+        if (this.NavigationManager == null)
+        {
+            return;
+        }
+        
+        if (product == null)
+        {
+            return;
+        }
+        
+        this.NavigationManager.NavigateTo($"/stores/{product.Store}/{product.ArticleNumber}");
     }
 }

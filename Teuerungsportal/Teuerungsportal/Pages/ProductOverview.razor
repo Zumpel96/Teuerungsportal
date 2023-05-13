@@ -1,0 +1,39 @@
+﻿@page "/stores/{storeName}/{productNumber}"
+
+<PageTitle>@L?["appName"] - @L?["product"]</PageTitle>
+
+@if (CurrentProduct != null)
+{
+    <MudBreadcrumbs Items="@ParentCategories"/>
+
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h1">@CurrentProduct.Name</MudText>
+            <MudAlert Severity="Severity.Info" Class="my-3">@L?["productInfo"]</MudAlert>
+            <MudDivider/>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="mud-width-full pa-3">
+                <MudText Typo="Typo.h3">@L?["history"]</MudText>
+                
+                <InflationChart ChartData="@PriceHistory" Label="@CurrentProduct.Name"/>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudPaper Class="mud-width-full pa-3">
+                <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
+
+                @if (RecentPriceChanges.Any())
+                {
+                    <RecentPriceChanges PriceChanges="@RecentPriceChanges"/>
+                }
+                else
+                {
+                    <MudText Typo="Typo.h6">@L?["noRecentPriceChanges"]</MudText>
+                    <MudText Typo="Typo.h6">@L?["noRecentPriceChangesText"]</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}

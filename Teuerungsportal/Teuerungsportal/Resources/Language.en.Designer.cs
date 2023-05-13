@@ -195,6 +195,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Here you can see all information about the current product. Additionally, you can view current statistics and recent changes..
+        /// </summary>
+        internal static string productInfo {
+            get {
+                return ResourceManager.GetString("productInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product.
         /// </summary>
         internal static string productName {
@@ -218,6 +227,15 @@ namespace Teuerungsportal.Resources {
         internal static string store {
             get {
                 return ResourceManager.GetString("store", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stores.
+        /// </summary>
+        internal static string stores {
+            get {
+                return ResourceManager.GetString("stores", resourceCulture);
             }
         }
         
