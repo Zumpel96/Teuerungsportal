@@ -31,11 +31,11 @@ public partial class RecentPriceChanges
             return;
         }
         
-        if (product == null)
+        if (product?.Store == null)
         {
             return;
         }
         
-        this.NavigationManager.NavigateTo($"/stores/{product.Store}/{product.ArticleNumber}");
+        this.NavigationManager.NavigateTo($"/stores/{product.Store.Name}/{product.ArticleNumber}");
     }
 }
