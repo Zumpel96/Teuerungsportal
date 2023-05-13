@@ -75,4 +75,7 @@
     <data name="history" xml:space="preserve">
         <value>Price History</value>
     </data>
+    <data name="productInfo" xml:space="preserve">
+        <value>Here you can see all information about the current product. Additionally, you can view current statistics and recent changes.</value>
+    </data>
 </root>
