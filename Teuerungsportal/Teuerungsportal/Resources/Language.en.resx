@@ -48,4 +48,31 @@
     <data name="english" xml:space="preserve">
         <value>English</value>
     </data>
+    <data name="noRecentPriceChanges" xml:space="preserve">
+        <value>No recent price changes</value>
+    </data>
+    <data name="noRecentPriceChangesText" xml:space="preserve">
+        <value>There have been no price changes so far.</value>
+    </data>
+    <data name="price" xml:space="preserve">
+        <value>Price</value>
+    </data>
+    <data name="productName" xml:space="preserve">
+        <value>Product</value>
+    </data>
+    <data name="store" xml:space="preserve">
+        <value>Store</value>
+    </data>
+    <data name="changeDateTime" xml:space="preserve">
+        <value>Date</value>
+    </data>
+    <data name="recentPriceChanges" xml:space="preserve">
+        <value>Price Changes</value>
+    </data>
+    <data name="categoryInfo" xml:space="preserve">
+        <value>Here you can see all information about the current category. Additionally, you can view current statistics and recent changes.</value>
+    </data>
+    <data name="history" xml:space="preserve">
+        <value>Price History</value>
+    </data>
 </root>

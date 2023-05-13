@@ -105,6 +105,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hier können Sie alle Infos zu der aktuellen Kategorie sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen..
+        /// </summary>
+        internal static string categoryInfo {
+            get {
+                return ResourceManager.GetString("categoryInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datum.
+        /// </summary>
+        internal static string changeDateTime {
+            get {
+                return ResourceManager.GetString("changeDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string english {
@@ -123,6 +141,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preisverlauf.
+        /// </summary>
+        internal static string history {
+            get {
+                return ResourceManager.GetString("history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sprache.
         /// </summary>
         internal static string language {
@@ -132,11 +159,65 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keine Preisänderungen.
+        /// </summary>
+        internal static string noRecentPriceChanges {
+            get {
+                return ResourceManager.GetString("noRecentPriceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aktuell gab es noch keine Preisänderungen..
+        /// </summary>
+        internal static string noRecentPriceChangesText {
+            get {
+                return ResourceManager.GetString("noRecentPriceChangesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Übersicht.
         /// </summary>
         internal static string overview {
             get {
                 return ResourceManager.GetString("overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preis.
+        /// </summary>
+        internal static string price {
+            get {
+                return ResourceManager.GetString("price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Produkt.
+        /// </summary>
+        internal static string productName {
+            get {
+                return ResourceManager.GetString("productName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preisänderungen.
+        /// </summary>
+        internal static string recentPriceChanges {
+            get {
+                return ResourceManager.GetString("recentPriceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geschäft.
+        /// </summary>
+        internal static string store {
+            get {
+                return ResourceManager.GetString("store", resourceCulture);
             }
         }
         

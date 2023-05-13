@@ -12,8 +12,6 @@ public partial class Categories
 
     private ICollection<Category> CategoriesList { get; set; } = new List<Category>();
 
-    private string SearchTerm { get; set; } = string.Empty;
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -24,27 +22,24 @@ public partial class Categories
                                     Name = "Test B",
                                     SubCategories = new List<Category>()
                                                     {
-                                                        new Category() { Name = "Test B-A" },
-                                                        new Category() { Name = "Test B-B" },
-                                                        new Category()
+                                                        new () { Name = "Test B-A" },
+                                                        new () { Name = "Test B-B" },
+                                                        new ()
                                                         {
                                                             Name = "Test B-C",
                                                             SubCategories = new List<Category>()
                                                                             {
-                                                                                new Category()
+                                                                                new ()
                                                                                 {
-                                                                                    Name =
-                                                                                    "Test B-C-A"
+                                                                                    Name = "Test B-C-A",
                                                                                 },
-                                                                                new Category()
+                                                                                new ()
                                                                                 {
-                                                                                    Name =
-                                                                                    "Test B-C-B"
+                                                                                    Name = "Test B-C-B",
                                                                                 },
-                                                                                new Category()
+                                                                                new ()
                                                                                 {
-                                                                                    Name =
-                                                                                    "Test B-C-C"
+                                                                                    Name = "Test B-C-C",
                                                                                 },
                                                                             }
                                                         },
@@ -56,9 +51,9 @@ public partial class Categories
                                     Name = "Test C",
                                     SubCategories = new List<Category>()
                                                     {
-                                                        new Category() { Name = "Test C-A" },
-                                                        new Category() { Name = "Test C-B" },
-                                                        new Category() { Name = "Test C-C" },
+                                                        new () { Name = "Test C-A" },
+                                                        new () { Name = "Test C-B" },
+                                                        new () { Name = "Test C-C" },
                                                     },
                                 });
     }

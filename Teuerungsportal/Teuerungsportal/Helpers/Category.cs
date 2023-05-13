@@ -7,4 +7,6 @@ public class Category
     public string Name { get; set; } = string.Empty;
 
     public ICollection<Category> SubCategories { get; set; } = new List<Category>();
+
+    public ICollection<Category> ParentCategories { get; set; } = new List<Category>();
 }
