@@ -240,6 +240,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Here you can find a complete overview of all crawled stores. Simply click on a store to access the corresponding overview..
+        /// </summary>
+        internal static string storesInfo {
+            get {
+                return ResourceManager.GetString("storesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subcategories.
         /// </summary>
         internal static string subCategories {

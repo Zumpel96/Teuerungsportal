@@ -81,4 +81,7 @@
     <data name="stores" xml:space="preserve">
         <value>Geschäfte</value>
     </data>
+    <data name="storesInfo" xml:space="preserve">
+        <value>Hier finden Sie eine Gesamtübersicht aller gefilterten Geschäfte. Klicken Sie einfach auf ein Geschäft um in die entsprechende Übersicht zu gelangen.</value>
+    </data>
 </root>
