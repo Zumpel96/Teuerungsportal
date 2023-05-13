@@ -42,8 +42,8 @@ public partial class ProductOverview
                                   Url = "#",
                               };
 
-        this.ParentCategories.Add(new BreadcrumbItem(this.L["stores"], $"stores"));
-        this.ParentCategories.Add(new BreadcrumbItem(this.StoreName, $"categories/{this.StoreName}"));
+        this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"stores"));
+        this.ParentCategories.Add(new BreadcrumbItem(this.StoreName, $"stores/{this.StoreName}"));
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Name, null, true));
 
         for (var i = 0; i < 10; i++)

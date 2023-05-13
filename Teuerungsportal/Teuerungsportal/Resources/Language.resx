@@ -78,4 +78,7 @@
     <data name="productInfo" xml:space="preserve">
         <value>Hier können Sie alle Infos zum aktuellen Produkt sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
     </data>
+    <data name="stores" xml:space="preserve">
+        <value>Geschäfte</value>
+    </data>
 </root>

@@ -231,6 +231,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stores.
+        /// </summary>
+        internal static string stores {
+            get {
+                return ResourceManager.GetString("stores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subcategories.
         /// </summary>
         internal static string subCategories {
