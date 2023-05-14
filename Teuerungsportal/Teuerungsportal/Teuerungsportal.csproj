@@ -13,6 +13,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.16" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.16" />
         <PackageReference Include="MudBlazor" Version="6.2.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
