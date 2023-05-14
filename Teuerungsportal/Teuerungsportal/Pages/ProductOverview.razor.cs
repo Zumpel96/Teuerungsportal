@@ -73,6 +73,14 @@ public partial class ProductOverview
                                   {
                                       Value = 15 - i * 0.15,
                                       TimeStamp = DateTime.Now.AddDays(-i * 8),
+                                      Product = new Product()
+                                                {
+                                                    Brand = "Test",
+                                                    Name = $"Test Product",
+                                                    ArticleNumber = "123456",
+                                                    Store = new Store() { Name = "Billa" },
+                                                    Url = "#",
+                                                },
                                   });
         }
     }

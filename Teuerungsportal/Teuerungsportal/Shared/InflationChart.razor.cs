@@ -26,6 +26,11 @@ public partial class InflationChart
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (this.L == null)
+        {
+            return;
+        }
+
         var dateLabels = new List<DateTime>();
         var chartSeries = new List<ChartSeries>();
         var storeLabels = new List<string>();
@@ -37,29 +42,27 @@ public partial class InflationChart
         }
 
         var storeData = this.ChartData.OrderBy(p => p.TimeStamp).GroupBy(p => p.Product!.Store!.Name).ToList();
-        foreach (var store in storeData)
+        if (storeData.Count > 1)
         {
-            if (!storeLabels.Contains(store.Key))
+            foreach (var store in storeData)
             {
-                storeLabels.Add(store.Key);
+                if (!storeLabels.Contains(store.Key))
+                {
+                    storeLabels.Add(store.Key);
+                }
+
+                var storePrices = store.ToList();
+                var processedStoreData = this.ProcessChartData(storePrices, dateLabels);
+
+                chartSeries.Add(
+                                new ChartSeries()
+                                {
+                                    Name = store.Key,
+                                    Data = processedStoreData.ToArray(),
+                                });
             }
-
-            var storePrices = store.ToList();
-            var processedStoreData = this.ProcessChartData(storePrices, dateLabels);
-
-            chartSeries.Add(
-                            new ChartSeries()
-                            {
-                                Name = store.Key,
-                                Data = processedStoreData.ToArray(),
-                            });
         }
 
-        if (chartSeries.Count > 1)
-        {
-            this.ProcessedChartData = chartSeries;
-        }
-        
         var totalData = this.ProcessChartData(this.ChartData, dateLabels);
         chartSeries.Add(
                         new ChartSeries()
@@ -68,25 +71,26 @@ public partial class InflationChart
                             Data = totalData.ToArray(),
                         });
 
+        this.ProcessedChartData = chartSeries;
         this.Labels = dateLabels.Select(d => d.ToString("MM.yyyy")).ToArray();
     }
 
     private List<double> ProcessChartData(ICollection<Price> prices, ICollection<DateTime> dates)
     {
         var orderedTotalData = prices.OrderBy(v => v.TimeStamp).
-                                    GroupBy(
-                                            v => new
-                                                 {
-                                                     v.TimeStamp.Year,
-                                                     v.TimeStamp.Month,
-                                                 }).
-                                    Select(
-                                           cv => new
-                                                 {
-                                                     Date = new DateTime(cv.Key.Year, cv.Key.Month, 1),
-                                                     AveragePrice = cv.Average(p => p.Value),
-                                                 }).
-                                    ToList();
+                                      GroupBy(
+                                              v => new
+                                                   {
+                                                       v.TimeStamp.Year,
+                                                       v.TimeStamp.Month,
+                                                   }).
+                                      Select(
+                                             cv => new
+                                                   {
+                                                       Date = new DateTime(cv.Key.Year, cv.Key.Month, 1),
+                                                       AveragePrice = cv.Average(p => p.Value),
+                                                   }).
+                                      ToList();
 
         var currentTotalValue = orderedTotalData.First().AveragePrice;
         var chartTotalData = new List<double>(12);
