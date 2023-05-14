@@ -87,4 +87,7 @@
     <data name="storeInfo" xml:space="preserve">
         <value>Hier können Sie alle Infos zum aktuellen Geschäft sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
     </data>
+    <data name="total" xml:space="preserve">
+        <value>Gesamt</value>
+    </data>
 </root>

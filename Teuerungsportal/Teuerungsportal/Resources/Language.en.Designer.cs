@@ -265,5 +265,14 @@ namespace Teuerungsportal.Resources {
                 return ResourceManager.GetString("subCategories", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string total {
+            get {
+                return ResourceManager.GetString("total", resourceCulture);
+            }
+        }
     }
 }
