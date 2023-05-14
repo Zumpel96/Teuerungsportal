@@ -13,17 +13,17 @@ namespace Api;
 
 using System.Collections.Generic;
 
-public class Store
-{
-    public int Id { get; set; }
-
-    public string Name { get; set; }
-
-    public string BaseUrl { get; set; }
-}
-
 public static class GetAllStores
 {
+    public class Store
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string BaseUrl { get; set; }
+    }
+    
     [FunctionName("GetAllStores")]
     public static IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "stores")] HttpRequest req,
