@@ -17,6 +17,7 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<StoreService, ApiStoreService>();
+builder.Services.AddScoped<CategoryService, ApiCategoryService>();
 
 var host = builder.Build();
 await host.SetDefaultCulture();
