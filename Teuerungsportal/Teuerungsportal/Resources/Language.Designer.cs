@@ -78,6 +78,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artikelnummer.
+        /// </summary>
+        internal static string articleNumber {
+            get {
+                return ResourceManager.GetString("articleNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marke.
+        /// </summary>
+        internal static string brand {
+            get {
+                return ResourceManager.GetString("brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kategorien.
         /// </summary>
         internal static string categories {
@@ -159,6 +177,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Metadaten.
+        /// </summary>
+        internal static string metadata {
+            get {
+                return ResourceManager.GetString("metadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keine Preisänderungen.
         /// </summary>
         internal static string noRecentPriceChanges {
@@ -173,6 +200,15 @@ namespace Teuerungsportal.Resources {
         internal static string noRecentPriceChangesText {
             get {
                 return ResourceManager.GetString("noRecentPriceChangesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zum Online Shop.
+        /// </summary>
+        internal static string onlineShopLink {
+            get {
+                return ResourceManager.GetString("onlineShopLink", resourceCulture);
             }
         }
         

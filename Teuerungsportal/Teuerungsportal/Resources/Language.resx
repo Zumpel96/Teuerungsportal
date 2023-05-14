@@ -90,4 +90,16 @@
     <data name="total" xml:space="preserve">
         <value>Gesamt</value>
     </data>
+    <data name="metadata" xml:space="preserve">
+        <value>Metadaten</value>
+    </data>
+    <data name="brand" xml:space="preserve">
+        <value>Marke</value>
+    </data>
+    <data name="articleNumber" xml:space="preserve">
+        <value>Artikelnummer</value>
+    </data>
+    <data name="onlineShopLink" xml:space="preserve">
+        <value>Zum Online Shop</value>
+    </data>
 </root>

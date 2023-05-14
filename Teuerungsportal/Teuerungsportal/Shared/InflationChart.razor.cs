@@ -24,9 +24,14 @@ public partial class InflationChart
     private string[] Labels { get; set; } = Array.Empty<string>();
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         if (this.L == null)
+        {
+            return;
+        }
+
+        if (!this.ChartData.Any())
         {
             return;
         }
@@ -73,6 +78,8 @@ public partial class InflationChart
 
         this.ProcessedChartData = chartSeries;
         this.Labels = dateLabels.Select(d => d.ToString("MM.yyyy")).ToArray();
+        this.ChartOptions.YAxisTicks = 1;
+        this.ChartOptions.MaxNumYAxisTicks = 5;
     }
 
     private List<double> ProcessChartData(ICollection<Price> prices, ICollection<DateTime> dates)
