@@ -10,7 +10,7 @@
     <RowTemplate>
         <MudTd DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToShortDateString()</MudTd>
         <MudTd DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
-        <MudTd DataLabel="@L?["store"]">@context.Product?.Store</MudTd>
+        <MudTd DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
         <MudTd DataLabel="@L?["price"]">@($"{Math.Round(context.Value, 2):N2}€")</MudTd>
         <MudTd>
             @if (context.LastValue == null)
@@ -19,8 +19,8 @@
             }
             else
             {
-                var priceChange = (double)context.LastValue - context.Value;
-                <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Round(priceChange, 2):N2}€")</MudChip>
+                var priceChange = context.Value - (double)context.LastValue;
+                <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€")</MudChip>
             }
         </MudTd>
         <MudTd>

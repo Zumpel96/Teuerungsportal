@@ -2,38 +2,116 @@
 
 <PageTitle>@L?["appName"] - @L?["product"]</PageTitle>
 
-@if (CurrentProduct != null)
+@if (IsLoadingMeta)
+{
+    <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
+}
+else
 {
     <MudBreadcrumbs Items="@ParentCategories"/>
+}
 
-    <MudGrid>
-        <MudItem xs="12">
+<MudGrid>
+    <MudItem xs="12">
+        @if (IsLoadingMeta)
+        {
+            <MudSkeleton Width="40%" Height="8rem"/>
+        }
+        else
+        {
             <MudText Typo="Typo.h1">@CurrentProduct.Name</MudText>
-            <MudAlert Severity="Severity.Info" Class="my-3">@L?["productInfo"]</MudAlert>
+        }
+        <MudAlert Severity="Severity.Info" Class="my-3">@L?["productInfo"]</MudAlert>
+        <MudDivider/>
+    </MudItem>
+
+    <MudItem xs="12" md="4">
+        <MudPaper Class="mud-width-full pa-3">
+            <MudText Typo="Typo.h3">@L?["metadata"]</MudText>
             <MudDivider/>
-        </MudItem>
-        <MudItem xs="12">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["history"]</MudText>
-                
-                <InflationChart ChartData="@PriceHistory"/>
-            </MudPaper>
-        </MudItem>
 
-        <MudItem xs="12">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
-
-                @if (RecentPriceChanges.Any())
+            <div class="my-3">
+                <MudText Typo="Typo.h6">@L?["brand"]</MudText>
+                @if (IsLoadingMeta)
                 {
-                    <RecentPriceChanges PriceChanges="@RecentPriceChanges"/>
+                    <MudSkeleton Width="40%" Height="1rem"/>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">@CurrentProduct.Brand</MudText>
+                }
+            </div>
+
+            <div class="my-3">
+                <MudText Typo="Typo.h6">@L?["store"]</MudText>
+                @if (IsLoadingMeta)
+                {
+                    <MudSkeleton Width="20%" Height="1rem"/>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">@CurrentProduct.Store.Name</MudText>
+                }
+            </div>
+
+            <div class="my-3">
+                <MudText Typo="Typo.h6">@L?["articleNumber"]</MudText>
+                @if (IsLoadingMeta)
+                {
+                    <MudSkeleton Width="60%" Height="1rem"/>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">@CurrentProduct.ArticleNumber</MudText>
+                }
+            </div>
+
+            @if (IsLoadingMeta)
+            {
+                <MudSkeleton Width="30%" Height="1rem"/>
+            }
+            else
+            {
+                <MudLink Href="@($"{CurrentProduct.Store.BaseUrl}{CurrentProduct.Url}")" Typo="Typo.body1" Target="blank">@L["onlineShopLink"]</MudLink>
+            }
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" md="8">
+        <MudPaper Class="mud-width-full pa-3">
+            <MudText Typo="Typo.h3">@L?["history"]</MudText>
+
+            @if (IsLoadingPrices)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+            }
+            else
+            {
+                <InflationChart ChartData="@PriceHistory"/>
+            }
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12">
+        <MudPaper Class="mud-width-full pa-3">
+            <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
+
+            @if (IsLoadingPrices)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="200px"/>
+            }
+            else
+            {
+                @if (PriceHistory.Any())
+                {
+                    <RecentPriceChanges PriceChanges="@PriceHistory"/>
                 }
                 else
                 {
                     <MudText Typo="Typo.h6">@L?["noRecentPriceChanges"]</MudText>
                     <MudText Typo="Typo.h6">@L?["noRecentPriceChangesText"]</MudText>
                 }
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-}
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>

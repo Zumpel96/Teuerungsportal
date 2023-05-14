@@ -19,6 +19,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<StoreService, ApiStoreService>();
 builder.Services.AddScoped<CategoryService, ApiCategoryService>();
 builder.Services.AddScoped<ProductService, ApiProductService>();
+builder.Services.AddScoped<PriceService, ApiPriceService>();
 
 var host = builder.Build();
 await host.SetDefaultCulture();

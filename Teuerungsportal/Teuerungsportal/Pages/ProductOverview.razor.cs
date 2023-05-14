@@ -21,13 +21,18 @@ public partial class ProductOverview
     [Inject]
     private ProductService? ProductService { get; set; }
 
+    [Inject]
+    private PriceService? PriceService { get; set; }
+
     private Product CurrentProduct { get; set; } = new ();
 
     private List<BreadcrumbItem> ParentCategories { get; set; } = new ();
 
-    private ICollection<Price> RecentPriceChanges { get; set; } = new List<Price>();
-
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+    
+    private bool IsLoadingMeta { get; set; }
+    
+    private bool IsLoadingPrices { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -42,7 +47,17 @@ public partial class ProductOverview
             return;
         }
 
+        if (this.PriceService == null)
+        {
+            return;
+        }
+
+        this.IsLoadingMeta = true;
+        this.IsLoadingPrices = true;
+
         var loadedProduct = await this.ProductService.GetProduct(this.StoreName, this.ProductNumber);
+        this.IsLoadingMeta = false;
+        
         if (loadedProduct?.Store == null || loadedProduct.Category == null)
         {
             return;
@@ -55,42 +70,19 @@ public partial class ProductOverview
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Category.Name, $"categories/{this.CurrentProduct.Category.Name}"));
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Name, null, true));
 
-        for (var i = 0; i < 10; i++)
+        this.PriceHistory = await this.PriceService.GetPriceChangesForProduct(this.CurrentProduct.Id);
+        this.PriceHistory = this.PriceHistory.OrderBy(p => p.TimeStamp).ToList();
+        double lastValue = 0;
+        
+        foreach (var price in this.PriceHistory)
         {
-            this.RecentPriceChanges.Add(
-                                        new Price()
-                                        {
-                                            Value = 1 + i * 2.1,
-                                            LastValue = i == 5 ? null : 1.22 + i * 2,
-                                            TimeStamp = DateTime.Now.AddMinutes(i),
-                                            Product = new Product()
-                                                      {
-                                                          Brand = "Test",
-                                                          Name = $"Test Product",
-                                                          ArticleNumber = "123456",
-                                                          Store = new Store() { Name = "Billa" },
-                                                          Url = "#",
-                                                      },
-                                        });
+            price.Product = this.CurrentProduct;
+            price.LastValue = lastValue == 0 ? null : lastValue;
+
+            lastValue = price.Value;
         }
 
-        this.PriceHistory = new List<Price>();
-        for (var i = 0; i < 30; i++)
-        {
-            this.PriceHistory.Add(
-                                  new Price()
-                                  {
-                                      Value = 15 - i * 0.15,
-                                      TimeStamp = DateTime.Now.AddDays(-i * 8),
-                                      Product = new Product()
-                                                {
-                                                    Brand = "Test",
-                                                    Name = $"Test Product",
-                                                    ArticleNumber = "123456",
-                                                    Store = new Store() { Name = "Billa" },
-                                                    Url = "#",
-                                                },
-                                  });
-        }
+        this.PriceHistory = this.PriceHistory.OrderByDescending(p => p.TimeStamp).ToList();
+        this.IsLoadingPrices = false;
     }
 }
