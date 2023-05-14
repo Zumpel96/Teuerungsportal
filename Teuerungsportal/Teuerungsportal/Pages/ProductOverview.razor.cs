@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Teuerungsportal.Helpers;
 using Teuerungsportal.Resources;
+using Teuerungsportal.Services.Interfaces;
 
 public partial class ProductOverview
 {
@@ -17,7 +18,10 @@ public partial class ProductOverview
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
-    private Product? CurrentProduct { get; set; }
+    [Inject]
+    private ProductService? ProductService { get; set; }
+
+    private Product CurrentProduct { get; set; } = new ();
 
     private List<BreadcrumbItem> ParentCategories { get; set; } = new ();
 
@@ -26,24 +30,29 @@ public partial class ProductOverview
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (this.L == null)
         {
             return;
         }
 
-        this.CurrentProduct = new Product()
-                              {
-                                  Brand = "Test",
-                                  Name = $"Test Product",
-                                  ArticleNumber = "123456",
-                                  Store = new Store() { Name = "Billa" },
-                                  Url = "#",
-                              };
+        if (this.ProductService == null)
+        {
+            return;
+        }
 
+        var loadedProduct = await this.ProductService.GetProduct(this.StoreName, this.ProductNumber);
+        if (loadedProduct?.Store == null || loadedProduct.Category == null)
+        {
+            return;
+        }
+
+        this.CurrentProduct = loadedProduct;
+        
         this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"stores"));
-        this.ParentCategories.Add(new BreadcrumbItem(this.StoreName, $"stores/{this.StoreName}"));
+        this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Store.Name, $"stores/{this.CurrentProduct.Store.Name}"));
+        this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Category.Name, $"categories/{this.CurrentProduct.Category.Name}"));
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Name, null, true));
 
         for (var i = 0; i < 10; i++)
