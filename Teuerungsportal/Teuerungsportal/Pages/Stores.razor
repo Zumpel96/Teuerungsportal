@@ -6,10 +6,22 @@
 <MudDivider/>
 
 <div class="d-flex justify-center align-content-center">
-    @foreach (var store in StoresList)
+    @if (IsLoading)
     {
-        <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-            <MudLink Href=@($"/stores/{store.Name}") Typo="Typo.h3">@store.Name</MudLink>
-        </MudPaper>
+        @for (var i = 0; i < 3; i++)
+        {
+            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
+                <MudSkeleton Width="40%" Height="3rem" />
+            </MudPaper>
+        }
+    }
+    else
+    {
+        @foreach (var store in StoresList)
+        {
+            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
+                <MudLink Href=@($"/stores/{store.Name}") Typo="Typo.h3">@store.Name</MudLink>
+            </MudPaper>
+        }
     }
 </div>

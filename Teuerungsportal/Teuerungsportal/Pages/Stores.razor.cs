@@ -15,6 +15,8 @@ public partial class Stores
     private StoreService? StoreService { get; set; }
 
     private ICollection<Store> StoresList { get; set; } = new List<Store>();
+    
+    private bool IsLoading { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -24,6 +26,8 @@ public partial class Stores
             return;
         }
 
+        this.IsLoading = true;
         this.StoresList = await this.StoreService.GetStores();
+        this.IsLoading = false;
     }
 }
