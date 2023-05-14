@@ -7,7 +7,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiStoreService : StoreService
 {
-    private const string baseUrl = "https://fun-teuerungsportal-prod-westeu-001.azurewebsites.net/api";
+    private const string BaseUrl = "https://fun-teuerungsportal-prod-westeu-001.azurewebsites.net/api";
     private HttpClient Client { get; set; }
     
     public ApiStoreService(HttpClient client)
@@ -18,7 +18,7 @@ public class ApiStoreService : StoreService
     /// <inheritdoc />
     public async Task<ICollection<Store>> GetStores()
     {
-        var response = await this.Client.GetAsync($"{baseUrl}/stores");
+        var response = await this.Client.GetAsync($"{BaseUrl}/stores");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
