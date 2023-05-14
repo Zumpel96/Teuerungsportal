@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Api;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,13 +13,13 @@ public static class GetProduct
 {
     public class ProductDbo
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
         public string ArticleNumber { get; set; }
 
-        public int StoreId { get; set; }
+        public Guid StoreId { get; set; }
 
         public string StoreName { get; set; }
 
@@ -28,14 +29,14 @@ public static class GetProduct
 
         public string Brand { get; set; }
 
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public string CategoryName { get; set; }
     }
 
     public class Product
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -52,7 +53,7 @@ public static class GetProduct
 
     public class Store
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -61,7 +62,7 @@ public static class GetProduct
 
     public class Category
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
     }
