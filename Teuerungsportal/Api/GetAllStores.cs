@@ -17,7 +17,7 @@ public static class GetAllStores
 {
     public class Store
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
