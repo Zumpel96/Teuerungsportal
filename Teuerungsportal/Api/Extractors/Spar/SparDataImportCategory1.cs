@@ -2,11 +2,13 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
-namespace Api.Extractors.Billa;
+namespace Api.Extractors.Spar;
 
-public static class BillaDataImportCategoryE
+using System;
+
+public static class SparDataImportCategory1
 {
-    [FunctionName("BillaDataImportCategoryE")]
+    [FunctionName("SparDataImportCategory1")]
     public static async Task Run(
         [TimerTrigger("0 30 */2 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
@@ -14,10 +16,17 @@ public static class BillaDataImportCategoryE
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
-        var url = $"https://shop.billa.at/api/search/full?category=B2-E&includeSort[]=rank&sort=rank&pageSize=1000000";
+        var url = $"https://search-spar.spar-ics.com/fact-finder/rest/v4/search/products_lmos_at?query=*&q=*&page=1&hitsPerPage=1000000&filter=category-path:F1";
         log.LogInformation("url: {Url}", url);
 
-        var dataExtractor = new BillaDataExtractor(url, dbProducts, dbPrices);
-        await dataExtractor.Run();
+        var dataExtractor = new SparDataExtractor(url, dbProducts, dbPrices);
+        try
+        {
+            await dataExtractor.Run();
+        }
+        catch (Exception e)
+        {
+            log.LogInformation($"{e}");
+        }
     }
 }
