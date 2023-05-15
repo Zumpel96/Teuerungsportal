@@ -29,7 +29,7 @@ public static class GetProduct
 
         public string Brand { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         public string CategoryName { get; set; }
     }
@@ -75,7 +75,7 @@ public static class GetProduct
                                         s.name AS 'storeName', s.baseUrl AS 'storeBaseUrl', c.id AS 'categoryId', c.name AS 'categoryName'
 				 				 FROM [dbo].[product] p 
 				 				 JOIN [dbo].[store] s ON p.storeId = s.Id 
-				 				 JOIN [dbo].[category] c ON p.categoryId = c.Id 
+				 				 LEFT JOIN [dbo].[category] c ON p.categoryId = c.Id 
 				 				 WHERE LOWER(s.name) = LOWER(@storeName) AND LOWER(p.articleNumber) = LOWER(@articleNumber);",
                 parameters: "@storeName={storeName},@articleNumber={articleNumber}",
                 commandType: System.Data.CommandType.Text,
@@ -103,9 +103,9 @@ public static class GetProduct
                                                   Name = foundProduct.StoreName,
                                                   BaseUrl = foundProduct.StoreBaseUrl,
                                               },
-                                      Category = new Category()
+                                      Category = foundProduct.CategoryId == null ? null : new Category()
                                                  {
-                                                     Id = foundProduct.CategoryId,
+                                                     Id = (Guid)foundProduct.CategoryId,
                                                      Name = foundProduct.CategoryName,
                                                  },
                                   });

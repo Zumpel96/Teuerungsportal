@@ -66,6 +66,32 @@ else
                 }
             </div>
 
+            <div class="my-3">
+                @if (CurrentProduct.Category != null || IsLoadingMeta)
+                {
+                    <MudText Typo="Typo.h6">@L?["category"]</MudText>
+                }
+                
+                @if (IsLoadingMeta)
+                {
+                    <MudSkeleton Width="80%" Height="1rem"/>
+                }
+                else
+                {
+                    @if (CurrentProduct.Category != null)
+                    {
+                        <MudText Typo="Typo.body1">@CurrentProduct.Category.Name</MudText>
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-center align-content-center no-wrap">
+                            <MudAutocomplete T="string" Label="@L?["category"]" @bind-Value="@SelectedCategoryName" SearchFunc="@Search" ResetValueOnEmptyText coerceText/>
+                            <MudFab Class="ml-3" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Disabled="@(SelectedCategoryName == string.Empty)" OnClick="@SubmitCategory"/>
+                        </div>
+                    }
+                }
+            </div>
+
             @if (IsLoadingMeta)
             {
                 <MudSkeleton Width="30%" Height="1rem"/>
