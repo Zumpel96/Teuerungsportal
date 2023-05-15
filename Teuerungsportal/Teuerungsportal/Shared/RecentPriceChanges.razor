@@ -20,7 +20,8 @@
             else
             {
                 var priceChange = context.Value - (double)context.LastValue;
-                <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€")</MudChip>
+                var percentageChange = (100 / (double)context.LastValue * context.Value) - 100;
+                <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudChip>
             }
         </MudTd>
         <MudTd>
