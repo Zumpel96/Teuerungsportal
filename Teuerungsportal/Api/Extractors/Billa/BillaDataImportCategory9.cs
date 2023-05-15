@@ -8,7 +8,7 @@ public static class BillaDataImportCategory9
 {
     [FunctionName("BillaDataImportCategory9")]
     public static async Task Run(
-        [TimerTrigger("0 0 */2 20 * *")] TimerInfo myTimer,
+        [TimerTrigger("0 20 */2 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
         [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Price> dbPrices,
         ILogger log)
