@@ -29,7 +29,7 @@ public static class GetProduct
 
         public string Brand { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         public string CategoryName { get; set; }
     }
@@ -103,9 +103,9 @@ public static class GetProduct
                                                   Name = foundProduct.StoreName,
                                                   BaseUrl = foundProduct.StoreBaseUrl,
                                               },
-                                      Category = new Category()
+                                      Category = foundProduct.CategoryId == null ? null : new Category()
                                                  {
-                                                     Id = foundProduct.CategoryId,
+                                                     Id = (Guid)foundProduct.CategoryId,
                                                      Name = foundProduct.CategoryName,
                                                  },
                                   });
