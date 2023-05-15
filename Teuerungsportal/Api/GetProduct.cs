@@ -75,7 +75,7 @@ public static class GetProduct
                                         s.name AS 'storeName', s.baseUrl AS 'storeBaseUrl', c.id AS 'categoryId', c.name AS 'categoryName'
 				 				 FROM [dbo].[product] p 
 				 				 JOIN [dbo].[store] s ON p.storeId = s.Id 
-				 				 JOIN [dbo].[category] c ON p.categoryId = c.Id 
+				 				 LEFT JOIN [dbo].[category] c ON p.categoryId = c.Id 
 				 				 WHERE LOWER(s.name) = LOWER(@storeName) AND LOWER(p.articleNumber) = LOWER(@articleNumber);",
                 parameters: "@storeName={storeName},@articleNumber={articleNumber}",
                 commandType: System.Data.CommandType.Text,
