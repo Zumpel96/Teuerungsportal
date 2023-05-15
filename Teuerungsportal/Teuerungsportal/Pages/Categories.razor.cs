@@ -27,7 +27,7 @@ public partial class Categories
         }
 
         this.IsLoading = true;
-        this.CategoriesList = await this.CategoryService.GetCategories();
+        this.CategoriesList = await this.CategoryService.GetCategoriesWithChildren();
         this.IsLoading = false;
     }
 }

@@ -31,4 +31,11 @@ public class ApiProductService : ProductService
 
         return data ?? null;
     }
+
+    /// <inheritdoc />
+    public async Task UpdateProductCategory(Guid productId, Guid categoryId)
+    {
+        var response = await this.Client.PostAsync($"{BaseUrl}/product/categories/update/{productId}/{categoryId}", null);
+        response.EnsureSuccessStatusCode();
+    }
 }

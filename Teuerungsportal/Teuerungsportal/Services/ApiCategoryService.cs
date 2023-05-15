@@ -15,7 +15,7 @@ public class ApiCategoryService : CategoryService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Category>> GetCategories()
+    public async Task<ICollection<Category>> GetCategoriesWithChildren()
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories");
 
@@ -49,5 +49,16 @@ public class ApiCategoryService : CategoryService
         }
 
         return categoryDict.Values.Where(category => category.RecursionId.All(ch => ch != '.')).ToList();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Category>> GetAllCategories()
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<ICollection<Category>>(responseBody);
+        return data == null ? new List<Category>() : data.OrderBy(c => c.Name).ToList();
     }
 }
