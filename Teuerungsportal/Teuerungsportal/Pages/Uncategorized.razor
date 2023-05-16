@@ -1,0 +1,30 @@
+﻿@page "/products/uncategorized"
+
+<PageTitle>Teuerungsportal - @L?["uncategorizedProducts"]</PageTitle>
+<MudText Typo="Typo.h1">@L?["uncategorizedProducts"]</MudText>
+<MudAlert Severity="Severity.Info" Class="my-3">@L?["uncategorizedProductsInfo"]</MudAlert>
+<MudDivider/>
+
+<div class="d-flex justify-center align-content-center flex-wrap">
+    <MudPaper Class="mud-width-full pa-3">
+        <MudTable Items="@ProductList" Hover="true" RowsPerPage="25" LoadingProgressColor="Color.Info" Loading="IsLoading">
+            <HeaderContent>
+                <MudTh>@L?["productName"]</MudTh>
+                <MudTh>@L?["articleNumber"]</MudTh>
+                <MudTh>@L?["store"]</MudTh>
+                <MudTh>@L?["brand"]</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="@L?["productName"]">@context.Name</MudTd>
+                <MudTd DataLabel="@L?["articleNumber"]">@context.ArticleNumber</MudTd>
+                <MudTd DataLabel="@L?["store"]">@context.Store?.Name</MudTd>
+                <MudTd DataLabel="@L?["brand"]">@context.Brand</MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context))"/>
+            </RowTemplate>
+            <PagerContent>
+                <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+            </PagerContent>
+        </MudTable>
+    </MudPaper>
+</div>

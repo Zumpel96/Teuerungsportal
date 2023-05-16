@@ -114,4 +114,13 @@
     <data name="noSubCategoriesText" xml:space="preserve">
         <value>Aktuell gibt es noch keine Unterkategorien</value>
     </data>
+    <data name="uncategorized" xml:space="preserve">
+        <value>Unkategorisiert</value>
+    </data>
+    <data name="uncategorizedProducts" xml:space="preserve">
+        <value>Unkategorisierte Produkte</value>
+    </data>
+    <data name="uncategorizedProductsInfo" xml:space="preserve">
+        <value>Unterstüzten Sie das Teuerungsportal, indem Sie unkategorisierte Produkte kategorisieren.</value>
+    </data>
 </root>
