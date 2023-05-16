@@ -102,4 +102,16 @@
     <data name="onlineShopLink" xml:space="preserve">
         <value>Zum Online Shop</value>
     </data>
+    <data name="parentCategory" xml:space="preserve">
+        <value>Elternkategorie</value>
+    </data>
+    <data name="noParentCategory" xml:space="preserve">
+        <value>Keine Elternkategorie</value>
+    </data>
+    <data name="noSubCategories" xml:space="preserve">
+        <value>Keine Unterkategorien</value>
+    </data>
+    <data name="noSubCategoriesText" xml:space="preserve">
+        <value>Aktuell gibt es noch keine Unterkategorien</value>
+    </data>
 </root>

@@ -186,6 +186,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keine Elternkategorie.
+        /// </summary>
+        internal static string noParentCategory {
+            get {
+                return ResourceManager.GetString("noParentCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keine Preisänderungen.
         /// </summary>
         internal static string noRecentPriceChanges {
@@ -204,6 +213,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keine Unterkategorien.
+        /// </summary>
+        internal static string noSubCategories {
+            get {
+                return ResourceManager.GetString("noSubCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aktuell gibt es noch keine Unterkategorien.
+        /// </summary>
+        internal static string noSubCategoriesText {
+            get {
+                return ResourceManager.GetString("noSubCategoriesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zum Online Shop.
         /// </summary>
         internal static string onlineShopLink {
@@ -218,6 +245,15 @@ namespace Teuerungsportal.Resources {
         internal static string overview {
             get {
                 return ResourceManager.GetString("overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elternkategorie.
+        /// </summary>
+        internal static string parentCategory {
+            get {
+                return ResourceManager.GetString("parentCategory", resourceCulture);
             }
         }
         

@@ -37,7 +37,7 @@ public static class GetCategory
         [Sql(
                     commandText: @"SELECT c.id, c.name, p.id AS 'parentCategoryId', p.name AS 'parentCategoryName'
 				 				     FROM [dbo].[category] c 
-				 				     JOIN [dbo].[category] p ON c.parentId = p.Id 
+				 				     LEFT JOIN [dbo].[category] p ON c.parentId = p.Id 
 				 				     WHERE LOWER(c.name) = LOWER(@categoryName)",
                 parameters: "@categoryName={categoryName}",
                 commandType: System.Data.CommandType.Text,

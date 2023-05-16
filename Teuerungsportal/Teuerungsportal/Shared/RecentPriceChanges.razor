@@ -2,7 +2,14 @@
     <HeaderContent>
         <MudTh>@L?["changeDateTime"]</MudTh>
         <MudTh>@L?["productName"]</MudTh>
-        <MudTh>@L?["store"]</MudTh>
+        @if (!HideCategory)
+        {
+            <MudTh>@L?["categoryName"]</MudTh>
+        }
+        @if (!HideStore)
+        {
+            <MudTh>@L?["store"]</MudTh>
+        }
         <MudTh>@L?["price"]</MudTh>
         <MudTh></MudTh>
         <MudTh></MudTh>
@@ -10,7 +17,14 @@
     <RowTemplate>
         <MudTd DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToShortDateString()</MudTd>
         <MudTd DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
-        <MudTd DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
+        @if (!HideCategory)
+        {
+            <MudTd DataLabel="@L?["categoryName"]">@context.Product?.Category?.Name</MudTd>
+        }
+        @if (!HideStore)
+        {
+            <MudTd DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
+        }
         <MudTd DataLabel="@L?["price"]">@($"{Math.Round(context.Value, 2):N2}€")</MudTd>
         <MudTd>
             @if (context.LastValue == null)

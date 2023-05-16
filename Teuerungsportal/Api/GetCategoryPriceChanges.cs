@@ -16,6 +16,8 @@ public static class GetCategoryPriceChanges
         public Guid ProductId { get; set; }
 
         public string ProductName { get; set; }
+        
+        public string ArticleNumber { get; set; }
 
         public string Brand { get; set; }
 
@@ -51,6 +53,8 @@ public static class GetCategoryPriceChanges
         public string Name { get; set; }
 
         public string Brand { get; set; }
+        
+        public string ArticleNumber { get; set; }
 
         public Store Store { get; set; }
     }
@@ -77,7 +81,7 @@ public static class GetCategoryPriceChanges
                                   LEFT JOIN [dbo].[product] p ON c.id = p.categoryId
                                   GROUP BY c.id
                                 )
-                                SELECT p.id AS productId, p.name AS productName, p.brand, pc.category_id, s.id AS storeId, s.name AS storeName, c.name AS categoryName, pr.value AS value, pr.timestamp AS timestamp
+                                SELECT p.id AS productId, p.name AS productName, p.brand, p.articleNumber, pc.category_id, s.id AS storeId, s.name AS storeName, c.name AS categoryName, pr.value AS value, pr.timestamp AS timestamp
                                 FROM product_counts pc
                                 INNER JOIN [dbo].[category] c ON pc.category_id = c.id
                                 LEFT JOIN [dbo].[product] p ON c.id = p.categoryId
@@ -100,6 +104,7 @@ public static class GetCategoryPriceChanges
                                                                    {
                                                                        Id = p.ProductId,
                                                                        Name = p.ProductName,
+                                                                       ArticleNumber = p.ArticleNumber,
                                                                        Brand = p.Brand,
                                                                        Store = new Store()
                                                                                {

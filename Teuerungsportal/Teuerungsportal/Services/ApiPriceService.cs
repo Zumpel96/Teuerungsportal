@@ -25,4 +25,16 @@ public class ApiPriceService : PriceService
 
         return data ?? new List<Price>();
     }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetPriceChangesForCategory(Guid categoryId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/category/{categoryId}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
+
+        return data ?? new List<Price>();
+    }
 }
