@@ -3,6 +3,7 @@
     <MudDivider Class="mb-2"/>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
     <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">@L?["categories"]</MudNavLink>
+    <MudNavLink Href="/products/uncategorized" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">@L?["uncategorized"]</MudNavLink>
     <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
     <MudNavGroup Title="@L?["language"]" Icon="@Icons.Material.Filled.Flag">
         <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>

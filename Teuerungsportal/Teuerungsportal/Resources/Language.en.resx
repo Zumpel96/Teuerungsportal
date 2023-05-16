@@ -114,4 +114,13 @@
     <data name="parentCategory" xml:space="preserve">
         <value>Parent Category</value>
     </data>
+    <data name="uncategorized" xml:space="preserve">
+        <value>Uncategorized</value>
+    </data>
+    <data name="uncategorizedProducts" xml:space="preserve">
+        <value>Uncategorized Products</value>
+    </data>
+    <data name="uncategorizedProductsInfo" xml:space="preserve">
+        <value>Help the Teuerungsportal by categorizing products, which are currently uncategorized.</value>
+    </data>
 </root>

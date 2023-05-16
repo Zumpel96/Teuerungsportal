@@ -30,8 +30,8 @@ public partial class Categories
         var allCategories = await this.CategoryService.GetCategoriesWithChildren();
         foreach (var category in allCategories)
         {
-            var numberOfProducts = await this.CategoryService.GetNumberOfProducts(category.Id);
-            this.CategoriesList.Add((category, numberOfProducts));
+            //var numberOfProducts = await this.CategoryService.GetNumberOfProducts(category.Id);
+            this.CategoriesList.Add((category, 0));
         }
         
         this.IsLoading = false;

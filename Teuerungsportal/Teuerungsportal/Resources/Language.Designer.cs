@@ -346,5 +346,32 @@ namespace Teuerungsportal.Resources {
                 return ResourceManager.GetString("total", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unkategorisiert.
+        /// </summary>
+        internal static string uncategorized {
+            get {
+                return ResourceManager.GetString("uncategorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unkategorisierte Produkte.
+        /// </summary>
+        internal static string uncategorizedProducts {
+            get {
+                return ResourceManager.GetString("uncategorizedProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unterstüzten Sie das Teuerungsportal, indem Sie unkategorisierte Produkte kategorisieren..
+        /// </summary>
+        internal static string uncategorizedProductsInfo {
+            get {
+                return ResourceManager.GetString("uncategorizedProductsInfo", resourceCulture);
+            }
+        }
     }
 }

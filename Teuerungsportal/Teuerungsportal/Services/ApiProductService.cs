@@ -16,6 +16,30 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
+    public async Task<int> GetProductsWithoutCategoryPages()
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/noCategory");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Product>> GetProductsWithoutCategory(int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/noCategory/{page}");
+        
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<ICollection<Product>>(responseBody);
+
+        return data ?? new List<Product>();
+    }
+
+    /// <inheritdoc />
     public async Task<Product?> GetProduct(string store, string productNumber)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/stores/{store}/{productNumber}");
