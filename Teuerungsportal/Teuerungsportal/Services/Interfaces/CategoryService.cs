@@ -7,4 +7,6 @@ public interface CategoryService
     public Task<ICollection<Category>> GetCategoriesWithChildren();
     
     public Task<ICollection<Category>> GetAllCategories();
+
+    public Task<int> GetNumberOfProducts(Guid categoryId);
 }

@@ -14,7 +14,7 @@ public partial class Categories
     [Inject]
     private CategoryService? CategoryService { get; set; }
 
-    private ICollection<Category> CategoriesList { get; set; } = new List<Category>();
+    private ICollection<(Category Category, int Count)> CategoriesList { get; set; } = new List<(Category Category, int Count)>();
 
     private bool IsLoading { get; set; }
 
@@ -27,7 +27,13 @@ public partial class Categories
         }
 
         this.IsLoading = true;
-        this.CategoriesList = await this.CategoryService.GetCategoriesWithChildren();
+        var allCategories = await this.CategoryService.GetCategoriesWithChildren();
+        foreach (var category in allCategories)
+        {
+            var numberOfProducts = await this.CategoryService.GetNumberOfProducts(category.Id);
+            this.CategoriesList.Add((category, numberOfProducts));
+        }
+        
         this.IsLoading = false;
     }
 }
