@@ -61,4 +61,15 @@ public class ApiCategoryService : CategoryService
         var data = JsonConvert.DeserializeObject<ICollection<Category>>(responseBody);
         return data == null ? new List<Category>() : data.OrderBy(c => c.Name).ToList();
     }
+
+    /// <inheritdoc />
+    public async Task<int> GetNumberOfProducts(Guid categoryId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/category/{categoryId}/products/number");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+        return data;
+    }
 }

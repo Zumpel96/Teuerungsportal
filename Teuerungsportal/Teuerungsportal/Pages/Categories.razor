@@ -23,10 +23,14 @@
     }
     else
     {
-        @foreach (var category in CategoriesList)
+        @foreach (var categoryTuple in CategoriesList)
         {
+            var category = categoryTuple.Category;
             <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-                <MudLink Href=@($"/categories/{category.Name}") Typo="Typo.h3">@category.Name</MudLink>
+                <div class="d-inline-flex">
+                    <MudLink Href=@($"/categories/{category.Name}") Typo="Typo.h3">@category.Name</MudLink>
+                    <MudText Typo="Typo.h3" Class="ml-3">(@categoryTuple.Count)</MudText>
+                </div>
 
                 @if (category.SubCategories.Any())
                 {
