@@ -10,7 +10,14 @@ using Teuerungsportal.Resources;
 public partial class RecentPriceChanges
 {
     [Parameter]
+    [EditorRequired]
     public ICollection<Price> PriceChanges { get; set; } = new List<Price>();
+
+    [Parameter]
+    public bool HideCategory { get; set; }
+
+    [Parameter]
+    public bool HideStore { get; set; }
 
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Teuerungsportal.Helpers;
 using Teuerungsportal.Resources;
+using Teuerungsportal.Services.Interfaces;
 
 public partial class CategoryOverview
 {
@@ -14,83 +15,69 @@ public partial class CategoryOverview
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+
+    [Inject]
+    private CategoryService? CategoryService { get; set; }
+
+    [Inject]
+    private PriceService? PriceService { get; set; }
+
     private Category? CurrentCategory { get; set; }
 
     private List<BreadcrumbItem> ParentCategories { get; set; } = new ();
-
-    private ICollection<Price> RecentPriceChanges { get; set; } = new List<Price>();
-
+    
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+    
+    private bool IsLoading { get; set; }
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.L == null)
         {
             return;
         }
 
-        this.CurrentCategory = new Category()
-                               {
-                                   Name = "Test B-C",
-                                   SubCategories = new List<Category>()
-                                                   {
-                                                       new () { Name = "Test B-C-A" },
-                                                       new () { Name = "Test B-C-B" },
-                                                       new () { Name = "Test B-C-C" },
-                                                   },
-                                   ParentCategory = new List<Category>()
-                                                      {
-                                                          new () { Name = "Test B" },
-                                                      }
-                               };
+        if (this.CategoryService == null)
+        {
+            return;
+        }
 
-        this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"categories"));
+        if (this.PriceService == null)
+        {
+            return;
+        }
 
-        foreach (var parentCategory in this.CurrentCategory.ParentCategory)
+        this.IsLoading = true;
+        var loadedData = await this.CategoryService.GetCategory(this.CategoryName);
+        if (loadedData == null)
+        {
+            return;
+        }
+
+        this.CurrentCategory = loadedData;
+
+        this.ParentCategories = new List<BreadcrumbItem> { new (this.L["overview"], $"categories") };
+        foreach (var parentCategory in this.CurrentCategory.ParentCategories)
         {
             this.ParentCategories.Add(new BreadcrumbItem(parentCategory.Name, $"categories/{parentCategory.Name}"));
         }
-
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentCategory.Name, null, true));
 
-        for (var i = 0; i < 10; i++)
+        this.PriceHistory = await this.PriceService.GetPriceChangesForCategory(this.CurrentCategory.Id);
+        this.PriceHistory = this.PriceHistory.OrderBy(p => p.TimeStamp).ToList();
+        double lastValue = 0;
+
+        foreach (var price in this.PriceHistory)
         {
-            this.RecentPriceChanges.Add(
-                                        new Price()
-                                        {
-                                            Value = 1 + i * 2.1,
-                                            LastValue = i == 5 ? null : 1.22 + i * 2,
-                                            TimeStamp = DateTime.Now.AddMinutes(i),
-                                            Product = new Product()
-                                                      {
-                                                          Brand = "Test",
-                                                          Name = $"Test Product A-{i}",
-                                                          ArticleNumber = "123456",
-                                                          Store = new Store() { Name = "Billa" },
-                                                          Url = "#",
-                                                      },
-                                        });
+            price.LastValue = lastValue == 0 ? null : lastValue;
+            lastValue = price.Value;
         }
 
-        this.PriceHistory = new List<Price>();
-        var rnd = new Random();
-        for (var i = 0; i < 30; i++)
-        {
-            this.PriceHistory.Add(
-                                  new Price()
-                                  {
-                                      Value = 10 + rnd.NextDouble() * 10,
-                                      TimeStamp = DateTime.Now.AddDays(-i * 8),
-                                      Product = new Product()
-                                                {
-                                                    Brand = "Test",
-                                                    Name = $"Test Product A-{i}",
-                                                    ArticleNumber = "123456",
-                                                    Store = new Store() { Name = i % 2 == 0 ? "Store A" : "Store B" },
-                                                    Url = "#",
-                                                },
-                                  });
-        }
+        this.PriceHistory = this.PriceHistory.OrderByDescending(p => p.TimeStamp).ToList();
+        this.StateHasChanged();
+        this.IsLoading = false;
     }
 }

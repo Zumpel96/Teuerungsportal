@@ -15,6 +15,35 @@ public class ApiCategoryService : CategoryService
     }
 
     /// <inheritdoc />
+    public async Task<Category?> GetCategory(string categoryName)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/category/{categoryName}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<Category>(responseBody);
+        
+        if (data == null)
+        {
+            return null;
+        }
+
+        var childCategoriesResponse = await this.Client.GetAsync($"{BaseUrl}/category/{data.Id}/categories");
+        response.EnsureSuccessStatusCode();
+        var childCategoriesResponseBody = await childCategoriesResponse.Content.ReadAsStringAsync();
+        var childCategoriesData = JsonConvert.DeserializeObject<ICollection<Category>>(childCategoriesResponseBody);
+
+        if (childCategoriesData == null)
+        {
+            return data;
+        }
+        
+        data.SubCategories = childCategoriesData;
+        
+        return data;
+    }
+
+    /// <inheritdoc />
     public async Task<ICollection<Category>> GetCategoriesWithChildren()
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories");

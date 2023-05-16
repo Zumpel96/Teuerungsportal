@@ -12,50 +12,91 @@
             <MudAlert Severity="Severity.Info" Class="my-3">@L?["categoryInfo"]</MudAlert>
             <MudDivider/>
         </MudItem>
+
         <MudItem xs="12">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["history"]</MudText>
-                
-                <InflationChart ChartData="@PriceHistory"/>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12" md="4">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["subCategories"]</MudText>
+            <MudTabs Rounded="true" ApplyEffectsToContainer="true">
+                <MudTabPanel Text="@L?["metadata"]">
+                    <MudPaper Class="mud-width-full pa-3">
+                        <div class="my-3">
+                            <MudText Typo="Typo.h6">@L?["parentCategory"]</MudText>
+                            @if (IsLoading)
+                            {
+                                <MudSkeleton Width="40%" Height="1rem"/>
+                            }
+                            else
+                            {
+                                @if (CurrentCategory.ParentCategories.Any())
+                                {
+                                    <MudText Typo="Typo.body1">@CurrentCategory.ParentCategories.First().Name</MudText>
+                                }
+                                else
+                                {
+                                    <MudText Typo="Typo.body1">@L?["noParentCategory"]</MudText>
+                                }
+                            }
+                        </div>
 
-                @if (CurrentCategory.SubCategories.Any())
-                {
-                    <MudList>
-                        @foreach (var subCategory in CurrentCategory.SubCategories)
+                        <div class="my-3">
+                            <MudText Typo="Typo.h6">@L?["subCategories"]</MudText>
+
+                            @if (IsLoading)
+                            {
+                                <MudSkeleton Width="60%" Height="1rem"/>
+                            }
+                            else
+                            {
+                                @if (CurrentCategory.SubCategories.Any())
+                                {
+                                    <MudList>
+                                        @foreach (var subCategory in CurrentCategory.SubCategories)
+                                        {
+                                            <MudListItem Href=@($"/categories/{subCategory.Name}")>
+                                                @subCategory.Name
+                                            </MudListItem>
+                                        }
+                                    </MudList>
+                                }
+                                else
+                                {
+                                    <MudText Typo="Typo.body1">@L?["noSubCategoriesText"]</MudText>
+                                }
+                            }
+                        </div>
+                    </MudPaper>
+                </MudTabPanel>
+                <MudTabPanel Text="@L?["history"]">
+                    <MudPaper Class="mud-width-full pa-3">
+                        @if (IsLoading)
                         {
-                            <MudListItem Href=@($"/categories/{subCategory.Name}")>
-                                @subCategory.Name
-                            </MudListItem>
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="200px"/>
                         }
-                    </MudList>
-                }
-                else
-                {
-                    <MudText Typo="Typo.h6">@L?["noSubCategories"]</MudText>
-                    <MudText Typo="Typo.h6">@L?["noSubCategoriesText"]</MudText>
-                }
-            </MudPaper>
-        </MudItem>
+                        else
+                        {
+                            <InflationChart ChartData="@PriceHistory"/>
+                        }
+                    </MudPaper>
+                </MudTabPanel>
+                <MudTabPanel Text="@L?["recentPriceChanges"]">
+                    <MudPaper Class="mud-width-full pa-3">
+                        @if (IsLoading)
+                        {
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+                        }
+                        else
+                        {
+                            @if (PriceHistory.Any())
+                            {
+                                <RecentPriceChanges PriceChanges="@PriceHistory" HideCategory/>
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body1">@L?["noRecentPriceChangesText"]</MudText>
+                            }
+                        }
 
-        <MudItem xs="12" md="8">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
-
-                @if (RecentPriceChanges.Any())
-                {
-                    <RecentPriceChanges PriceChanges="@RecentPriceChanges"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.h6">@L?["noRecentPriceChanges"]</MudText>
-                    <MudText Typo="Typo.h6">@L?["noRecentPriceChangesText"]</MudText>
-                }
-            </MudPaper>
+                    </MudPaper>
+                </MudTabPanel>
+            </MudTabs>
         </MudItem>
     </MudGrid>
 }
