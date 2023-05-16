@@ -39,7 +39,7 @@ public partial class CategoryOverview
                                                        new () { Name = "Test B-C-B" },
                                                        new () { Name = "Test B-C-C" },
                                                    },
-                                   ParentCategories = new List<Category>()
+                                   ParentCategory = new List<Category>()
                                                       {
                                                           new () { Name = "Test B" },
                                                       }
@@ -47,7 +47,7 @@ public partial class CategoryOverview
 
         this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"categories"));
 
-        foreach (var parentCategory in this.CurrentCategory.ParentCategories)
+        foreach (var parentCategory in this.CurrentCategory.ParentCategory)
         {
             this.ParentCategories.Add(new BreadcrumbItem(parentCategory.Name, $"categories/{parentCategory.Name}"));
         }

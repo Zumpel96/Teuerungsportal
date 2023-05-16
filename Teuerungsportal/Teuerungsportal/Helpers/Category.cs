@@ -10,5 +10,5 @@ public class Category
 
     public ICollection<Category> SubCategories { get; set; } = new List<Category>();
 
-    public ICollection<Category> ParentCategories { get; set; } = new List<Category>();
+    public ICollection<Category> ParentCategory { get; set; } = new List<Category>();
 }
