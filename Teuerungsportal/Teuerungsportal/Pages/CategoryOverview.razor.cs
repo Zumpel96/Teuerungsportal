@@ -3,7 +3,7 @@ namespace Teuerungsportal.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
 
@@ -16,21 +16,32 @@ public partial class CategoryOverview
     private IStringLocalizer<Language>? L { get; set; }
 
     [Inject]
-    private NavigationManager? NavigationManager { get; set; }
-
-    [Inject]
     private CategoryService? CategoryService { get; set; }
 
     [Inject]
-    private PriceService? PriceService { get; set; }
+    private NavigationManager? NavigationManager { get; set; }
 
-    private Category? CurrentCategory { get; set; }
+    private Category CurrentCategory { get; set; } = new ();
 
     private List<BreadcrumbItem> ParentCategories { get; set; } = new ();
-    
+
+    private int PricePages { get; set; }
+
+    private int CurrentPricePage { get; set; }
+
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+
+    private int ProductPages { get; set; }
+
+    private int CurrentProductPage { get; set; }
+
+    private ICollection<Product> Products { get; set; } = new List<Product>();
     
-    private bool IsLoading { get; set; }
+    private bool IsLoadingMeta { get; set; } = true;
+    
+    private bool IsLoadingPriceData { get; set; }
+
+    private bool IsLoadingProductData { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
@@ -45,12 +56,7 @@ public partial class CategoryOverview
             return;
         }
 
-        if (this.PriceService == null)
-        {
-            return;
-        }
-
-        this.IsLoading = true;
+        this.IsLoadingMeta = true;
         var loadedData = await this.CategoryService.GetCategory(this.CategoryName);
         if (loadedData == null)
         {
@@ -60,24 +66,71 @@ public partial class CategoryOverview
         this.CurrentCategory = loadedData;
 
         this.ParentCategories = new List<BreadcrumbItem> { new (this.L["overview"], $"categories") };
-        foreach (var parentCategory in this.CurrentCategory.ParentCategories)
+        if (this.CurrentCategory.ParentCategory != null)
         {
-            this.ParentCategories.Add(new BreadcrumbItem(parentCategory.Name, $"categories/{parentCategory.Name}"));
+            this.ParentCategories.Add(
+                                      new BreadcrumbItem(
+                                                         this.CurrentCategory.ParentCategory.Name,
+                                                         $"categories/{this.CurrentCategory.ParentCategory.Name}"));
         }
+
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentCategory.Name, null, true));
 
-        this.PriceHistory = await this.PriceService.GetPriceChangesForCategory(this.CurrentCategory.Id);
-        this.PriceHistory = this.PriceHistory.OrderBy(p => p.TimeStamp).ToList();
-        double lastValue = 0;
+        this.ProductPages = await this.CategoryService.GetCategoryProductPages(this.CurrentCategory.Id);
+        this.PricePages = await this.CategoryService.GetCategoryPriceChangesPages(this.CurrentCategory.Id);
 
-        foreach (var price in this.PriceHistory)
+        this.CurrentProductPage = 1;
+        this.CurrentPricePage = 1;
+
+        this.IsLoadingProductData = true;
+        this.IsLoadingPriceData = true;
+        
+        var productThread = this.CategoryService.GetCategoryProducts(this.CurrentCategory.Id, this.CurrentProductPage);
+        var pricesThread = this.CategoryService.GetCategoryPriceChanges(this.CurrentCategory.Id, this.CurrentPricePage);
+
+        this.Products = await productThread;
+        this.IsLoadingProductData = false;
+        
+        this.PriceHistory = await pricesThread;
+        this.IsLoadingPriceData = false;
+
+        this.StateHasChanged();
+        this.IsLoadingMeta = false;
+    }
+
+    private async Task OnProductPageChanged(int page)
+    {
+        if (this.CategoryService == null)
         {
-            price.LastValue = lastValue == 0 ? null : lastValue;
-            lastValue = price.Value;
+            return;
+        }
+        
+        this.CurrentProductPage = page;
+        this.IsLoadingProductData = true;
+        this.Products = await this.CategoryService.GetCategoryProducts(this.CurrentCategory.Id, this.CurrentProductPage);
+        this.IsLoadingProductData = false;
+    }
+
+    private async Task OnPricePageChanged(int page)
+    {
+        if (this.CategoryService == null)
+        {
+            return;
         }
 
-        this.PriceHistory = this.PriceHistory.OrderByDescending(p => p.TimeStamp).ToList();
-        this.StateHasChanged();
-        this.IsLoading = false;
+        this.CurrentPricePage = page;
+        this.IsLoadingPriceData = true;
+        this.PriceHistory = await this.CategoryService.GetCategoryPriceChanges(this.CurrentCategory.Id, this.CurrentPricePage);
+        this.IsLoadingPriceData = false;
+    }
+
+    private void Redirect(Category category)
+    {
+        if (this.NavigationManager == null)
+        {
+            return;
+        }
+
+        this.NavigationManager.NavigateTo($"categories/{category.Name}");
     }
 }

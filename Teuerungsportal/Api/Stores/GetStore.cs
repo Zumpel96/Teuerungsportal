@@ -5,28 +5,26 @@ using Microsoft.AspNetCore.Http;
 
 namespace Api;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.DatabaseObjects;
+using Teuerungsportal.Models;
 
 public static class GetStore
 {
-    public class StoreDbo
-    {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string BaseUrl { get; set; }
-    }
-
-    [FunctionName("GetSpecificStore")]
+    [FunctionName("GetStore")]
     public static IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "stores/{storeName}")] HttpRequest req,
         [Sql(
-                commandText: @"SELECT id, name, baseUrl
-				 				 FROM [dbo].[store]
-				 				 WHERE LOWER(name) = LOWER(@storeName);",
+                commandText: @"
+                                SELECT 
+                                  [id], 
+                                  [name], 
+                                  [baseUrl] 
+                                FROM 
+                                  [dbo].[store] 
+                                WHERE 
+                                  LOWER([name]) = LOWER(@storeName);",
                 parameters: "@storeName={storeName}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
@@ -38,6 +36,6 @@ public static class GetStore
             return new NotFoundResult();
         }
 
-        return new OkObjectResult(storeList.First());
+        return new OkObjectResult(new Store(storeList.First()));
     }
 }

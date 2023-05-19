@@ -34,7 +34,7 @@
         <value>Subcategories</value>
     </data>
     <data name="appName" xml:space="preserve">
-        <value>Teuerungsportal</value>
+        <value>Inflation Portal</value>
     </data>
     <data name="appInfo" xml:space="preserve">
         <value>Your overview of inflation in Austria.</value>
@@ -122,5 +122,50 @@
     </data>
     <data name="uncategorizedProductsInfo" xml:space="preserve">
         <value>Help the Teuerungsportal by categorizing products, which are currently uncategorized.</value>
+    </data>
+    <data name="products" xml:space="preserve">
+        <value>Products</value>
+    </data>
+    <data name="chart" xml:space="preserve">
+        <value>Chart</value>
+    </data>
+    <data name="chartInfo" xml:space="preserve">
+        <value>The diagram illustrates the price increases over the past 30 days and aims to visualize whether companies are coordinating and adjusting certain products on the same days.</value>
+    </data>
+    <data name="search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="impress" xml:space="preserve">
+        <value>About</value>
+    </data>
+    <data name="dashboard" xml:space="preserve">
+        <value>Dashboard</value>
+    </data>
+    <data name="impressContent" xml:space="preserve">
+        <value>This page serves solely for nonprofit purposes and does not pursue any profit-oriented business performance. No cookies or other personally identifiable information are stored. All data is for informational purposes only and is not associated with any online shops. Data errors are possible and subject to change.</value>
+    </data>
+    <data name="author" xml:space="preserve">
+        <value>Author</value>
+    </data>
+    <data name="todayChanges" xml:space="preserve">
+        <value>Todays Changes</value>
+    </data>
+    <data name="welcome" xml:space="preserve">
+        <value>Hello!</value>
+    </data>
+    <data name="welcomeText" xml:space="preserve">
+        <value>Welcome to the Austrian Inflation Portal. Please note that this is a hobby project that directly extracts data from Austrian trade industries. Analyze your favorite products yourself and track the current inflation in real time.</value>
+    </data>
+    <data name="performance" xml:space="preserve">
+        <value>Performance</value>
+    </data>
+    <data name="performanceText" xml:space="preserve">
+        <value>Unfortunately, it is known that the performance of this site is not the best. The reason for this is that the infrastructure, in order to scale well, is relatively expensive. If you like the project and would like to support it directly, you are welcome to leave a small donation on PayPal.</value>
+    </data>
+    <data name="support" xml:space="preserve">
+        <value>Support</value>
+    </data>
+    <data name="supportInfo" xml:space="preserve">
+        <value>All supporters are mentioned in the impress.</value>
     </data>
 </root>

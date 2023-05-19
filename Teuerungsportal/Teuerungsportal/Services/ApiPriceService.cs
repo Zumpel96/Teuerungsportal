@@ -1,7 +1,7 @@
 namespace Teuerungsportal.Services;
 
 using Newtonsoft.Json;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Services.Interfaces;
 
 public class ApiPriceService : PriceService
@@ -15,24 +15,25 @@ public class ApiPriceService : PriceService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetPriceChangesForProduct(Guid productId)
+    public async Task<int> GetPriceChangesPages()
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/prices/product/{productId}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
 
-        return data ?? new List<Price>();
+        return data;
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetPriceChangesForCategory(Guid categoryId)
+    public async Task<ICollection<Price>> GetPriceChanges(int page)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/prices/category/{categoryId}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
+
         var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
 
         return data ?? new List<Price>();

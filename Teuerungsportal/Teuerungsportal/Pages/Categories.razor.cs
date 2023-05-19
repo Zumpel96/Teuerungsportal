@@ -2,7 +2,7 @@ namespace Teuerungsportal.Pages;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
 
@@ -14,12 +14,12 @@ public partial class Categories
     [Inject]
     private CategoryService? CategoryService { get; set; }
 
-    private ICollection<(Category Category, int Count)> CategoriesList { get; set; } = new List<(Category Category, int Count)>();
+    private ICollection<Category> CategoriesList { get; set; } = new List<Category>();
 
     private bool IsLoading { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.CategoryService == null)
         {
@@ -27,13 +27,7 @@ public partial class Categories
         }
 
         this.IsLoading = true;
-        var allCategories = await this.CategoryService.GetCategoriesWithChildren();
-        foreach (var category in allCategories)
-        {
-            //var numberOfProducts = await this.CategoryService.GetNumberOfProducts(category.Id);
-            this.CategoriesList.Add((category, 0));
-        }
-        
+        this.CategoriesList = await this.CategoryService.GetCategories();
         this.IsLoading = false;
     }
 }

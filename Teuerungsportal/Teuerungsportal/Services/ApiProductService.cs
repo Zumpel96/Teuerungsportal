@@ -2,7 +2,7 @@ namespace Teuerungsportal.Services;
 
 using System.Net;
 using Newtonsoft.Json;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Services.Interfaces;
 
 public class ApiProductService : ProductService
@@ -42,7 +42,7 @@ public class ApiProductService : ProductService
     /// <inheritdoc />
     public async Task<Product?> GetProduct(string store, string productNumber)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{store}/{productNumber}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/{productNumber}/store/{store}");
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
@@ -54,6 +54,31 @@ public class ApiProductService : ProductService
         var data = JsonConvert.DeserializeObject<Product>(responseBody);
 
         return data ?? null;
+    }
+
+    /// <inheritdoc />
+    public async Task<int> GetProductPriceChangesPages(Guid productId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/{productId}/prices");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetProductPriceChanges(Guid productId, int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/{productId}/prices/{page}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
+
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />

@@ -1,10 +1,10 @@
-﻿<MudTable Items="@PriceChanges" Hover="true">
+﻿<MudTable Items="@PriceChanges" Hover="true" Loading="@IsLoading">
     <HeaderContent>
         <MudTh>@L?["changeDateTime"]</MudTh>
         <MudTh>@L?["productName"]</MudTh>
         @if (!HideCategory)
         {
-            <MudTh>@L?["categoryName"]</MudTh>
+            <MudTh>@L?["category"]</MudTh>
         }
         @if (!HideStore)
         {
@@ -15,26 +15,26 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToShortDateString()</MudTd>
+        <MudTd DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
         <MudTd DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
         @if (!HideCategory)
         {
-            <MudTd DataLabel="@L?["categoryName"]">@context.Product?.Category?.Name</MudTd>
+            <MudTd DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
         }
         @if (!HideStore)
         {
             <MudTd DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
         }
-        <MudTd DataLabel="@L?["price"]">@($"{Math.Round(context.Value, 2):N2}€")</MudTd>
+        <MudTd DataLabel="@L?["price"]">@($"{Math.Round(context.CurrentValue, 2):N2}€")</MudTd>
         <MudTd>
-            @if (context.LastValue == null)
+            @if (context.PreviousValue == null)
             {
                 <MudChip Variant="Variant.Text" Color="Color.Warning">@L?["new"]</MudChip>
             }
             else
             {
-                var priceChange = context.Value - (double)context.LastValue;
-                var percentageChange = (100 / (double)context.LastValue * context.Value) - 100;
+                var priceChange = context.CurrentValue - (double)context.PreviousValue;
+                var percentageChange = (100 / (double)context.PreviousValue * context.CurrentValue) - 100;
                 <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudChip>
             }
         </MudTd>
@@ -42,4 +42,7 @@
             <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context.Product))"/>
         </MudTd>
     </RowTemplate>
+    <PagerContent>
+        <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+    </PagerContent>
 </MudTable>

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teuerungsportal", "Teuerung
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{3FDDE354-364B-45ED-9885-B75616228EE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{3FDDE354-364B-45ED-9885-B75616228EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FDDE354-364B-45ED-9885-B75616228EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FDDE354-364B-45ED-9885-B75616228EE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

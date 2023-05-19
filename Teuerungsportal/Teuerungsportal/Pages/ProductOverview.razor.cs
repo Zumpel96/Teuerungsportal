@@ -3,7 +3,7 @@ namespace Teuerungsportal.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
 
@@ -22,9 +22,6 @@ public partial class ProductOverview
     private ProductService? ProductService { get; set; }
 
     [Inject]
-    private PriceService? PriceService { get; set; }
-
-    [Inject]
     private CategoryService? CategoryService { get; set; }
 
     [Inject]
@@ -36,16 +33,18 @@ public partial class ProductOverview
 
     private ICollection<Category> AllCategories { get; set; } = new List<Category>();
 
+    private int PricePages { get; set; }
+
+    private int CurrentPricePage { get; set; }
+
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
 
     private string SelectedCategoryName { get; set; } = string.Empty;
 
-    private bool IsLoadingMeta { get; set; }
-
-    private bool IsLoadingPrices { get; set; }
+    private bool IsLoading { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.L == null)
         {
@@ -56,19 +55,13 @@ public partial class ProductOverview
         {
             return;
         }
-
-        if (this.PriceService == null)
-        {
-            return;
-        }
-
+        
         if (this.CategoryService == null)
         {
             return;
         }
 
-        this.IsLoadingMeta = true;
-        this.IsLoadingPrices = true;
+        this.IsLoading = true;
 
         var loadedProduct = await this.ProductService.GetProduct(this.StoreName, this.ProductNumber);
         if (loadedProduct?.Store == null)
@@ -77,13 +70,13 @@ public partial class ProductOverview
         }
 
         this.CurrentProduct = loadedProduct;
+        this.PricePages = await this.CategoryService.GetCategoryPriceChangesPages(this.CurrentProduct.Id);
+        this.CurrentPricePage = 1;
 
         if (this.CurrentProduct.Category == null)
         {
-            this.AllCategories = await this.CategoryService.GetAllCategories();
+            this.AllCategories = await this.CategoryService.GetCategories();
         }
-
-        this.IsLoadingMeta = false;
 
         this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"stores"));
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Store.Name, $"stores/{this.CurrentProduct.Store.Name}"));
@@ -98,20 +91,11 @@ public partial class ProductOverview
 
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentProduct.Name, null, true));
 
-        this.PriceHistory = await this.PriceService.GetPriceChangesForProduct(this.CurrentProduct.Id);
-        this.PriceHistory = this.PriceHistory.OrderBy(p => p.TimeStamp).ToList();
-        double lastValue = 0;
-
-        foreach (var price in this.PriceHistory)
-        {
-            price.Product = this.CurrentProduct;
-            price.LastValue = lastValue == 0 ? null : lastValue;
-
-            lastValue = price.Value;
-        }
-
-        this.PriceHistory = this.PriceHistory.OrderByDescending(p => p.TimeStamp).ToList();
-        this.IsLoadingPrices = false;
+        this.PricePages = await this.ProductService.GetProductPriceChangesPages(this.CurrentProduct.Id);
+        this.CurrentPricePage = 1;
+        this.PriceHistory = await this.ProductService.GetProductPriceChanges(this.CurrentProduct.Id, this.CurrentPricePage);
+        
+        this.IsLoading = false;
     }
 
     private Task<IEnumerable<string>> Search(string value)
@@ -146,5 +130,18 @@ public partial class ProductOverview
 
         await this.ProductService.UpdateProductCategory(this.CurrentProduct.Id, category.Id);
         this.NavigationManager.NavigateTo($"/stores/{this.StoreName}/{this.ProductNumber}", true);
+    }
+
+    private async Task OnPricePageChanged(int page)
+    {
+        if (this.ProductService == null)
+        {
+            return;
+        }
+
+        this.CurrentPricePage = page;
+        this.IsLoading = true;
+        this.PriceHistory = await this.ProductService.GetProductPriceChanges(this.CurrentProduct.Id, this.CurrentPricePage);
+        this.IsLoading = false;
     }
 }

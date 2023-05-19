@@ -1,10 +1,10 @@
 namespace Teuerungsportal.Services.Interfaces;
 
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 
 public interface PriceService
 {
-    public Task<ICollection<Price>> GetPriceChangesForProduct(Guid productId);
+    public Task<int> GetPriceChangesPages();
     
-    public Task<ICollection<Price>> GetPriceChangesForCategory(Guid categoryId);
+    public Task<ICollection<Price>> GetPriceChanges(int page);
 }
