@@ -1,6 +1,6 @@
-namespace Teuerungsportal.Helpers;
+namespace Shared.DatabaseObjects;
 
-public class Store
+public class StoreDbo
 {
     public Guid Id { get; set; }
 

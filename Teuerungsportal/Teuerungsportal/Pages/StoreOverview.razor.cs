@@ -3,8 +3,9 @@ namespace Teuerungsportal.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
+using Teuerungsportal.Services.Interfaces;
 
 public partial class StoreOverview
 {
@@ -14,66 +15,99 @@ public partial class StoreOverview
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
-    private Store? CurrentStore { get; set; }
+    [Inject]
+    private StoreService? StoreService { get; set; }
+
+    private Store CurrentStore { get; set; } = new ();
 
     private List<BreadcrumbItem> Breadcrumbs { get; set; } = new ();
 
-    private ICollection<Price> RecentPriceChanges { get; set; } = new List<Price>();
+    private int PricePages { get; set; }
+
+    private int CurrentPricePage { get; set; }
 
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
 
+    private int ProductPages { get; set; }
+
+    private int CurrentProductPage { get; set; }
+
+    private ICollection<Product> Products { get; set; } = new List<Product>();
+
+    private bool IsLoadingMeta { get; set; }
+    
+    private bool IsLoadingPriceData { get; set; }
+    
+    private bool IsLoadingProductData { get; set; }
+
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.L == null)
         {
             return;
         }
 
-        this.CurrentStore = new Store()
-                               {
-                                   Name = "Store A",
-                               };
+        if (this.StoreService == null)
+        {
+            return;
+        }
 
+        this.IsLoadingMeta = true;
+        var loadedStore = await this.StoreService.GetStore(this.StoreName);
+        if (loadedStore == null)
+        {
+            return;
+        }
+
+        this.CurrentStore = loadedStore;
         this.Breadcrumbs.Add(new BreadcrumbItem(this.L["overview"], $"stores"));
         this.Breadcrumbs.Add(new BreadcrumbItem(this.CurrentStore.Name, null, true));
 
-        for (var i = 0; i < 10; i++)
+        this.ProductPages = await this.StoreService.GetStoreProductsPages(this.CurrentStore.Id);
+        this.PricePages = await this.StoreService.GetStorePriceChangesPages(this.CurrentStore.Id);
+
+        this.CurrentProductPage = 1;
+        this.CurrentPricePage = 1;
+
+        this.IsLoadingPriceData = true;
+        this.IsLoadingProductData = true;
+
+        var productThread = this.StoreService.GetStoreProducts(this.CurrentStore.Id, this.CurrentProductPage);
+        var pricesThread = this.StoreService.GetStorePriceChanges(this.CurrentStore.Id, this.CurrentPricePage);
+
+        this.Products = await productThread;
+        this.IsLoadingProductData = false;
+
+        this.PriceHistory = await pricesThread;
+        this.IsLoadingPriceData = false;
+
+        this.IsLoadingMeta = false;
+    }
+
+    private async Task OnProductPageChanged(int page)
+    {
+        if (this.StoreService == null)
         {
-            this.RecentPriceChanges.Add(
-                                        new Price()
-                                        {
-                                            Value = 1 + i * 2.1,
-                                            LastValue = i == 5 ? null : 1.22 + i * 2,
-                                            TimeStamp = DateTime.Now.AddMinutes(i),
-                                            Product = new Product()
-                                                      {
-                                                          Brand = "Test",
-                                                          Name = $"Test Product A-{i}",
-                                                          ArticleNumber = "123456",
-                                                          Store = new Store() { Name = "Billa" },
-                                                          Url = "#",
-                                                      },
-                                        });
+            return;
+        }
+        
+        this.CurrentProductPage = page;
+        this.IsLoadingProductData = true;
+        this.Products = await this.StoreService.GetStoreProducts(this.CurrentStore.Id, this.CurrentProductPage);
+        this.IsLoadingProductData = false;
+    }
+
+    private async Task OnPricePageChanged(int page)
+    {
+        if (this.StoreService == null)
+        {
+            return;
         }
 
-        this.PriceHistory = new List<Price>();
-        for (var i = 0; i < 30; i++)
-        {
-            this.PriceHistory.Add(
-                                  new Price()
-                                  {
-                                      Value = 15 - i * 0.15,
-                                      TimeStamp = DateTime.Now.AddDays(-i * 8),
-                                      Product = new Product()
-                                                {
-                                                    Brand = "Test",
-                                                    Name = $"Test Product A-{i}",
-                                                    ArticleNumber = "123456",
-                                                    Store = new Store() { Name = "Billa" },
-                                                    Url = "#",
-                                                },
-                                  });
-        }
+        this.CurrentPricePage = page;
+        this.IsLoadingPriceData = true;
+        this.PriceHistory = await this.StoreService.GetStorePriceChanges(this.CurrentStore.Id, this.CurrentPricePage);
+        this.IsLoadingPriceData = false;
     }
 }

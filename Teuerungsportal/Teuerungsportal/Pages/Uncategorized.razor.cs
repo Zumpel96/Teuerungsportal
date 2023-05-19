@@ -2,7 +2,7 @@ namespace Teuerungsportal.Pages;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
 
@@ -26,7 +26,7 @@ public partial class Uncategorized
     private int NumberOfPages { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (this.ProductService == null)
         {

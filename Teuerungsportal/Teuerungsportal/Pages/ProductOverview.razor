@@ -2,7 +2,7 @@
 
 <PageTitle>@L?["appName"] - @L?["product"]</PageTitle>
 
-@if (IsLoadingMeta)
+@if (IsLoading)
 {
     <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
 }
@@ -13,7 +13,7 @@ else
 
 <MudGrid>
     <MudItem xs="12">
-        @if (IsLoadingMeta)
+        @if (IsLoading)
         {
             <MudSkeleton Width="40%" Height="8rem"/>
         }
@@ -32,7 +32,7 @@ else
 
             <div class="my-3">
                 <MudText Typo="Typo.h6">@L?["brand"]</MudText>
-                @if (IsLoadingMeta)
+                @if (IsLoading)
                 {
                     <MudSkeleton Width="40%" Height="1rem"/>
                 }
@@ -44,7 +44,7 @@ else
 
             <div class="my-3">
                 <MudText Typo="Typo.h6">@L?["store"]</MudText>
-                @if (IsLoadingMeta)
+                @if (IsLoading)
                 {
                     <MudSkeleton Width="20%" Height="1rem"/>
                 }
@@ -56,7 +56,7 @@ else
 
             <div class="my-3">
                 <MudText Typo="Typo.h6">@L?["articleNumber"]</MudText>
-                @if (IsLoadingMeta)
+                @if (IsLoading)
                 {
                     <MudSkeleton Width="60%" Height="1rem"/>
                 }
@@ -67,12 +67,12 @@ else
             </div>
 
             <div class="my-3">
-                @if (CurrentProduct.Category != null || IsLoadingMeta)
+                @if (CurrentProduct.Category != null || IsLoading)
                 {
                     <MudText Typo="Typo.h6">@L?["category"]</MudText>
                 }
                 
-                @if (IsLoadingMeta)
+                @if (IsLoading)
                 {
                     <MudSkeleton Width="80%" Height="1rem"/>
                 }
@@ -92,7 +92,7 @@ else
                 }
             </div>
 
-            @if (IsLoadingMeta)
+            @if (IsLoading)
             {
                 <MudSkeleton Width="30%" Height="1rem"/>
             }
@@ -107,7 +107,7 @@ else
         <MudPaper Class="mud-width-full pa-3">
             <MudText Typo="Typo.h3">@L?["history"]</MudText>
 
-            @if (IsLoadingPrices)
+            @if (IsLoading)
             {
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
             }
@@ -122,21 +122,7 @@ else
         <MudPaper Class="mud-width-full pa-3">
             <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
 
-            @if (IsLoadingPrices)
-            {
-                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="200px"/>
-            }
-            else
-            {
-                @if (PriceHistory.Any())
-                {
-                    <RecentPriceChanges PriceChanges="@PriceHistory"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.body1">@L?["noRecentPriceChangesText"]</MudText>
-                }
-            }
+            <RecentPriceChanges PriceChanges="@PriceHistory" Page="CurrentPricePage" NumberOfPages="PricePages" HideStore PageChanged="@OnPricePageChanged" IsLoading="IsLoading"/>
         </MudPaper>
     </MudItem>
 </MudGrid>

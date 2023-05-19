@@ -69,7 +69,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Teuerungsportal.
+        ///   Looks up a localized string similar to Inflation Portal.
         /// </summary>
         internal static string appName {
             get {
@@ -83,6 +83,15 @@ namespace Teuerungsportal.Resources {
         internal static string articleNumber {
             get {
                 return ResourceManager.GetString("articleNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string author {
+            get {
+                return ResourceManager.GetString("author", resourceCulture);
             }
         }
         
@@ -141,6 +150,33 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        internal static string chart {
+            get {
+                return ResourceManager.GetString("chart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The diagram illustrates the price increases over the past 30 days and aims to visualize whether companies are coordinating and adjusting certain products on the same days..
+        /// </summary>
+        internal static string chartInfo {
+            get {
+                return ResourceManager.GetString("chartInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        internal static string dashboard {
+            get {
+                return ResourceManager.GetString("dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string english {
@@ -164,6 +200,24 @@ namespace Teuerungsportal.Resources {
         internal static string history {
             get {
                 return ResourceManager.GetString("history", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string impress {
+            get {
+                return ResourceManager.GetString("impress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This page serves solely for nonprofit purposes and does not pursue any profit-oriented business performance. No cookies or other personally identifiable information are stored. All data is for informational purposes only and is not associated with any online shops. Data errors are possible and subject to change..
+        /// </summary>
+        internal static string impressContent {
+            get {
+                return ResourceManager.GetString("impressContent", resourceCulture);
             }
         }
         
@@ -258,6 +312,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performance.
+        /// </summary>
+        internal static string performance {
+            get {
+                return ResourceManager.GetString("performance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, it is known that the performance of this site is not the best. The reason for this is that the infrastructure, in order to scale well, is relatively expensive. If you like the project and would like to support it directly, you are welcome to leave a small donation on PayPal..
+        /// </summary>
+        internal static string performanceText {
+            get {
+                return ResourceManager.GetString("performanceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         internal static string price {
@@ -285,11 +357,29 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Products.
+        /// </summary>
+        internal static string products {
+            get {
+                return ResourceManager.GetString("products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price Changes.
         /// </summary>
         internal static string recentPriceChanges {
             get {
                 return ResourceManager.GetString("recentPriceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string search {
+            get {
+                return ResourceManager.GetString("search", resourceCulture);
             }
         }
         
@@ -339,6 +429,33 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        internal static string support {
+            get {
+                return ResourceManager.GetString("support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All supporters are mentioned in the impress..
+        /// </summary>
+        internal static string supportInfo {
+            get {
+                return ResourceManager.GetString("supportInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Todays Changes.
+        /// </summary>
+        internal static string todayChanges {
+            get {
+                return ResourceManager.GetString("todayChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         internal static string total {
@@ -371,6 +488,24 @@ namespace Teuerungsportal.Resources {
         internal static string uncategorizedProductsInfo {
             get {
                 return ResourceManager.GetString("uncategorizedProductsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello!.
+        /// </summary>
+        internal static string welcome {
+            get {
+                return ResourceManager.GetString("welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the Austrian Inflation Portal. Please note that this is a hobby project that directly extracts data from Austrian trade industries. Analyze your favorite products yourself and track the current inflation in real time..
+        /// </summary>
+        internal static string welcomeText {
+            get {
+                return ResourceManager.GetString("welcomeText", resourceCulture);
             }
         }
     }

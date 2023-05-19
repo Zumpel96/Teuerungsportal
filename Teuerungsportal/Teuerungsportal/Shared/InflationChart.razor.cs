@@ -5,7 +5,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 
 public partial class InflationChart
@@ -40,10 +40,9 @@ public partial class InflationChart
         var chartSeries = new List<ChartSeries>();
         var storeLabels = new List<string>();
 
-        for (var i = 11; i >= 0; i--)
+        for (var i = 30; i >= 0; i--)
         {
-            var today = DateTime.Today;
-            dateLabels.Add(new DateTime(today.Year, today.Month, 1).AddMonths(-i));
+            dateLabels.Add(DateTime.Today.AddDays(-i));
         }
 
         var storeData = this.ChartData.OrderBy(p => p.TimeStamp).GroupBy(p => p.Product!.Store!.Name).ToList();
@@ -67,19 +66,12 @@ public partial class InflationChart
                                 });
             }
         }
-
-        var totalData = this.ProcessChartData(this.ChartData, dateLabels);
-        chartSeries.Add(
-                        new ChartSeries()
-                        {
-                            Name = this.L["total"],
-                            Data = totalData.ToArray(),
-                        });
-
+        
         this.ProcessedChartData = chartSeries;
-        this.Labels = dateLabels.Select(d => d.ToString("MM.yyyy")).ToArray();
+        this.Labels = dateLabels.Select(d => d.ToString("dd")).ToArray();
         this.ChartOptions.YAxisTicks = 1;
         this.ChartOptions.MaxNumYAxisTicks = 5;
+        this.ChartOptions.InterpolationOption = InterpolationOption.NaturalSpline;
     }
 
     private List<double> ProcessChartData(ICollection<Price> prices, ICollection<DateTime> dates)
@@ -90,28 +82,27 @@ public partial class InflationChart
                                                    {
                                                        v.TimeStamp.Year,
                                                        v.TimeStamp.Month,
+                                                       v.TimeStamp.Day,
                                                    }).
                                       Select(
                                              cv => new
                                                    {
-                                                       Date = new DateTime(cv.Key.Year, cv.Key.Month, 1),
-                                                       AveragePrice = cv.Average(p => p.Value),
+                                                       Date = new DateTime(cv.Key.Year, cv.Key.Month, cv.Key.Day),
+                                                       AverageInflation = cv.Average(p => 100 / p.PreviousValue * p.CurrentValue) ?? 100,
                                                    }).
                                       ToList();
-
-        var currentTotalValue = orderedTotalData.First().AveragePrice;
+        
         var chartTotalData = new List<double>(12);
         foreach (var date in dates)
         {
             var foundEntry = orderedTotalData.FirstOrDefault(d => d.Date == date);
             if (foundEntry == null)
             {
-                chartTotalData.Add(currentTotalValue);
+                chartTotalData.Add(100);
                 continue;
             }
 
-            currentTotalValue = foundEntry.AveragePrice;
-            chartTotalData.Add(foundEntry.AveragePrice);
+            chartTotalData.Add(foundEntry.AverageInflation);
         }
 
         return chartTotalData;

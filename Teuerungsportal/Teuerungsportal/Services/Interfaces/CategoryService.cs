@@ -1,14 +1,18 @@
 namespace Teuerungsportal.Services.Interfaces;
 
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 
 public interface CategoryService
 {
     public Task<Category?> GetCategory(string categoryName);
     
-    public Task<ICollection<Category>> GetCategoriesWithChildren();
-    
-    public Task<ICollection<Category>> GetAllCategories();
+    public Task<ICollection<Category>> GetCategories();
 
-    public Task<int> GetNumberOfProducts(Guid categoryId);
+    public Task<int> GetCategoryProductPages(Guid categoryId);
+    
+    public Task<ICollection<Product>> GetCategoryProducts(Guid categoryId, int page);
+
+    public Task<int> GetCategoryPriceChangesPages(Guid categoryId);
+    
+    public Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId, int page);
 }

@@ -4,7 +4,7 @@ using System.Globalization;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 
 public partial class RecentPriceChanges
@@ -14,24 +14,32 @@ public partial class RecentPriceChanges
     public ICollection<Price> PriceChanges { get; set; } = new List<Price>();
 
     [Parameter]
+    [EditorRequired]
+    public int NumberOfPages { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int Page { get; set; }
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    [Parameter]
     public bool HideCategory { get; set; }
 
     [Parameter]
     public bool HideStore { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
 
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        this.PriceChanges = this.PriceChanges.OrderByDescending(pc => pc.TimeStamp).ToList();
-    }
-
-    public void Redirect(Product? product)
+    
+    private void Redirect(Product? product)
     {
         if (this.NavigationManager == null)
         {
@@ -44,5 +52,11 @@ public partial class RecentPriceChanges
         }
         
         this.NavigationManager.NavigateTo($"/stores/{product.Store.Name}/{product.ArticleNumber}");
+    }
+
+    private async Task OnPageChanged(int i)
+    {
+        this.Page = i;
+        await this.PageChanged.InvokeAsync(this.Page);
     }
 }

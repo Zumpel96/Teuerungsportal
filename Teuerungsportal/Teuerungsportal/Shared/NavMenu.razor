@@ -1,13 +1,22 @@
 ﻿<MudNavMenu>
     <MudText Typo="Typo.h6" Class="pa-4">@L?["appName"]</MudText>
     <MudDivider Class="mb-2"/>
-    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-    <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">@L?["categories"]</MudNavLink>
-    <MudNavLink Href="/products/uncategorized" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">@L?["uncategorized"]</MudNavLink>
+    
+    <MudTextField Class="mx-2 mb-2" @bind-Value="@Search" Label="@L?["search"]" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" OnAdornmentClick="@Redirect"/>
+
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
+    
+    <MudNavGroup Title="@L?["products"]" Icon="@Icons.Material.Filled.ShoppingCart">
+        <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">@L?["categories"]</MudNavLink>
+        <MudNavLink Href="/products/uncategorized" Match="NavLinkMatch.Prefix">@L?["uncategorized"]</MudNavLink>
+    </MudNavGroup>
+    
     <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
+    
     <MudNavGroup Title="@L?["language"]" Icon="@Icons.Material.Filled.Flag">
         <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>
-        <MudNavLink OnClick="@(() =>ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
+        <MudNavLink OnClick="@(() => ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
     </MudNavGroup>
-    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">About</MudNavLink>
+    
+    <MudNavLink Href="/impress" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">@L?["impress"]</MudNavLink>
 </MudNavMenu>

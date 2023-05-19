@@ -1,0 +1,35 @@
+﻿<MudTable Items="@Products" Hover="true" Loading="@IsLoading">
+    <HeaderContent>
+        <MudTh>@L?["productName"]</MudTh>
+        <MudTh>@L?["articleNumber"]</MudTh>
+        <MudTh>@L?["brand"]</MudTh>
+        @if (!HideCategory)
+        {
+            <MudTh>@L?["category"]</MudTh>
+        }
+        @if (!HideStore)
+        {
+            <MudTh>@L?["store"]</MudTh>
+        }
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@L?["productName"]">@context.Name</MudTd>
+        <MudTd DataLabel="@L?["articleNumber"]">@context.ArticleNumber</MudTd>
+        <MudTd DataLabel="@L?["brand"]">@context.Brand</MudTd>
+        @if (!HideCategory)
+        {
+            <MudTd DataLabel="@L?["category"]">@context.Category?.Name</MudTd>
+        }
+        @if (!HideStore)
+        {
+            <MudTd DataLabel="@L?["store"]">@context.Store?.Name</MudTd>
+        }
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context))"/>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+    </PagerContent>
+</MudTable>

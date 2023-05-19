@@ -1,7 +1,8 @@
 namespace Teuerungsportal.Services;
 
+using global::Shared.DatabaseObjects;
 using Newtonsoft.Json;
-using Teuerungsportal.Helpers;
+using Teuerungsportal.Models;
 using Teuerungsportal.Services.Interfaces;
 
 public class ApiCategoryService : CategoryService
@@ -17,71 +18,17 @@ public class ApiCategoryService : CategoryService
     /// <inheritdoc />
     public async Task<Category?> GetCategory(string categoryName)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/category/{categoryName}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryName}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
         var data = JsonConvert.DeserializeObject<Category>(responseBody);
-        
-        if (data == null)
-        {
-            return null;
-        }
 
-        var childCategoriesResponse = await this.Client.GetAsync($"{BaseUrl}/category/{data.Id}/categories");
-        response.EnsureSuccessStatusCode();
-        var childCategoriesResponseBody = await childCategoriesResponse.Content.ReadAsStringAsync();
-        var childCategoriesData = JsonConvert.DeserializeObject<ICollection<Category>>(childCategoriesResponseBody);
-
-        if (childCategoriesData == null)
-        {
-            return data;
-        }
-        
-        data.SubCategories = childCategoriesData;
-        
         return data;
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Category>> GetCategoriesWithChildren()
-    {
-        var response = await this.Client.GetAsync($"{BaseUrl}/categories");
-
-        response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<ICollection<Category>>(responseBody);
-        if (data == null)
-        {
-            return new List<Category>();
-        }
-
-        var categoryDict = new Dictionary<string, Category>();
-        foreach (var categoryData in data.OrderBy(c => c.RecursionId))
-        {
-            var category = new Category
-                           {
-                               Id = categoryData.Id,
-                               Name = categoryData.Name,
-                               RecursionId = categoryData.RecursionId,
-                           };
-
-            categoryDict[categoryData.RecursionId] = category;
-            if (categoryData.RecursionId.IndexOf('.') <= 0)
-            {
-                continue;
-            }
-
-            var parentId = categoryData.RecursionId.Substring(0, categoryData.RecursionId.LastIndexOf('.'));
-            var parentCategory = categoryDict[parentId];
-            parentCategory.SubCategories.Add(category);
-        }
-
-        return categoryDict.Values.Where(category => category.RecursionId.All(ch => ch != '.')).ToList();
-    }
-
-    /// <inheritdoc />
-    public async Task<ICollection<Category>> GetAllCategories()
+    public async Task<ICollection<Category>> GetCategories()
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories");
 
@@ -92,13 +39,51 @@ public class ApiCategoryService : CategoryService
     }
 
     /// <inheritdoc />
-    public async Task<int> GetNumberOfProducts(Guid categoryId)
+    public async Task<int> GetCategoryProductPages(Guid categoryId)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/category/{categoryId}/products/number");
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/products");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
         var data = JsonConvert.DeserializeObject<int>(responseBody);
+
         return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Product>> GetCategoryProducts(Guid categoryId, int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/products/{page}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<ICollection<Product>>(responseBody);
+
+        return data ?? new List<Product>();
+    }
+
+    /// <inheritdoc />
+    public async Task<int> GetCategoryPriceChangesPages(Guid categoryId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId, int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices/{page}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
+
+        return data ?? new List<Price>();
     }
 }

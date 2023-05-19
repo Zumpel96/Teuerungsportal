@@ -2,38 +2,56 @@
 
 <PageTitle>@L?["appName"] - @L?["store"]</PageTitle>
 
-@if (CurrentStore != null)
+@if (IsLoadingMeta)
+{
+    <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
+}
+else
 {
     <MudBreadcrumbs Items="@Breadcrumbs"/>
-
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h1">@CurrentStore.Name</MudText>
-            <MudAlert Severity="Severity.Info" Class="my-3">@L?["storeInfo"]</MudAlert>
-            <MudDivider/>
-        </MudItem>
-        <MudItem xs="12">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["history"]</MudText>
-                
-                <InflationChart ChartData="@PriceHistory"/>
-            </MudPaper>
-        </MudItem>
-
-        <MudItem xs="12">
-            <MudPaper Class="mud-width-full pa-3">
-                <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
-
-                @if (RecentPriceChanges.Any())
-                {
-                    <RecentPriceChanges PriceChanges="@RecentPriceChanges"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.h6">@L?["noRecentPriceChanges"]</MudText>
-                    <MudText Typo="Typo.h6">@L?["noRecentPriceChangesText"]</MudText>
-                }
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
 }
+
+<MudGrid>
+    <MudItem xs="12">
+        @if (IsLoadingMeta)
+        {
+            <MudSkeleton Width="40%" Height="8rem"/>
+        }
+        else
+        {
+            <MudText Typo="Typo.h1">@CurrentStore.Name</MudText>
+        }
+        <MudAlert Severity="Severity.Info" Class="my-3">@L?["storeInfo"]</MudAlert>
+        <MudDivider/>
+    </MudItem>
+
+    <MudItem xs="12">
+        <MudTabs Rounded="true" ApplyEffectsToContainer="true">
+            <MudTabPanel Text="@L?["recentPriceChanges"]">
+                <MudPaper Class="mud-width-full pa-3">
+                    @if (IsLoadingMeta)
+                    {
+                        <MudSkeleton Width="100%" Height="20rem"/>
+                    }
+                    else
+                    {
+                        <RecentPriceChanges PriceChanges="@PriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
+                    }
+                </MudPaper>
+            </MudTabPanel>
+
+            <MudTabPanel Text="@L?["products"]">
+                <MudPaper Class="mud-width-full pa-3">
+                    @if (IsLoadingMeta)
+                    {
+                        <MudSkeleton Width="100%" Height="20rem"/>
+                    }
+                    else
+                    {
+                        <ProductTable Products="@Products" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" HideStore IsLoading="@IsLoadingProductData"/>
+                    }
+                </MudPaper>
+            </MudTabPanel>
+        </MudTabs>
+    </MudItem>
+</MudGrid>

@@ -123,4 +123,49 @@
     <data name="uncategorizedProductsInfo" xml:space="preserve">
         <value>Unterstüzten Sie das Teuerungsportal, indem Sie unkategorisierte Produkte kategorisieren.</value>
     </data>
+    <data name="products" xml:space="preserve">
+        <value>Produkte</value>
+    </data>
+    <data name="chart" xml:space="preserve">
+        <value>Diagramm</value>
+    </data>
+    <data name="chartInfo" xml:space="preserve">
+        <value>Das Diagramm zeigt die Preissteigerungen der letzten 30 Tage und soll visualisieren, ob sich Unternehmem absprechen und gewisse Produkte an den gleichen Tagen angepasst werden.</value>
+    </data>
+    <data name="search" xml:space="preserve">
+        <value>Suche</value>
+    </data>
+    <data name="impress" xml:space="preserve">
+        <value>Impressum</value>
+    </data>
+    <data name="dashboard" xml:space="preserve">
+        <value>Dashboard</value>
+    </data>
+    <data name="impressContent" xml:space="preserve">
+        <value>Diese Seite dient allein dem gemeinnützigen Zweck und verfolgt keine unternehmerische gewinnorientierte Leistung. Es werden keine Cookies oder andere personenbezogenen Daten gespeichert. Alle Daten dienen nur der Information und stehen mit keiner der Online Shops in Verbindung. Fehler der Daten unter Vorbehalt.</value>
+    </data>
+    <data name="author" xml:space="preserve">
+        <value>Autor</value>
+    </data>
+    <data name="todayChanges" xml:space="preserve">
+        <value>Heutige Änderungen</value>
+    </data>
+    <data name="welcome" xml:space="preserve">
+        <value>Hallo!</value>
+    </data>
+    <data name="welcomeText" xml:space="preserve">
+        <value>Herzlich Willkommen im österreichischen Teuerungsportal. Bitte beachten Sie, dass es sich hier um ein Hobbyprojekt handelt, welches die Daten direkt aus den österreichischen Handelsgewerben extrahiert. Analysieren Sie selbst Ihre Lieblingsprodukte und verfolgen Sie die aktuelle Teuerung in Echtzeit.</value>
+    </data>
+    <data name="performance" xml:space="preserve">
+        <value>Performanz</value>
+    </data>
+    <data name="performanceText" xml:space="preserve">
+        <value>Es ist leider bekannt, dass die Performanz dieser Seite nicht die Beste ist. Das hat den Grund, dass die Infrastruktur, damit sie gut skalieren kann, relativ teuer ist. Falls Sie das Projekt gut finden und direkt unterstützen möchten, können Sie gerne auf PayPal eine kleine Spende hinterlassen.</value>
+    </data>
+    <data name="support" xml:space="preserve">
+        <value>Unterstützen</value>
+    </data>
+    <data name="supportInfo" xml:space="preserve">
+        <value>Alle Unterstützer:innen werden im Impressum erwähnt.</value>
+    </data>
 </root>

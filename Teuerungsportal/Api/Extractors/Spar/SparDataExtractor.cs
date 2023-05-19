@@ -115,7 +115,7 @@ public class SparDataExtractor
 
             // Check if Price has Changed
             var recentPriceValue = await this.GetRecentPrice((Guid)existingProductId);
-            if (!(Math.Abs(recentPriceValue - newPriceValue) > 0.001))
+            if (Math.Round(recentPriceValue, 2) == Math.Round(newPriceValue, 2))
             {
                 continue;
             }
