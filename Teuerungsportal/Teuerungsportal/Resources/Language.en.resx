@@ -168,4 +168,13 @@
     <data name="supportInfo" xml:space="preserve">
         <value>All supporters are mentioned in the impress.</value>
     </data>
+    <data name="supporters" xml:space="preserve">
+        <value>Supporters</value>
+    </data>
+    <data name="supportersText" xml:space="preserve">
+        <value>Here you will find a list of all supporters. A thousand thanks to everyone who financially supports this project and keeps this platform alive.</value>
+    </data>
+    <data name="source" xml:space="preserve">
+        <value>Source Code</value>
+    </data>
 </root>

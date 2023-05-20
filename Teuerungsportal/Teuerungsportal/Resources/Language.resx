@@ -168,4 +168,13 @@
     <data name="supportInfo" xml:space="preserve">
         <value>Alle Unterstützer:innen werden im Impressum erwähnt.</value>
     </data>
+    <data name="supporters" xml:space="preserve">
+        <value>Unterstützer</value>
+    </data>
+    <data name="supportersText" xml:space="preserve">
+        <value>Hier finden Sie eine Liste aller Unterstützer:innen. Tausend Dank an alle die dieses Projekt monetär unterstützen und so diese Platform am Leben erhalten.</value>
+    </data>
+    <data name="source" xml:space="preserve">
+        <value>Source Code</value>
+    </data>
 </root>

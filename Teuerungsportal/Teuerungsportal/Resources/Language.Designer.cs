@@ -384,6 +384,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source Code.
+        /// </summary>
+        internal static string source {
+            get {
+                return ResourceManager.GetString("source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Geschäft.
         /// </summary>
         internal static string store {
@@ -434,6 +443,24 @@ namespace Teuerungsportal.Resources {
         internal static string support {
             get {
                 return ResourceManager.GetString("support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unterstützer.
+        /// </summary>
+        internal static string supporters {
+            get {
+                return ResourceManager.GetString("supporters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hier finden Sie eine Liste aller Unterstützer:innen. Tausend Dank an alle die dieses Projekt monetär unterstützen und so diese Platform am Leben erhalten..
+        /// </summary>
+        internal static string supportersText {
+            get {
+                return ResourceManager.GetString("supportersText", resourceCulture);
             }
         }
         

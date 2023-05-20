@@ -1,67 +1,76 @@
 ﻿@page "/categories"
 
 <PageTitle>Teuerungsportal - @L?["category"]</PageTitle>
-<MudText Typo="Typo.h1">@L?["categories"]</MudText>
-<MudAlert Severity="Severity.Info" Class="my-3">@L?["categoriesInfo"]</MudAlert>
-<MudDivider/>
 
-<div class="d-flex justify-center align-content-center flex-wrap">
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h1">@L?["categories"]</MudText>
+        <MudAlert Severity="Severity.Info">
+            <MudText Typo="Typo.body1">@L?["categoriesInfo"]</MudText>
+        </MudAlert>
+
+        <MudDivider/>
+    </MudItem>
+
     @if (IsLoading)
     {
         @for (var i = 0; i < 3; i++)
         {
-            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-                <MudSkeleton Width="40%" Height="3rem"/>
-                <MudSkeleton Width="70%" Height="1rem" Class="mt-3"/>
-                <MudSkeleton Width="100%" Height="0.25rem" Class="my-3"/>
-                <MudSkeleton Width="40%" Height="2rem"/>
-                <MudSkeleton Width="40%" Height="2rem"/>
-                <MudSkeleton Width="40%" Height="2rem"/>
-                <MudSkeleton Width="40%" Height="2rem"/>
-            </MudPaper>
+            <MudItem xs="12" md="6" xl="4">
+                <MudPaper>
+                    <MudSkeleton Width="40%" Height="3rem"/>
+                    <MudSkeleton Width="70%" Height="1rem" Class="mt-3"/>
+                    <MudSkeleton Width="100%" Height="0.25rem" Class="my-3"/>
+                    <MudSkeleton Width="40%" Height="2rem"/>
+                    <MudSkeleton Width="40%" Height="2rem"/>
+                    <MudSkeleton Width="40%" Height="2rem"/>
+                    <MudSkeleton Width="40%" Height="2rem"/>
+                </MudPaper>
+            </MudItem>
         }
     }
     else
     {
         @foreach (var category in CategoriesList)
         {
-            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-                <div class="d-inline-flex">
-                    <MudLink Href=@($"/categories/{category.Name}") Typo="Typo.h3">@category.Name</MudLink>
-                </div>
+            <MudItem xs="12" md="6" xl="4">
+                <MudPaper>
+                    <div class="d-inline-flex">
+                        <MudLink Href=@($"/categories/{category.Name}") Typo="Typo.h2">@category.Name</MudLink>
+                    </div>
 
-                @if (category.SubCategories.Any())
-                {
-                    <MudList Clickable="true">
-                        <MudListSubheader>
-                            @L?["subCategories"]
-                        </MudListSubheader>
+                    @if (category.SubCategories.Any())
+                    {
+                        <MudList Clickable="true">
+                            <MudListSubheader>
+                                @L?["subCategories"]
+                            </MudListSubheader>
 
-                        <MudDivider/>
+                            <MudDivider/>
 
-                        @foreach (var subCategory in category.SubCategories)
-                        {
-                            @if (subCategory.SubCategories.Any())
+                            @foreach (var subCategory in category.SubCategories)
                             {
-                                <MudListItem Text="@subCategory.Name">
-                                    <NestedList>
-                                        <MudListItem Href=@($"/categories/{subCategory.Name}")>@L?["overview"]</MudListItem>
-                                        @foreach (var subSubCategory in subCategory.SubCategories)
-                                        {
-                                            <MudListItem Href=@($"/categories/{subSubCategory.Name}")>@subSubCategory.Name</MudListItem>
-                                        }
-                                    </NestedList>
-                                </MudListItem>
+                                @if (subCategory.SubCategories.Any())
+                                {
+                                    <MudListItem Text="@subCategory.Name">
+                                        <NestedList>
+                                            <MudListItem Href=@($"/categories/{subCategory.Name}")>@L?["overview"]</MudListItem>
+                                            @foreach (var subSubCategory in subCategory.SubCategories)
+                                            {
+                                                <MudListItem Href=@($"/categories/{subSubCategory.Name}")>@subSubCategory.Name</MudListItem>
+                                            }
+                                        </NestedList>
+                                    </MudListItem>
+                                }
+                                else
+                                {
+                                    <MudListItem Href=@($"/categories/{subCategory.Name}")>@subCategory.Name</MudListItem>
+                                }
                             }
-                            else
-                            {
-                                <MudListItem Href=@($"/categories/{subCategory.Name}")>@subCategory.Name</MudListItem>
-                            }
-                        }
-                    </MudList>
-                }
-
-            </MudPaper>
+                        </MudList>
+                    }
+                </MudPaper>
+            </MudItem>
         }
     }
-</div>
+</MudGrid>

@@ -4,28 +4,26 @@
 
 <MudGrid>
     <MudItem xs="12" lg="6">
-        <MudPaper Class="pa-16 ma-3">
-            <MudText Class="mb-3" Typo="Typo.h1">@L?["welcome"]</MudText>
-
-            <MudText Class="mb-3" Typo="Typo.body1">@L?["welcomeText"]</MudText>
-
+        <MudPaper>
+            <MudText Typo="Typo.h1">@L?["welcome"]</MudText>
+            <MudText Typo="Typo.body1">@L?["welcomeText"]</MudText>
         </MudPaper>
     </MudItem>
 
     <MudItem xs="12" lg="6">
-        <MudPaper Class="pa-16 ma-3">
-            <MudText Class="my-3" Typo="Typo.h3">@L?["performance"]</MudText>
-            <MudText Class="mb-3" Typo="Typo.body1">@L?["performanceText"]</MudText>
+        <MudPaper>
+            <MudText Typo="Typo.h1">@L?["performance"]</MudText>
+            <MudText Typo="Typo.body1">@L?["performanceText"]</MudText>
 
+            <MudDivider/>
             <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton><br/>
             <MudText Typo="Typo.caption">@L?["supportInfo"]</MudText>
-
         </MudPaper>
     </MudItem>
 
     <MudItem xs="12">
-        <MudPaper Class="pa-16 ma-3">
-            <MudText Class="mb-3" Typo="Typo.h3">@L?["todayChanges"]</MudText>
+        <MudPaper>
+            <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
             <RecentPriceChanges PriceChanges="@PriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
         </MudPaper>
     </MudItem>

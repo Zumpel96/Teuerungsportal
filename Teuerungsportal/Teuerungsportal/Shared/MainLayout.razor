@@ -1,18 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="true"/>
+<MudThemeProvider IsDarkMode="true" Theme="@CustomTheme"/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
     </MudAppBar>
-    <MudDrawer Open="@DrawerOpen">
-        <NavMenu/>
+    <MudDrawer @bind-Open="@DrawerOpen" Breakpoint="Breakpoint.Md" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="true">
+        <MudDrawerHeader>
+            <MudText Class="mt-3" Typo="Typo.h3">@L?["appName"]</MudText>
+        </MudDrawerHeader>
+        
+        <NavMenu @bind-DrawerState="@DrawerOpen"/>
     </MudDrawer>
     <MudMainContent>
-        <MudContainer>
+        <MudContainer Class="my-6">
             @Body
         </MudContainer>
     </MudMainContent>

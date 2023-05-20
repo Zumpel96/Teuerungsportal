@@ -1,0 +1,32 @@
+@font-face {
+    font-family: Madefor;
+    src: url(../fonts/Wix_Madefor_Display/WixMadeforDisplay-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: Montserrat;
+    src: url(../fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+
+.toggler {
+    display: none!important;
+}
+
+@media (max-width: 641px) {
+    .toggler {
+        display: block!important;
+    }
+}
+
+.mud-divider {
+    margin-top: 12px!important;
+    margin-bottom: 12px!important;
+}
+
+.mud-paper {
+    padding: 32px!important;
+}
+
+.mud-typography:focus-visible {
+    outline: none!important;
+}
