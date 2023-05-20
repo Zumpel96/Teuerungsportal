@@ -4,7 +4,5 @@ using Teuerungsportal.Models;
 
 public interface PriceService
 {
-    public Task<int> GetPriceChangesPages();
-    
-    public Task<ICollection<Price>> GetPriceChanges(int page);
+    public Task<ICollection<Price>> GetPriceChanges();
 }

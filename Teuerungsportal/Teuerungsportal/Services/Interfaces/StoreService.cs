@@ -11,8 +11,6 @@ public interface StoreService
     public Task<int> GetStoreProductsPages(Guid storeId);
 
     public Task<ICollection<Product>> GetStoreProducts(Guid storeId, int page);
-
-    public Task<int> GetStorePriceChangesPages(Guid storeId);
     
-    public Task<ICollection<Price>> GetStorePriceChanges(Guid storeId, int page);
+    public Task<ICollection<Price>> GetStorePriceChanges(Guid storeId);
 }

@@ -14,7 +14,7 @@ public static class GetStorePriceChanges
 {
     [FunctionName("GetStorePriceChanges")]
     public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "stores/{storeId}/prices/{page}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "stores/{storeId}/prices")] HttpRequest req,
         [Sql(
                 commandText: @"
                                 WITH [previous_prices] AS (
@@ -46,6 +46,7 @@ public static class GetStorePriceChanges
                                   [productName], 
                                   [categoryId], 
                                   [categoryName], 
+                                  [storeId], 
                                   [storeName], 
                                   [currentValue], 
                                   [previousValue], 
@@ -53,12 +54,10 @@ public static class GetStorePriceChanges
                                 FROM 
                                   [previous_prices] 
                                 WHERE 
-                                  LOWER([storeId]) = LOWER(@storeId)
+                                  LOWER([storeId]) = LOWER(@storeId) AND [timestamp] >= DATEADD(day,-30,GETDATE()) AND [previousValue] IS NOT NULL
                                 ORDER BY 
-                                  [timestamp] DESC
-                                OFFSET 
-                                  ((@page -1) * 25) ROWS FETCH NEXT 25 ROWS ONLY;",
-                parameters: "@storeId={storeId},@page={page}",
+                                  [timestamp] DESC;",
+                parameters: "@storeId={storeId}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<PriceDbo> prices)

@@ -14,7 +14,7 @@ public static class GetCategoryPriceChanges
 {
     [FunctionName("GetCategoryPriceChanges")]
     public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories/{categoryId}/prices/{page}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories/{categoryId}/prices")] HttpRequest req,
         [Sql(
                 commandText: @"
                                 WITH [recursion] AS (
@@ -92,11 +92,10 @@ public static class GetCategoryPriceChanges
                                 FROM 
                                   [previous_prices] [p] 
                                   JOIN [recursive_categories] [c] ON [c].[id] = [p].[categoryId] 
+                                WHERE [p].[timestamp] >= DATEADD(day,-30,GETDATE()) AND [p].[previousValue] IS NOT NULL
                                 ORDER BY 
-                                  [timestamp] DESC
-                                OFFSET 
-                                  ((@page -1) * 25) ROWS FETCH NEXT 25 ROWS ONLY;",
-                parameters: "@categoryId={categoryId},@page={page}",
+                                  [timestamp] DESC;",
+                parameters: "@categoryId={categoryId}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<PriceDbo> prices)

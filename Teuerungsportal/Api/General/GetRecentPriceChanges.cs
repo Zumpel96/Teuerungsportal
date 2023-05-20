@@ -14,7 +14,7 @@ public static class GetRecentPriceChanges
 {
     [FunctionName("GetRecentPriceChanges")]
     public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "prices/{page}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "prices")] HttpRequest req,
         [Sql(
                 commandText: @"
                              WITH [previous_prices] AS (
@@ -51,12 +51,9 @@ public static class GetRecentPriceChanges
                                   [timestamp] 
                                 FROM 
                                   [previous_prices] 
-                                WHERE [timestamp] >= DATEADD(day,-1,GETDATE())
+                                WHERE [timestamp] >= DATEADD(day,-30,GETDATE()) AND [previousValue] IS NOT NULL
                                 ORDER BY 
-                                  [timestamp] DESC
-                                OFFSET 
-                                  ((@page -1) * 25) ROWS FETCH NEXT 25 ROWS ONLY;",
-                parameters: "@page={page}",
+                                  [timestamp] DESC;",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<PriceDbo> prices)

@@ -26,7 +26,9 @@ public partial class StoreOverview
 
     private int CurrentPricePage { get; set; }
 
-    private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+    private ICollection<Price> TotalPriceHistory { get; set; } = new List<Price>();
+    
+    private ICollection<Price> PaginatedPriceHistory { get; set; } = new List<Price>();
 
     private int ProductPages { get; set; }
 
@@ -65,7 +67,6 @@ public partial class StoreOverview
         this.Breadcrumbs.Add(new BreadcrumbItem(this.CurrentStore.Name, null, true));
 
         this.ProductPages = await this.StoreService.GetStoreProductsPages(this.CurrentStore.Id);
-        this.PricePages = await this.StoreService.GetStorePriceChangesPages(this.CurrentStore.Id);
 
         this.CurrentProductPage = 1;
         this.CurrentPricePage = 1;
@@ -74,12 +75,14 @@ public partial class StoreOverview
         this.IsLoadingProductData = true;
 
         var productThread = this.StoreService.GetStoreProducts(this.CurrentStore.Id, this.CurrentProductPage);
-        var pricesThread = this.StoreService.GetStorePriceChanges(this.CurrentStore.Id, this.CurrentPricePage);
+        var pricesThread = this.StoreService.GetStorePriceChanges(this.CurrentStore.Id);
 
         this.Products = await productThread;
         this.IsLoadingProductData = false;
 
-        this.PriceHistory = await pricesThread;
+        this.TotalPriceHistory = await pricesThread;
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
+        this.PricePages = (int)Math.Ceiling((float)this.TotalPriceHistory.Count / 25);
         this.IsLoadingPriceData = false;
 
         this.IsLoadingMeta = false;
@@ -98,16 +101,9 @@ public partial class StoreOverview
         this.IsLoadingProductData = false;
     }
 
-    private async Task OnPricePageChanged(int page)
+    private void OnPricePageChanged(int page)
     {
-        if (this.StoreService == null)
-        {
-            return;
-        }
-
         this.CurrentPricePage = page;
-        this.IsLoadingPriceData = true;
-        this.PriceHistory = await this.StoreService.GetStorePriceChanges(this.CurrentStore.Id, this.CurrentPricePage);
-        this.IsLoadingPriceData = false;
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
     }
 }

@@ -29,7 +29,9 @@ public partial class CategoryOverview
 
     private int CurrentPricePage { get; set; }
 
-    private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+    private ICollection<Price> TotalPriceHistory { get; set; } = new List<Price>();
+    
+    private ICollection<Price> PaginatedPriceHistory { get; set; } = new List<Price>();
 
     private int ProductPages { get; set; }
 
@@ -77,7 +79,6 @@ public partial class CategoryOverview
         this.ParentCategories.Add(new BreadcrumbItem(this.CurrentCategory.Name, null, true));
 
         this.ProductPages = await this.CategoryService.GetCategoryProductPages(this.CurrentCategory.Id);
-        this.PricePages = await this.CategoryService.GetCategoryPriceChangesPages(this.CurrentCategory.Id);
 
         this.CurrentProductPage = 1;
         this.CurrentPricePage = 1;
@@ -86,12 +87,14 @@ public partial class CategoryOverview
         this.IsLoadingPriceData = true;
         
         var productThread = this.CategoryService.GetCategoryProducts(this.CurrentCategory.Id, this.CurrentProductPage);
-        var pricesThread = this.CategoryService.GetCategoryPriceChanges(this.CurrentCategory.Id, this.CurrentPricePage);
+        var pricesThread = this.CategoryService.GetCategoryPriceChanges(this.CurrentCategory.Id);
 
         this.Products = await productThread;
         this.IsLoadingProductData = false;
         
-        this.PriceHistory = await pricesThread;
+        this.TotalPriceHistory = await pricesThread;
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
+        this.PricePages = (int)Math.Ceiling((float)this.TotalPriceHistory.Count / 25);
         this.IsLoadingPriceData = false;
 
         this.StateHasChanged();
@@ -111,17 +114,10 @@ public partial class CategoryOverview
         this.IsLoadingProductData = false;
     }
 
-    private async Task OnPricePageChanged(int page)
+    private void OnPricePageChanged(int page)
     {
-        if (this.CategoryService == null)
-        {
-            return;
-        }
-
         this.CurrentPricePage = page;
-        this.IsLoadingPriceData = true;
-        this.PriceHistory = await this.CategoryService.GetCategoryPriceChanges(this.CurrentCategory.Id, this.CurrentPricePage);
-        this.IsLoadingPriceData = false;
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
     }
 
     private void Redirect(Category category)

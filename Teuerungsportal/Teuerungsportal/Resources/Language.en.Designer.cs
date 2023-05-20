@@ -474,7 +474,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Todays Changes.
+        ///   Looks up a localized string similar to New Prices.
         /// </summary>
         internal static string todayChanges {
             get {

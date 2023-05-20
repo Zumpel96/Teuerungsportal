@@ -4,27 +4,43 @@
 
 <MudGrid>
     <MudItem xs="12" lg="6">
-        <MudPaper>
-            <MudText Typo="Typo.h1">@L?["welcome"]</MudText>
-            <MudText Typo="Typo.body1">@L?["welcomeText"]</MudText>
-        </MudPaper>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudPaper>
+                    <MudText Typo="Typo.h1">@L?["welcome"]</MudText>
+                    <MudText Typo="Typo.body1">@L?["welcomeText"]</MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudPaper>
+                    <MudText Typo="Typo.h1">@L?["performance"]</MudText>
+                    <MudText Typo="Typo.body1">@L?["performanceText"]</MudText>
+
+                    <MudDivider/>
+                    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton><br/>
+                    <MudText Typo="Typo.caption">@L?["supportInfo"]</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
     </MudItem>
 
     <MudItem xs="12" lg="6">
-        <MudPaper>
-            <MudText Typo="Typo.h1">@L?["performance"]</MudText>
-            <MudText Typo="Typo.body1">@L?["performanceText"]</MudText>
-
-            <MudDivider/>
-            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton><br/>
-            <MudText Typo="Typo.caption">@L?["supportInfo"]</MudText>
-        </MudPaper>
+        <MudAlert Severity="Severity.Info">@L?["chartInfo"]</MudAlert>
+        @if (IsLoadingPriceData)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+        }
+        else
+        {
+            <InflationChart ChartData="@TotalPriceHistory"/>
+        }
     </MudItem>
 
     <MudItem xs="12">
         <MudPaper>
             <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
-            <RecentPriceChanges PriceChanges="@PriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
+            <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
         </MudPaper>
     </MudItem>
 </MudGrid>

@@ -37,11 +37,25 @@
                     }
                     else
                     {
-                        <RecentPriceChanges PriceChanges="@PriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
+                        <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
                     }
                 </MudPaper>
             </MudTabPanel>
 
+            <MudTabPanel Text="@L?["chart"]">
+                <MudPaper>
+                    <MudAlert Severity="Severity.Info">@L?["chartInfo"]</MudAlert>
+                    @if (IsLoadingPriceData)
+                    {
+                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+                    }
+                    else
+                    {
+                        <InflationChart ChartData="@TotalPriceHistory"/>
+                    }
+                </MudPaper>
+            </MudTabPanel>
+            
             <MudTabPanel Text="@L?["products"]">
                 <MudPaper>
                     @if (IsLoadingMeta)
