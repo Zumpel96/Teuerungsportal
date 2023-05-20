@@ -43,7 +43,9 @@ public static class GetRecentPriceChanges
                                   [productId], 
                                   [productName], 
                                   [categoryId], 
-                                  [categoryName], 
+                                  [categoryName],                                  
+                                  [storeId], 
+                                  [storeName], 
                                   [currentValue], 
                                   [previousValue], 
                                   [timestamp] 
