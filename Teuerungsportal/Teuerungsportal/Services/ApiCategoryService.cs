@@ -60,23 +60,11 @@ public class ApiCategoryService : CategoryService
 
         return data ?? new List<Product>();
     }
-
+    
     /// <inheritdoc />
-    public async Task<int> GetCategoryPriceChangesPages(Guid categoryId)
+    public async Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices");
-
-        response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<int>(responseBody);
-
-        return data;
-    }
-
-    /// <inheritdoc />
-    public async Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId, int page)
-    {
-        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();

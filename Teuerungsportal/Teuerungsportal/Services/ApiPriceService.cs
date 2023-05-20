@@ -13,23 +13,11 @@ public class ApiPriceService : PriceService
     {
         this.Client = client;
     }
-
+    
     /// <inheritdoc />
-    public async Task<int> GetPriceChangesPages()
+    public async Task<ICollection<Price>> GetPriceChanges()
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/prices");
-
-        response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<int>(responseBody);
-
-        return data;
-    }
-
-    /// <inheritdoc />
-    public async Task<ICollection<Price>> GetPriceChanges(int page)
-    {
-        var response = await this.Client.GetAsync($"{BaseUrl}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();

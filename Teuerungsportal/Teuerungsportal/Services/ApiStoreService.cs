@@ -70,21 +70,9 @@ public class ApiStoreService : StoreService
     }
 
     /// <inheritdoc />
-    public async Task<int> GetStorePriceChangesPages(Guid storeId)
+    public async Task<ICollection<Price>> GetStorePriceChanges(Guid storeId)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/prices");
-
-        response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<int>(responseBody);
-
-        return data;
-    }
-
-    /// <inheritdoc />
-    public async Task<ICollection<Price>> GetStorePriceChanges(Guid storeId, int page)
-    {
-        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();

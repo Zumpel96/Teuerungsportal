@@ -70,8 +70,6 @@ public partial class ProductOverview
         }
 
         this.CurrentProduct = loadedProduct;
-        this.PricePages = await this.CategoryService.GetCategoryPriceChangesPages(this.CurrentProduct.Id);
-        this.CurrentPricePage = 1;
 
         if (this.CurrentProduct.Category == null)
         {

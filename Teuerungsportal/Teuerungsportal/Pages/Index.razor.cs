@@ -2,7 +2,6 @@ namespace Teuerungsportal.Pages;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using MudBlazor;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
@@ -21,7 +20,9 @@ public partial class Index
 
     private int CurrentPricePage { get; set; }
 
-    private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+    private ICollection<Price> TotalPriceHistory { get; set; } = new List<Price>();
+    
+    private ICollection<Price> PaginatedPriceHistory { get; set; } = new List<Price>();
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
@@ -33,21 +34,16 @@ public partial class Index
 
         this.IsLoadingPriceData = true;
         this.CurrentPricePage = 1;
-        this.PricePages = await this.PriceService.GetPriceChangesPages();
-        this.PriceHistory = await this.PriceService.GetPriceChanges(this.CurrentPricePage);
+        this.TotalPriceHistory = await this.PriceService.GetPriceChanges();
+
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
+        this.PricePages = (int)Math.Ceiling((float)this.TotalPriceHistory.Count / 25);
         this.IsLoadingPriceData = false;
     }
 
-    private async Task OnPricePageChanged(int page)
+    private void OnPricePageChanged(int page)
     {
-        if (this.PriceService == null)
-        {
-            return;
-        }
-
         this.CurrentPricePage = page;
-        this.IsLoadingPriceData = true;
-        this.PriceHistory = await this.PriceService.GetPriceChanges(this.CurrentPricePage);
-        this.IsLoadingPriceData = false;
+        this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
     }
 }

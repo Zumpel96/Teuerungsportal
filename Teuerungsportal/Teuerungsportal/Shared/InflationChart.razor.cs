@@ -46,7 +46,7 @@ public partial class InflationChart
         }
 
         var storeData = this.ChartData.OrderBy(p => p.TimeStamp).GroupBy(p => p.Product!.Store!.Name).ToList();
-        if (storeData.Count > 1)
+        if (storeData.Count >= 1)
         {
             foreach (var store in storeData)
             {
