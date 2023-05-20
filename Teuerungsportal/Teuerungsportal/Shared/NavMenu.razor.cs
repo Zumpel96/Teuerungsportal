@@ -43,14 +43,13 @@ public partial class NavMenu
         this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad: true);
     }
     
-    private async Task Redirect()
+    private void Redirect()
     {
         if (this.NavigationManager == null)
         {
             return;
         }
 
-        await this.ToggleDrawer();
         this.NavigationManager.NavigateTo($"search/{this.Search}");
     }
 

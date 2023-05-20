@@ -6,8 +6,11 @@ using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
 
-public partial class Uncategorized
+public partial class Search
 {
+    [Parameter]
+    public string SearchString { get; set; } = string.Empty;
+    
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
@@ -33,10 +36,17 @@ public partial class Uncategorized
             return;
         }
 
+        if (this.SearchString == string.Empty)
+        {
+            return;
+        }
+
         this.IsLoading = true;
         this.Page = 1;
-        this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
-        this.NumberOfPages = await this.ProductService.GetProductsWithoutCategoryPages();
+
+        this.NumberOfPages = await this.ProductService.GetProductSearchPages(this.SearchString);
+        this.ProductList = await this.ProductService.GetProductsSearch(this.SearchString, this.Page);
+        
         this.IsLoading = false;
     }
 
@@ -49,7 +59,7 @@ public partial class Uncategorized
         
         this.Page = i;
         this.IsLoading = true;
-        this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
+        this.ProductList = await this.ProductService.GetProductsSearch(this.SearchString, this.Page);
         this.IsLoading = false;
     }
 

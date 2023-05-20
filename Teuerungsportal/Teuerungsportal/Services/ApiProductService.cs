@@ -82,6 +82,31 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
+    public async Task<int> GetProductSearchPages(string searchString)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Product>> GetProductsSearch(string searchString, int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}/{page}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<Product>>(responseBody);
+
+        return data ?? new List<Product>();
+    }
+
+    /// <inheritdoc />
     public async Task UpdateProductCategory(Guid productId, Guid categoryId)
     {
         var response = await this.Client.PostAsync($"{BaseUrl}/product/categories/update/{productId}/{categoryId}", null);
