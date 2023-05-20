@@ -30,3 +30,9 @@
 .mud-typography:focus-visible {
     outline: none!important;
 }
+
+@media (max-width: 600px) {
+    .mud-xs-table .mud-table-cell {
+        text-align: end!important;
+    }
+}

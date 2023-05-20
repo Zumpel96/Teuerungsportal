@@ -12,33 +12,34 @@
         }
         <MudTh>@L?["price"]</MudTh>
         <MudTh></MudTh>
-        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
-        <MudTd DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
+        <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
+        <MudTd Class="responsive-table-text" DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
         @if (!HideCategory)
         {
-            <MudTd DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
+            <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
         }
         @if (!HideStore)
         {
-            <MudTd DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
+            <MudTd Class="responsive-table-text" DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
         }
-        <MudTd DataLabel="@L?["price"]">@($"{Math.Round(context.CurrentValue, 2):N2}€")</MudTd>
-        <MudTd>
-            @if (context.PreviousValue == null)
-            {
-                <MudChip Variant="Variant.Text" Color="Color.Warning">@L?["new"]</MudChip>
-            }
-            else
-            {
-                var priceChange = context.CurrentValue - (double)context.PreviousValue;
-                var percentageChange = (100 / (double)context.PreviousValue * context.CurrentValue) - 100;
-                <MudChip Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudChip>
-            }
+        <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
+            <div>
+                @($"{Math.Round(context.CurrentValue, 2):N2}€")
+                @if (context.PreviousValue == null)
+                {
+                    <MudChip Variant="Variant.Text" Color="Color.Warning">@L?["new"]</MudChip>
+                }
+                else
+                {
+                    var priceChange = context.CurrentValue - (double)context.PreviousValue;
+                    var percentageChange = (100 / (double)context.PreviousValue * context.CurrentValue) - 100;
+                    <MudChip Class="ml-3" Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudChip>
+                }
+            </div>
         </MudTd>
-        <MudTd>
+        <MudTd Class="responsive-table-text">
             <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context.Product))"/>
         </MudTd>
     </RowTemplate>
