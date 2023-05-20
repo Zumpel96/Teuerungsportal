@@ -2,16 +2,18 @@
 
 <PageTitle>@L?["appName"] - @L?["store"]</PageTitle>
 
-@if (IsLoadingMeta)
-{
-    <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
-}
-else
-{
-    <MudBreadcrumbs Items="@Breadcrumbs"/>
-}
-
 <MudGrid>
+    <MudItem xs="12">
+        @if (IsLoadingMeta)
+        {
+            <MudSkeleton Width="20%" Height="2rem"/>
+        }
+        else
+        {
+            <MudBreadcrumbs Items="@Breadcrumbs"/>
+        }
+    </MudItem>
+
     <MudItem xs="12">
         @if (IsLoadingMeta)
         {
@@ -21,14 +23,14 @@ else
         {
             <MudText Typo="Typo.h1">@CurrentStore.Name</MudText>
         }
-        <MudAlert Severity="Severity.Info" Class="my-3">@L?["storeInfo"]</MudAlert>
+        <MudAlert Severity="Severity.Info">@L?["storeInfo"]</MudAlert>
         <MudDivider/>
     </MudItem>
 
     <MudItem xs="12">
         <MudTabs Rounded="true" ApplyEffectsToContainer="true">
             <MudTabPanel Text="@L?["recentPriceChanges"]">
-                <MudPaper Class="mud-width-full pa-3">
+                <MudPaper>
                     @if (IsLoadingMeta)
                     {
                         <MudSkeleton Width="100%" Height="20rem"/>
@@ -41,7 +43,7 @@ else
             </MudTabPanel>
 
             <MudTabPanel Text="@L?["products"]">
-                <MudPaper Class="mud-width-full pa-3">
+                <MudPaper>
                     @if (IsLoadingMeta)
                     {
                         <MudSkeleton Width="100%" Height="20rem"/>

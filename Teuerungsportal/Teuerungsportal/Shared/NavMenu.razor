@@ -1,22 +1,25 @@
-﻿<MudNavMenu>
-    <MudText Typo="Typo.h6" Class="pa-4">@L?["appName"]</MudText>
-    <MudDivider Class="mb-2"/>
-    
+﻿<MudNavMenu Rounded>
     <MudTextField Class="mx-2 mb-2" @bind-Value="@Search" Label="@L?["search"]" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" OnAdornmentClick="@Redirect"/>
 
+    <MudDivider/>
+
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
-    
+
     <MudNavGroup Title="@L?["products"]" Icon="@Icons.Material.Filled.ShoppingCart">
         <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">@L?["categories"]</MudNavLink>
         <MudNavLink Href="/products/uncategorized" Match="NavLinkMatch.Prefix">@L?["uncategorized"]</MudNavLink>
     </MudNavGroup>
-    
+
     <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
-    
+
+    <MudDivider/>
+
     <MudNavGroup Title="@L?["language"]" Icon="@Icons.Material.Filled.Flag">
         <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>
         <MudNavLink OnClick="@(() => ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
     </MudNavGroup>
-    
+
+    <MudNavLink Href="https://github.com/Zumpel96/Teuerungsportal" Match="NavLinkMatch.Prefix" Icon="@Icons.Custom.Brands.GitHub" Target="blank">@L?["source"]</MudNavLink>
+
     <MudNavLink Href="/impress" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">@L?["impress"]</MudNavLink>
 </MudNavMenu>

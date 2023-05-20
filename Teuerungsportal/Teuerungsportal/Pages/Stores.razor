@@ -1,27 +1,37 @@
 ﻿@page "/stores"
 
 <PageTitle>@L?["appName"] - @L?["stores"]</PageTitle>
-<MudText Typo="Typo.h1">@L?["stores"]</MudText>
-<MudAlert Severity="Severity.Info" Class="my-3">@L?["storesInfo"]</MudAlert>
-<MudDivider/>
 
-<div class="d-flex justify-center align-content-center flex-wrap">
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h1">@L?["stores"]</MudText>
+        <MudAlert Severity="Severity.Info">
+            <MudText Typo="Typo.body1">@L?["storesInfo"]</MudText>
+        </MudAlert>
+
+        <MudDivider/>
+    </MudItem>
+
     @if (IsLoading)
     {
         @for (var i = 0; i < 3; i++)
         {
-            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-                <MudSkeleton Width="40%" Height="3rem" />
-            </MudPaper>
+            <MudItem xs="12" md="6" xl="4">
+                <MudPaper>
+                    <MudSkeleton Width="40%" Height="3rem"/>
+                </MudPaper>
+            </MudItem>
         }
     }
     else
     {
         @foreach (var store in StoresList)
         {
-            <MudPaper Elevation="0" Class="ma-3 pa-3" Style="min-width: 20rem">
-                <MudLink Href=@($"/stores/{store.Name}") Typo="Typo.h3">@store.Name</MudLink>
-            </MudPaper>
+            <MudItem xs="12" md="6" xl="4">
+                <MudPaper>
+                    <MudLink Href=@($"/stores/{store.Name}") Typo="Typo.h2">@store.Name</MudLink>
+                </MudPaper>
+            </MudItem>
         }
     }
-</div>
+</MudGrid>

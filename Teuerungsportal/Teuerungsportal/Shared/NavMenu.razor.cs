@@ -10,6 +10,12 @@ using Teuerungsportal.Resources;
 
 public partial class NavMenu
 {
+    [Parameter]
+    public bool DrawerState { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> DrawerStateChanged { get; set; }
+
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
@@ -37,13 +43,20 @@ public partial class NavMenu
         this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad: true);
     }
     
-    private void Redirect()
+    private async Task Redirect()
     {
         if (this.NavigationManager == null)
         {
             return;
         }
-        
+
+        await this.ToggleDrawer();
         this.NavigationManager.NavigateTo($"search/{this.Search}");
+    }
+
+    private async Task ToggleDrawer()
+    {
+        this.DrawerState = !this.DrawerState;
+        await this.DrawerStateChanged.InvokeAsync(this.DrawerState);
     }
 }

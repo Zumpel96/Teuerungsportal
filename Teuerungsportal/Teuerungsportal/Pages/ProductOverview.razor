@@ -2,16 +2,18 @@
 
 <PageTitle>@L?["appName"] - @L?["product"]</PageTitle>
 
-@if (IsLoading)
-{
-    <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
-}
-else
-{
-    <MudBreadcrumbs Items="@ParentCategories"/>
-}
-
 <MudGrid>
+    <MudItem xs="12">
+        @if (IsLoading)
+        {
+            <MudSkeleton Class="my-2" Width="20%" Height="2rem"/>
+        }
+        else
+        {
+            <MudBreadcrumbs Items="@ParentCategories"/>
+        }
+    </MudItem>
+
     <MudItem xs="12">
         @if (IsLoading)
         {
@@ -21,91 +23,83 @@ else
         {
             <MudText Typo="Typo.h1">@CurrentProduct.Name</MudText>
         }
-        <MudAlert Severity="Severity.Info" Class="my-3">@L?["productInfo"]</MudAlert>
+        <MudAlert Severity="Severity.Info">@L?["productInfo"]</MudAlert>
         <MudDivider/>
     </MudItem>
 
     <MudItem xs="12" md="4">
-        <MudPaper Class="mud-width-full pa-3">
-            <MudText Typo="Typo.h3">@L?["metadata"]</MudText>
+        <MudPaper>
+            <MudText Typo="Typo.h2">@L?["metadata"]</MudText>
             <MudDivider/>
 
-            <div class="my-3">
-                <MudText Typo="Typo.h6">@L?["brand"]</MudText>
-                @if (IsLoading)
-                {
-                    <MudSkeleton Width="40%" Height="1rem"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.body1">@CurrentProduct.Brand</MudText>
-                }
-            </div>
-
-            <div class="my-3">
-                <MudText Typo="Typo.h6">@L?["store"]</MudText>
-                @if (IsLoading)
-                {
-                    <MudSkeleton Width="20%" Height="1rem"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.body1">@CurrentProduct.Store.Name</MudText>
-                }
-            </div>
-
-            <div class="my-3">
-                <MudText Typo="Typo.h6">@L?["articleNumber"]</MudText>
-                @if (IsLoading)
-                {
-                    <MudSkeleton Width="60%" Height="1rem"/>
-                }
-                else
-                {
-                    <MudText Typo="Typo.body1">@CurrentProduct.ArticleNumber</MudText>
-                }
-            </div>
-
-            <div class="my-3">
-                @if (CurrentProduct.Category != null || IsLoading)
-                {
-                    <MudText Typo="Typo.h6">@L?["category"]</MudText>
-                }
-                
-                @if (IsLoading)
-                {
-                    <MudSkeleton Width="80%" Height="1rem"/>
-                }
-                else
-                {
-                    @if (CurrentProduct.Category != null)
-                    {
-                        <MudText Typo="Typo.body1">@CurrentProduct.Category.Name</MudText>
-                    }
-                    else
-                    {
-                        <div class="d-flex justify-center align-content-center no-wrap">
-                            <MudAutocomplete T="string" Label="@L?["category"]" @bind-Value="@SelectedCategoryName" SearchFunc="@Search" ResetValueOnEmptyText coerceText/>
-                            <MudFab Class="ml-3" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Disabled="@(SelectedCategoryName == string.Empty)" OnClick="@SubmitCategory"/>
-                        </div>
-                    }
-                }
-            </div>
-
+            <MudText Typo="Typo.h3">@L?["brand"]</MudText>
             @if (IsLoading)
             {
-                <MudSkeleton Width="30%" Height="1rem"/>
+                <MudSkeleton Width="40%" Height="1rem"/>
             }
             else
             {
-                <MudLink Href="@($"{CurrentProduct.Store.BaseUrl}{CurrentProduct.Url}")" Typo="Typo.body1" Target="blank">@L["onlineShopLink"]</MudLink>
+                <MudText Typo="Typo.body1">@CurrentProduct.Brand</MudText>
+            }
+
+            <MudText Typo="Typo.h3" Class="mt-4">@L?["store"]</MudText>
+            @if (IsLoading)
+            {
+                <MudSkeleton Width="20%" Height="1rem"/>
+            }
+            else
+            {
+                <MudText Typo="Typo.body1">@CurrentProduct.Store.Name</MudText>
+            }
+
+            <MudText Typo="Typo.h3" Class="mt-4">@L?["articleNumber"]</MudText>
+            @if (IsLoading)
+            {
+                <MudSkeleton Width="60%" Height="1rem"/>
+            }
+            else
+            {
+                <MudText Typo="Typo.body1">@CurrentProduct.ArticleNumber</MudText>
+            }
+
+            @if (CurrentProduct.Category != null || IsLoading)
+            {
+                <MudText Typo="Typo.h3"  Class="mt-4">@L?["category"]</MudText>
+            }
+
+            @if (IsLoading)
+            {
+                <MudSkeleton Width="80%" Height="1rem"  Class="mt-4"/>
+            }
+            else
+            {
+                @if (CurrentProduct.Category != null)
+                {
+                    <MudText Typo="Typo.body1">@CurrentProduct.Category.Name</MudText>
+                }
+                else
+                {
+                    <div class="d-flex justify-center align-content-center no-wrap mt-4">
+                        <MudAutocomplete T="string" Label="@L?["category"]" @bind-Value="@SelectedCategoryName" SearchFunc="@Search" ResetValueOnEmptyText coerceText/>
+                        <MudFab Class="ml-3" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Disabled="@(SelectedCategoryName == string.Empty)" OnClick="@SubmitCategory"/>
+                    </div>
+                }
+            }
+
+            @if (IsLoading)
+            {
+                <MudSkeleton Width="30%" Height="1rem" Class="mt-4"/>
+            }
+            else
+            {
+                <MudLink  Class="mt-4" Href="@($"{CurrentProduct.Store.BaseUrl}{CurrentProduct.Url}")" Typo="Typo.body1" Target="blank">@L["onlineShopLink"]</MudLink>
             }
         </MudPaper>
     </MudItem>
 
     <MudItem xs="12" md="8">
-        <MudPaper Class="mud-width-full pa-3">
-            <MudText Typo="Typo.h3">@L?["history"]</MudText>
+        <MudPaper>
+            <MudText Typo="Typo.h2">@L?["history"]</MudText>
 
             @if (IsLoading)
             {
@@ -119,8 +113,8 @@ else
     </MudItem>
 
     <MudItem xs="12">
-        <MudPaper Class="mud-width-full pa-3">
-            <MudText Typo="Typo.h3">@L?["recentPriceChanges"]</MudText>
+        <MudPaper>
+            <MudText Typo="Typo.h2">@L?["recentPriceChanges"]</MudText>
 
             <RecentPriceChanges PriceChanges="@PriceHistory" Page="CurrentPricePage" NumberOfPages="PricePages" HideStore PageChanged="@OnPricePageChanged" IsLoading="IsLoading"/>
         </MudPaper>
