@@ -21,6 +21,7 @@ public static class GetRecentPriceChanges
                                   SELECT 
                                     [p].[id], 
                                     [p].[productId], 
+                                    [pr].[articleNumber], 
                                     [pr].[name] AS [productName], 
                                     [pr].[storeId], 
                                     [s].[name] AS [storeName], 
@@ -42,6 +43,7 @@ public static class GetRecentPriceChanges
                                 SELECT 
                                   [productId], 
                                   [productName], 
+                                  [articleNumber], 
                                   [categoryId], 
                                   [categoryName],                                  
                                   [storeId], 
