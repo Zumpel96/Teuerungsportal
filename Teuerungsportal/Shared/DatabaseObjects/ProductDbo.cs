@@ -19,4 +19,6 @@ public class ProductDbo
     public Guid? StoreId { get; set; }
 
     public string StoreName { get; set; } = string.Empty;
+    
+    public string StoreBaseUrl { get; set; } = string.Empty;
 }

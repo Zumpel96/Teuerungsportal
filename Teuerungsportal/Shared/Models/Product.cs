@@ -40,6 +40,7 @@ public class Product
                        {
                            Id = (Guid)dbo.StoreId,
                            Name = dbo.StoreName,
+                           BaseUrl = dbo.StoreBaseUrl,
                        };
 
         this.Category = dbo.CategoryId == null
