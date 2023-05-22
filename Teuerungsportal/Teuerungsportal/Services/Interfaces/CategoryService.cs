@@ -7,6 +7,8 @@ public interface CategoryService
     public Task<Category?> GetCategory(string categoryName);
     
     public Task<ICollection<Category>> GetCategories();
+    
+    public Task<ICollection<Category>> GetUngroupedCategories();
 
     public Task<int> GetCategoryProductPages(Guid categoryId);
     

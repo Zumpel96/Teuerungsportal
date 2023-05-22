@@ -73,7 +73,7 @@ public partial class ProductOverview
 
         if (this.CurrentProduct.Category == null)
         {
-            this.AllCategories = await this.CategoryService.GetCategories();
+            this.AllCategories = await this.CategoryService.GetUngroupedCategories();
         }
 
         this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"stores"));

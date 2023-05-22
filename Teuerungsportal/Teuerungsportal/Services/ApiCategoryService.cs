@@ -38,6 +38,17 @@ public class ApiCategoryService : CategoryService
     }
 
     /// <inheritdoc />
+    public async Task<ICollection<Category>> GetUngroupedCategories()
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/ungrouped");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<ICollection<Category>>(responseBody);
+        return data == null ? new List<Category>() : data.OrderBy(c => c.Name).ToList();
+    }
+
+    /// <inheritdoc />
     public async Task<int> GetCategoryProductPages(Guid categoryId)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/products");
