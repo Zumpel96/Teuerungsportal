@@ -189,4 +189,10 @@
     <data name="citationText" xml:space="preserve">
         <value>Diese Platform dient einzig und allein der Information und stützt sich auf das österreichische Zitatrecht, da keine geschützten Werke in Bild- oder Tonform von den Seiten Dritter gespeichert, abgefragt oder verbreitet werden. Ausschließlich der Preis, als auch der Artikelname und die Produktnummer werden unter den folgenden Sachverhalt verwendet: 1. Der Zweck des Preiszitats ist die Protokollierung und Visualisierung; 2. Als Quelle wird ein direkter Link zum Produkt eingebunden; 3. Der Umfang umfasst ausschließlich für den genannten Zweck; 4. Das Zitat bezieht sich ausschließlich auf die oben genannten Punkte (Preis, Produktname und Produktnummer); 5. Aufgrund des Fair-Use-Prinzips werden keine geschützten Werke der Betreiber verwendet, um deren Rechte zu schützen.</value>
     </data>
+    <data name="cookieConsent" xml:space="preserve">
+        <value>Wir verwenden Cookies</value>
+    </data>
+    <data name="cookieConsentText" xml:space="preserve">
+        <value>Aber nur welche, die wirklich für Ihre aktuelle Sitzung benötigt werden. Keine Tracker, keine Google Fonts, oder ähnliches. </value>
+    </data>
 </root>

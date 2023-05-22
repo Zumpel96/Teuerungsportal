@@ -1,10 +1,14 @@
 namespace Teuerungsportal.Pages;
 
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
+using MudBlazor;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
+using Teuerungsportal.Shared;
 
 public partial class Index
 {
@@ -14,6 +18,12 @@ public partial class Index
     [Inject]
     private PriceService? PriceService { get; set; }
 
+    [Inject]
+    private IDialogService? DialogService { get; set; }
+    
+    [Inject]
+    private ILocalStorageService? LocalStorageService { get; set; }
+    
     private bool IsLoadingPriceData { get; set; }
 
     private int PricePages { get; set; }
@@ -30,6 +40,29 @@ public partial class Index
         if (this.PriceService == null)
         {
             return;
+        }
+
+        if (this.DialogService == null)
+        {
+            return;
+        }
+
+        if (this.L == null)
+        {
+            return;
+        }
+
+        if (this.LocalStorageService == null)
+        {
+            return;
+        }
+
+        var cookieConsentShown = await this.LocalStorageService.GetItemAsync<bool>("cookieConsent");
+        if (!cookieConsentShown)
+        {
+            var options = new DialogOptions { CloseOnEscapeKey = true };
+            await this.DialogService.ShowAsync<CookieConsent>(this.L["cookieConsent"], options);
+            await this.LocalStorageService.SetItemAsync("cookieConsent", true);
         }
 
         this.IsLoadingPriceData = true;
