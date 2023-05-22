@@ -109,7 +109,7 @@ public class ApiProductService : ProductService
     /// <inheritdoc />
     public async Task UpdateProductCategory(Guid productId, Guid categoryId)
     {
-        var response = await this.Client.PostAsync($"{BaseUrl}/product/categories/update/{productId}/{categoryId}", null);
+        var response = await this.Client.PostAsync($"{BaseUrl}/products/{productId}/category/{categoryId}", null);
         response.EnsureSuccessStatusCode();
     }
 }
