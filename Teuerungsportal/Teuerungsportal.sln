@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractors", "Extractors\Extractors.csproj", "{961E10CD-67DD-4D6E-9560-6061E913AE56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C319261-AC1C-4047-8130-0CC1AD9E7D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{961E10CD-67DD-4D6E-9560-6061E913AE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{961E10CD-67DD-4D6E-9560-6061E913AE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{961E10CD-67DD-4D6E-9560-6061E913AE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{961E10CD-67DD-4D6E-9560-6061E913AE56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
