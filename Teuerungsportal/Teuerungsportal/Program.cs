@@ -20,6 +20,7 @@ builder.Services.AddScoped<StoreService, ApiStoreService>();
 builder.Services.AddScoped<CategoryService, ApiCategoryService>();
 builder.Services.AddScoped<ProductService, ApiProductService>();
 builder.Services.AddScoped<PriceService, ApiPriceService>();
+builder.Services.AddScoped<DonatorService, ApiDonatorService>();
 
 var host = builder.Build();
 await host.SetDefaultCulture();
