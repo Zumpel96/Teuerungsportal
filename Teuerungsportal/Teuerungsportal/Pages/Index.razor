@@ -3,6 +3,22 @@
 <PageTitle>@L?["appName"]</PageTitle>
 
 <MudGrid>
+    @if (Announcement != null)
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
+                @if (L?["currLang"] == "de")
+                {
+                    @Announcement.ContentDe
+                }
+                else
+                {
+                    @Announcement.ContentEn
+                }
+            </MudAlert>
+        </MudItem>
+    }
+
     <MudItem xs="12" lg="6">
         <MudGrid>
             <MudItem xs="12">

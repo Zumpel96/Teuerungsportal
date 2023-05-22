@@ -195,4 +195,7 @@
     <data name="cookieConsentText" xml:space="preserve">
         <value>However, only those that are truly necessary for your current session will be used. No trackers, no Google Fonts, or similar elements will be utilized.</value>
     </data>
+    <data name="currLang" xml:space="preserve">
+        <value>en</value>
+    </data>
 </root>

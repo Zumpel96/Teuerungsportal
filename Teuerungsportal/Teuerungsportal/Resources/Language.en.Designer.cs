@@ -204,6 +204,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to en.
+        /// </summary>
+        internal static string currLang {
+            get {
+                return ResourceManager.GetString("currLang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string dashboard {
