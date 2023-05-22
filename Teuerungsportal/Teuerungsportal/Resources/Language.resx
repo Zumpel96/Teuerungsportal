@@ -195,4 +195,7 @@
     <data name="cookieConsentText" xml:space="preserve">
         <value>Aber nur welche, die wirklich für Ihre aktuelle Sitzung benötigt werden. Keine Tracker, keine Google Fonts, oder ähnliches. </value>
     </data>
+    <data name="currLang" xml:space="preserve">
+        <value>de</value>
+    </data>
 </root>
