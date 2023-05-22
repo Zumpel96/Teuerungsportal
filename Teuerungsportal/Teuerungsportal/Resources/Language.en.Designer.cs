@@ -186,6 +186,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We use Cookies.
+        /// </summary>
+        internal static string cookieConsent {
+            get {
+                return ResourceManager.GetString("cookieConsent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to However, only those that are truly necessary for your current session will be used. No trackers, no Google Fonts, or similar elements will be utilized..
+        /// </summary>
+        internal static string cookieConsentText {
+            get {
+                return ResourceManager.GetString("cookieConsentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string dashboard {
