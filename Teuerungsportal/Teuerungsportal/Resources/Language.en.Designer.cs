@@ -168,6 +168,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Citation.
+        /// </summary>
+        internal static string citation {
+            get {
+                return ResourceManager.GetString("citation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This platform solely serves the purpose of providing information and relies on the Austrian citation right, as no protected works in the form of images or audio are stored, accessed, or distributed from third-party sources. Only the price, article name, and product number are used under the following circumstances: 1. The purpose of price citation is for documentation and visualization; 2. A direct link to the product is provided as the source; 3. The scope is limited strictly to the mentioned purpose; 4. T [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string citationText {
+            get {
+                return ResourceManager.GetString("citationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string dashboard {
@@ -227,6 +245,24 @@ namespace Teuerungsportal.Resources {
         internal static string language {
             get {
                 return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Liablitiy Notice.
+        /// </summary>
+        internal static string liability {
+            get {
+                return ResourceManager.GetString("liability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Despite careful content control, we assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content..
+        /// </summary>
+        internal static string liabilityText {
+            get {
+                return ResourceManager.GetString("liabilityText", resourceCulture);
             }
         }
         

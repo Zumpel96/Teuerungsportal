@@ -177,4 +177,16 @@
     <data name="source" xml:space="preserve">
         <value>Source Code</value>
     </data>
+    <data name="liabilityText" xml:space="preserve">
+        <value>Despite careful content control, we assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content.</value>
+    </data>
+    <data name="liability" xml:space="preserve">
+        <value>Liablitiy Notice</value>
+    </data>
+    <data name="citation" xml:space="preserve">
+        <value>Citation</value>
+    </data>
+    <data name="citationText" xml:space="preserve">
+        <value>This platform solely serves the purpose of providing information and relies on the Austrian citation right, as no protected works in the form of images or audio are stored, accessed, or distributed from third-party sources. Only the price, article name, and product number are used under the following circumstances: 1. The purpose of price citation is for documentation and visualization; 2. A direct link to the product is provided as the source; 3. The scope is limited strictly to the mentioned purpose; 4. The citation exclusively pertains to the aforementioned points (price, product name, and product number); 5. Due to the fair use principle, no protected works of the operators are used to protect their rights.</value>
+    </data>
 </root>
