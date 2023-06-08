@@ -22,7 +22,9 @@ public static class GetStores
                                   [name], 
                                   [baseUrl]
                                 FROM 
-                                  [dbo].[store]",
+                                  [dbo].[store]
+                                WHERE
+                                  [hidden] = 0;",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<StoreDbo> stores)

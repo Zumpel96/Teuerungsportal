@@ -21,8 +21,12 @@ public static class GetStoreProductsPages
                                   COUNT([p].[id]) AS [count]
                                 FROM 
                                   [dbo].[product] [p]
+                                JOIN
+                                  [dbo].[store] [s] ON [p].[storeId] = [s].[id]
                                 WHERE 
-                                  LOWER([p].[storeId]) = LOWER(@storeId);",
+                                  LOWER([p].[storeId]) = LOWER(@storeId)
+                                AND
+                                  [s].[hidden] = 0;",
                 parameters: "@storeId={storeId}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]

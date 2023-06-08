@@ -30,7 +30,9 @@ public static class GetProductsSearch
                                   [dbo].[product] [p] 
                                   JOIN [dbo].[store] [s] ON [p].[storeId] = [s].[Id] 
                                 WHERE                                   
-                                  LOWER([p].[name]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[brand]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[articleNumber]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37)))
+                                  (LOWER([p].[name]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[brand]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[articleNumber]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))))
+                                AND
+                                  [s].[hidden] = 0
                                 ORDER BY 
                                   [p].[name] 
                                 OFFSET 

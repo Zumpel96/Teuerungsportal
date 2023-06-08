@@ -24,7 +24,9 @@ public static class GetStore
                                 FROM 
                                   [dbo].[store] 
                                 WHERE 
-                                  LOWER([name]) = LOWER(@storeName);",
+                                  LOWER([name]) = LOWER(@storeName)
+                                AND
+                                  [hidden] = 0;",
                 parameters: "@storeName={storeName}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]

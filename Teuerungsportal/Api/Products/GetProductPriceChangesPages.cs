@@ -21,8 +21,12 @@ public static class GetProductPriceChangesPages
                                   COUNT([p].[id]) AS [count]
                                 FROM 
                                   [dbo].[price] [p] 
+                                JOIN
+                                  [dbo].[store] [s] ON [p].[storeId] = [s].[Id] 
                                 WHERE 
-                                  LOWER([productId]) = LOWER(@productId);",
+                                  LOWER([productId]) = LOWER(@productId)
+                                AND
+                                  [s].[hidden] = 0;",
                 parameters: "@productId={productId}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
