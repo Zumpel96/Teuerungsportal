@@ -37,6 +37,10 @@ public partial class Index
 
     private ICollection<Price> TotalPriceHistory { get; set; } = new List<Price>();
     
+    private ICollection<Price> WorstPriceChanges { get; set; } = new List<Price>();
+    
+    private ICollection<Price> TopPriceChanges { get; set; } = new List<Price>();
+    
     private ICollection<Price> PaginatedPriceHistory { get; set; } = new List<Price>();
 
     /// <inheritdoc />
@@ -74,6 +78,8 @@ public partial class Index
         
         this.CurrentPricePage = 1;
         this.TotalPriceHistory = await this.PriceService.GetPriceChanges();
+        this.TopPriceChanges = await this.PriceService.GetTopPriceChanges();
+        this.WorstPriceChanges = await this.PriceService.GetWorstPriceChanges();
 
         this.PaginatedPriceHistory = this.TotalPriceHistory.Skip((this.CurrentPricePage - 1) * 25).Take(25).ToList();
         this.PricePages = (int)Math.Ceiling((float)this.TotalPriceHistory.Count / 25);
@@ -86,7 +92,7 @@ public partial class Index
             await this.DialogService.ShowAsync<CookieConsent>(this.L["cookieConsent"], options);
             await this.LocalStorageService.SetItemAsync("cookieConsent", true);
         }
-        
+
         this.IsLoadingPriceData = false;
     }
 

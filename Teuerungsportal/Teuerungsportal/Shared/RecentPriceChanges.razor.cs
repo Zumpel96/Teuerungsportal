@@ -28,6 +28,12 @@ public partial class RecentPriceChanges
     public bool HideCategory { get; set; }
 
     [Parameter]
+    public bool HideDate { get; set; }
+
+    [Parameter]
+    public bool HidePagination { get; set; }
+
+    [Parameter]
     public bool HideStore { get; set; }
 
     [Parameter]

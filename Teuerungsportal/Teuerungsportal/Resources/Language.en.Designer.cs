@@ -348,6 +348,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sadly, there have not been any price changes in the last 24 hours which would affect consumers positively..
+        /// </summary>
+        internal static string noTopChanges {
+            get {
+                return ResourceManager.GetString("noTopChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yay! No price increases in the last 24 hours..
+        /// </summary>
+        internal static string noWorstChanges {
+            get {
+                return ResourceManager.GetString("noWorstChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To the Online Shop.
         /// </summary>
         internal static string onlineShopLink {
@@ -546,6 +564,24 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Top Changes.
+        /// </summary>
+        internal static string topChanges {
+            get {
+                return ResourceManager.GetString("topChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This overview shows the up to 10 worst price changes in the last 24 hours..
+        /// </summary>
+        internal static string topChangesInfo {
+            get {
+                return ResourceManager.GetString("topChangesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         internal static string total {
@@ -596,6 +632,24 @@ namespace Teuerungsportal.Resources {
         internal static string welcomeText {
             get {
                 return ResourceManager.GetString("welcomeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worst Changes.
+        /// </summary>
+        internal static string worstChanges {
+            get {
+                return ResourceManager.GetString("worstChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This overview shows the up to 10 worst price changes in the last 24 hours..
+        /// </summary>
+        internal static string worstChangesInfo {
+            get {
+                return ResourceManager.GetString("worstChangesInfo", resourceCulture);
             }
         }
     }
