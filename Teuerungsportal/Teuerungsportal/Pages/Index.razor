@@ -54,6 +54,46 @@
     </MudItem>
 
     <MudItem xs="12">
+        <MudGrid>
+            <MudItem xs="12" lg="6">
+                <MudPaper>
+                    <MudText Typo="Typo.h1">@L?["topChanges"]</MudText>
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">@L?["topChangesInfo"]</MudAlert>
+
+                    @if (TopPriceChanges.Any() || IsLoadingPriceData)
+                    {
+                        <RecentPriceChanges PriceChanges="@TopPriceChanges" Page="1" NumberOfPages="1" HideDate HidePagination HideCategory IsLoading="@IsLoadingPriceData"/>
+                    }
+                    else
+                    {
+                        <MudText Class="mt-3">
+                            @L?["noTopChanges"]
+                        </MudText>
+                    }
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" lg="6">
+                <MudPaper>
+                    <MudText Typo="Typo.h1">@L?["worstChanges"]</MudText>
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">@L?["worstChangesInfo"]</MudAlert>
+
+                    @if (WorstPriceChanges.Any() || IsLoadingPriceData)
+                    {
+                        <RecentPriceChanges PriceChanges="@WorstPriceChanges" Page="1" NumberOfPages="1" HideDate HidePagination HideCategory IsLoading="@IsLoadingPriceData"/>
+                    }
+                    else
+                    {
+                        <MudText Class="mt-3">
+                            @L?["noWorstChanges"]
+                        </MudText>
+                    }
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
+    <MudItem xs="12">
         <MudPaper>
             <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
             <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>

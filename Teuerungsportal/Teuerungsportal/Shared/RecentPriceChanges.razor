@@ -1,6 +1,9 @@
 ﻿<MudTable Items="@PriceChanges" Hover="true" Loading="@IsLoading">
     <HeaderContent>
-        <MudTh>@L?["changeDateTime"]</MudTh>
+        @if (!HideDate)
+        {
+            <MudTh>@L?["changeDateTime"]</MudTh>
+        }
         <MudTh>@L?["productName"]</MudTh>
         @if (!HideCategory)
         {
@@ -14,7 +17,10 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
+        @if (!HideDate)
+        {
+            <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
+        }
         <MudTd Class="responsive-table-text" DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
         @if (!HideCategory)
         {
@@ -44,6 +50,9 @@
         </MudTd>
     </RowTemplate>
     <PagerContent>
-        <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+        @if(!HidePagination)
+        {
+            <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+        }
     </PagerContent>
 </MudTable>
