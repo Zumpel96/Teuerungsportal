@@ -20,9 +20,13 @@ public static class GetProductsWithoutCategoryPages
                                 SELECT 
                                   COUNT(*) AS [count] 
                                 FROM 
-                                  [dbo].[product] 
+                                  [dbo].[product] [p]
+                                JOIN 
+                                  [dbo].[store] [s] ON [p].[storeId] = [s].[Id] 
                                 WHERE 
-                                  [categoryId] IS NULL;",
+                                  [p].[categoryId] IS NULL
+                                AND
+                                  [s].[hidden] = 0;",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<CountDbo> count)

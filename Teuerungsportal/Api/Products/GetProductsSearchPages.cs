@@ -21,8 +21,12 @@ public static class GetProductsSearchPages
                                   COUNT([p].[id]) AS [count]
                                 FROM 
                                   [dbo].[product] [p] 
+                                JOIN
+                                  [dbo].[store] [s]  ON [p].[storeId] = [s].[Id] 
                                 WHERE 
-                                  LOWER([p] .[name]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p] .[brand]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[articleNumber]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37)));",
+                                  (LOWER([p].[name]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[brand]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))) OR LOWER([p].[articleNumber]) LIKE LOWER(CONCAT(CHAR(37), @searchString, CHAR(37))))
+                                AND
+                                  [s].[hidden] = 0;",
                 parameters: "@searchString={searchString}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]

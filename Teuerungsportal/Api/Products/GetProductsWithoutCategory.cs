@@ -31,6 +31,8 @@ public static class GetProductsWithoutCategory
                                   JOIN [dbo].[store] [s] ON [p].[storeId] = [s].[Id] 
                                 WHERE 
                                   [p].[categoryId] IS NULL 
+                                AND
+                                  [s].[hidden] = 0
                                 ORDER BY 
                                   [p].[name] 
                                 OFFSET 

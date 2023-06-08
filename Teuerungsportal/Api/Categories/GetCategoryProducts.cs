@@ -89,6 +89,8 @@ public static class GetCategoryProducts
                                   [dbo].[product] [p] 
 								                  JOIN [recursive_categories] [c] ON [c].[id] = [p].[categoryId] 
                                   LEFT JOIN [dbo].[store] [s] ON [p].[storeId] = [s].[Id]
+                                WHERE
+                                  [s].[hidden] = 0
                                 ORDER BY 
                                   [p].[name]
                                 OFFSET 

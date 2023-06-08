@@ -39,6 +39,8 @@ public static class GetRecentPriceChanges
                                     JOIN [dbo].[product] [pr] ON [p].[productId] = [pr].[id] 
                                     JOIN [dbo].[store] [s] ON [pr].[storeId] = [s].[id] 
                                     LEFT JOIN [dbo].[category] [c] ON [pr].[categoryId] = [c].[id]
+                                  WHERE
+                                    [s].[hidden] = 0
                                 ) 
                                 SELECT 
                                   [productId], 

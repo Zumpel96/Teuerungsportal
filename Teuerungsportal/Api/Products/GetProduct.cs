@@ -34,6 +34,7 @@ public static class GetProduct
                                   LEFT JOIN [dbo].[category] [c] ON [p].[categoryId] = [c].[Id] 
                                 WHERE 
                                   LOWER([s].[name]) = LOWER(@storeName) 
+                                  AND [s].[hidden] = 0
                                   AND LOWER([p].[articleNumber]) = LOWER(@articleNumber);",
                 parameters: "@storeName={storeName},@articleNumber={articleNumber}",
                 commandType: System.Data.CommandType.Text,

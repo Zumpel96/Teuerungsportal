@@ -55,7 +55,10 @@ public static class GetCategoryProductsPages
                                   COUNT(*) as [count]
                                 FROM 
                                   [dbo].[product] [p] 
-								                  JOIN [recursive_categories] [c] ON [c].[id] = [p].[categoryId];",
+								                  JOIN [recursive_categories] [c] ON [c].[id] = [p].[categoryId]
+                                  JOIN [dbo].[store] [s] ON [s].[id] = [p].[storeId]
+                                WHERE
+                                  [s].[hidden] = 0;",
                 parameters: "@categoryId={categoryId}",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]

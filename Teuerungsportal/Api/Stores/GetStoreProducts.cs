@@ -33,6 +33,8 @@ public static class GetStoreProducts
                                   LEFT JOIN [dbo].[category] [c] ON [p].[categoryId] = [c].[Id] 
                                 WHERE 
                                   LOWER([p].[storeId]) = LOWER(@storeId)
+                                AND
+                                  [s].[hidden] = 0
                                 ORDER BY 
                                   [p].[name]
                                 OFFSET 
