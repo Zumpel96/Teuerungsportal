@@ -22,9 +22,11 @@ public static class GetProductPriceChangesPages
                                 FROM 
                                   [dbo].[price] [p] 
                                 JOIN
-                                  [dbo].[store] [s] ON [p].[storeId] = [s].[Id] 
+                                  [dbo].[product] [pr] ON [pr].[id] = [p].[productId] 
+                                JOIN
+                                  [dbo].[store] [s] ON [pr].[storeId] = [s].[Id] 
                                 WHERE 
-                                  LOWER([productId]) = LOWER(@productId)
+                                  LOWER([p].[productId]) = LOWER(@productId)
                                 AND
                                   [s].[hidden] = 0;",
                 parameters: "@productId={productId}",
