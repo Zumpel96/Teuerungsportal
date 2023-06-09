@@ -199,16 +199,13 @@
         <value>de</value>
     </data>
     <data name="topChanges" xml:space="preserve">
-        <value>Top Änderungen</value>
+        <value>Größte Änderungen</value>
     </data>
     <data name="worstChanges" xml:space="preserve">
         <value>Schlechteste Änderungen</value>
     </data>
-    <data name="worstChangesInfo" xml:space="preserve">
-        <value>Diese Übersicht zeigt die bis zu 10 besten Preisänderungen der letzten 24 Stunden.</value>
-    </data>
     <data name="topChangesInfo" xml:space="preserve">
-        <value>Diese Übersicht zeigt die bis zu 10 besten Preisänderungen der letzten 24 Stunden.</value>
+        <value>Diese Übersicht zeigt die bis zu 5 größten Preisänderungen der letzten 24 Stunden.</value>
     </data>
     <data name="noTopChanges" xml:space="preserve">
         <value>Leider gab es in den letzten 24 Stunden keine Preisänderungen, die für KonsumentInnen erfreulich wären.</value>
@@ -218,5 +215,14 @@
     </data>
     <data name="priceChanges" xml:space="preserve">
         <value>Preisänderungen</value>
+    </data>
+    <data name="increases" xml:space="preserve">
+        <value>Erhöhungen</value>
+    </data>
+    <data name="decreases" xml:space="preserve">
+        <value>Senkungen</value>
+    </data>
+    <data name="priceChange" xml:space="preserve">
+        <value>Änderung</value>
     </data>
 </root>

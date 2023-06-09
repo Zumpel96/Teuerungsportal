@@ -43,7 +43,7 @@ public static class GetWorstPriceChanges
                                     [s].[hidden] = 0
                                 ) 
                                 SELECT 
-								  TOP (10)
+								  TOP (5)
                                   [productId], 
                                   [productName], 
                                   [articleNumber], 

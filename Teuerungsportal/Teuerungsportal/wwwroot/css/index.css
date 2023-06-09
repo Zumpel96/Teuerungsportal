@@ -27,6 +27,10 @@
     padding: 32px!important;
 }
 
+.mud-alert {
+    margin-bottom: 32px !important;
+}
+
 .mud-typography:focus-visible {
     outline: none!important;
 }
