@@ -36,3 +36,15 @@
         text-align: end!important;
     }
 }
+
+.loading-bg {
+    width: 100vw;
+    height: 100vh;
+    background-color: #32333D;
+}
+
+.loading-logo {
+    width: 80%;
+    height: auto;
+    max-width: 10rem;
+}
