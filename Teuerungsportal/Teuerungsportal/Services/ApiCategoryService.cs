@@ -71,11 +71,23 @@ public class ApiCategoryService : CategoryService
 
         return data ?? new List<Product>();
     }
-    
+
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId)
+    public async Task<int> GetCategoryPriceChangesPages(Guid categoryId)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId, int page)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
@@ -83,5 +95,18 @@ public class ApiCategoryService : CategoryService
         var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
 
         return data ?? new List<Price>();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<InflationData>> GetCategoryInflationData(Guid categoryId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/categories/{categoryId}/chart");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<InflationData>>(responseBody);
+
+        return data ?? new List<InflationData>();
     }
 }

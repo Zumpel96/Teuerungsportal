@@ -58,6 +58,18 @@ public class ApiStoreService : StoreService
     }
 
     /// <inheritdoc />
+    public async Task<int> GetStorePriceChangesPages(Guid storeId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/prices");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<int>(responseBody);
+
+        return data;
+    }
+
+    /// <inheritdoc />
     public async Task<ICollection<Product>> GetStoreProducts(Guid storeId, int page)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/products/{page}");
@@ -70,14 +82,27 @@ public class ApiStoreService : StoreService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetStorePriceChanges(Guid storeId)
+    public async Task<ICollection<Price>> GetStorePriceChanges(Guid storeId, int page)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/prices");
+        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/prices/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
         var data = JsonConvert.DeserializeObject<ICollection<Price>>(responseBody);
 
         return data ?? new List<Price>();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<InflationData>> GetStoreInflationData(Guid storeId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/stores/{storeId}/chart");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<InflationData>>(responseBody);
+
+        return data ?? new List<InflationData>();
     }
 }

@@ -87,14 +87,14 @@
                     }
                     else
                     {
-                        <InflationChart ChartData="@TotalPriceHistory"/>
+                        <InflationTransitionChart ChartData="@InflationHistory"/>
                     }
                 </MudPaper>
             </MudTabPanel>
 
             <MudTabPanel Text="@L?["recentPriceChanges"]">
                 <MudPaper>
-                    <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
+                    <RecentPriceChanges PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
                 </MudPaper>
             </MudTabPanel>
 

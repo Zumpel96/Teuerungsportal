@@ -22,6 +22,7 @@ builder.Services.AddScoped<ProductService, ApiProductService>();
 builder.Services.AddScoped<PriceService, ApiPriceService>();
 builder.Services.AddScoped<DonatorService, ApiDonatorService>();
 builder.Services.AddScoped<AnnouncementService, ApiAnnouncementService>();
+builder.Services.AddScoped<InflationDataService, ApiInflationDataService>();
 
 var host = builder.Build();
 await host.SetDefaultCulture();

@@ -225,4 +225,10 @@
     <data name="priceChange" xml:space="preserve">
         <value>Change</value>
     </data>
+    <data name="priceHistory" xml:space="preserve">
+        <value>Price History</value>
+    </data>
+    <data name="inflation" xml:space="preserve">
+        <value>Inflation</value>
+    </data>
 </root>

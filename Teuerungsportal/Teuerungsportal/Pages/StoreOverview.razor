@@ -37,7 +37,7 @@
                     }
                     else
                     {
-                        <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
+                        <RecentPriceChanges PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
                     }
                 </MudPaper>
             </MudTabPanel>
@@ -51,7 +51,7 @@
                     }
                     else
                     {
-                        <InflationChart ChartData="@TotalPriceHistory"/>
+                        <InflationTransitionChart ChartData="@InflationHistory"/>
                     }
                 </MudPaper>
             </MudTabPanel>

@@ -285,6 +285,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inflation.
+        /// </summary>
+        internal static string inflation {
+            get {
+                return ResourceManager.GetString("inflation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         internal static string language {
@@ -452,6 +461,15 @@ namespace Teuerungsportal.Resources {
         internal static string priceChanges {
             get {
                 return ResourceManager.GetString("priceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price History.
+        /// </summary>
+        internal static string priceHistory {
+            get {
+                return ResourceManager.GetString("priceHistory", resourceCulture);
             }
         }
         
