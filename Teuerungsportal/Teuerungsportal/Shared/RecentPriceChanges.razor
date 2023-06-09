@@ -14,6 +14,7 @@
             <MudTh>@L?["store"]</MudTh>
         }
         <MudTh>@L?["price"]</MudTh>
+        <MudTh>@L?["priceChange"]</MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -31,8 +32,10 @@
             <MudTd Class="responsive-table-text" DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
         }
         <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
+            @($"{Math.Round(context.CurrentValue, 2):N2}€")
+        </MudTd>
+        <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
             <div>
-                @($"{Math.Round(context.CurrentValue, 2):N2}€")
                 @if (context.PreviousValue == null)
                 {
                     <MudChip Variant="Variant.Text" Color="Color.Warning">@L?["new"]</MudChip>
@@ -41,7 +44,21 @@
                 {
                     var priceChange = context.CurrentValue - (double)context.PreviousValue;
                     var percentageChange = (100 / (double)context.PreviousValue * context.CurrentValue) - 100;
-                    <MudChip Class="ml-3" Variant="Variant.Text" Color="@(priceChange < 0 ? Color.Success : Color.Error)">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudChip>
+                    var increased = priceChange > 0;
+                    <MudChip Variant="Variant.Text" Color="@(!increased ? Color.Success : Color.Error)">
+                        <div>
+                            @if (increased)
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowUpward" Size="Size.Small"/>
+                            }
+                            else
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowDownward"/>
+                            }
+                        </div>
+
+                        <MudText Typo="Typo.caption" Class="ml-1">@($"{Math.Abs(Math.Round(priceChange, 2)):N2}€ | {Math.Abs(Math.Round(percentageChange, 2)):N2}%")</MudText>
+                    </MudChip>
                 }
             </div>
         </MudTd>
@@ -50,7 +67,7 @@
         </MudTd>
     </RowTemplate>
     <PagerContent>
-        @if(!HidePagination)
+        @if (!HidePagination)
         {
             <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
         }

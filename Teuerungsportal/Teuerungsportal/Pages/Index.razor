@@ -19,30 +19,7 @@
         </MudItem>
     }
 
-    <MudItem xs="12" lg="6">
-        <MudGrid>
-            <MudItem xs="12">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["welcome"]</MudText>
-                    <MudText Typo="Typo.body1">@L?["welcomeText"]</MudText>
-                </MudPaper>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["performance"]</MudText>
-                    <MudText Typo="Typo.body1">@L?["performanceText"]</MudText>
-
-                    <MudDivider/>
-                    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton><br/>
-                    <MudText Typo="Typo.caption">@L?["supportInfo"]</MudText>
-                </MudPaper>
-            </MudItem>
-        </MudGrid>
-    </MudItem>
-
-    <MudItem xs="12" lg="6">
-        <MudAlert Severity="Severity.Info">@L?["chartInfo"]</MudAlert>
+    <MudItem xs="12">
         @if (IsLoadingPriceData)
         {
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
@@ -53,13 +30,29 @@
         }
     </MudItem>
 
-    <MudItem xs="12">
-        <MudGrid>
-            <MudItem xs="12" lg="6">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["topChanges"]</MudText>
-                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">@L?["topChangesInfo"]</MudAlert>
+    <MudItem xs="12" lg="4">
+        <MudPaper>
+            <MudText Typo="Typo.h1">@L?["welcome"]</MudText>
+            <MudText Typo="Typo.body1">@L?["welcomeText"]</MudText>
 
+            <MudDivider/>
+
+            <MudText Typo="Typo.h1">@L?["performance"]</MudText>
+            <MudText Typo="Typo.body1">@L?["performanceText"]</MudText>
+
+            <MudDivider/>
+            <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton><br/>
+            <MudText Typo="Typo.caption">@L?["supportInfo"]</MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" lg="8">
+        <MudPaper>
+            <MudText Typo="Typo.h1">@L?["topChanges"]</MudText>
+            <MudAlert Severity="Severity.Info">@L?["topChangesInfo"]</MudAlert>
+
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                <MudTabPanel Text="@L?["decreases"]">
                     @if (TopPriceChanges.Any() || IsLoadingPriceData)
                     {
                         <RecentPriceChanges PriceChanges="@TopPriceChanges" Page="1" NumberOfPages="1" HideDate HidePagination HideCategory IsLoading="@IsLoadingPriceData"/>
@@ -70,14 +63,8 @@
                             @L?["noTopChanges"]
                         </MudText>
                     }
-                </MudPaper>
-            </MudItem>
-
-            <MudItem xs="12" lg="6">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["worstChanges"]</MudText>
-                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">@L?["worstChangesInfo"]</MudAlert>
-
+                </MudTabPanel>
+                <MudTabPanel Text="@L?["increases"]">
                     @if (WorstPriceChanges.Any() || IsLoadingPriceData)
                     {
                         <RecentPriceChanges PriceChanges="@WorstPriceChanges" Page="1" NumberOfPages="1" HideDate HidePagination HideCategory IsLoading="@IsLoadingPriceData"/>
@@ -88,8 +75,8 @@
                             @L?["noWorstChanges"]
                         </MudText>
                     }
-                </MudPaper>
-            </MudItem>
-        </MudGrid>
+                </MudTabPanel>
+            </MudTabs>
+        </MudPaper>
     </MudItem>
 </MudGrid>

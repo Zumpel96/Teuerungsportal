@@ -222,6 +222,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decreases.
+        /// </summary>
+        internal static string decreases {
+            get {
+                return ResourceManager.GetString("decreases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string english {
@@ -263,6 +272,15 @@ namespace Teuerungsportal.Resources {
         internal static string impressContent {
             get {
                 return ResourceManager.GetString("impressContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increases.
+        /// </summary>
+        internal static string increases {
+            get {
+                return ResourceManager.GetString("increases", resourceCulture);
             }
         }
         
@@ -420,6 +438,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        internal static string priceChange {
+            get {
+                return ResourceManager.GetString("priceChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price Changes.
         /// </summary>
         internal static string priceChanges {
@@ -573,7 +600,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Top Changes.
+        ///   Looks up a localized string similar to Biggest Changes.
         /// </summary>
         internal static string topChanges {
             get {
@@ -582,7 +609,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This overview shows the up to 10 worst price changes in the last 24 hours..
+        ///   Looks up a localized string similar to This overview shows the up to 5 biggest price changes in the last 24 hours..
         /// </summary>
         internal static string topChangesInfo {
             get {
@@ -650,15 +677,6 @@ namespace Teuerungsportal.Resources {
         internal static string worstChanges {
             get {
                 return ResourceManager.GetString("worstChanges", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This overview shows the up to 10 worst price changes in the last 24 hours..
-        /// </summary>
-        internal static string worstChangesInfo {
-            get {
-                return ResourceManager.GetString("worstChangesInfo", resourceCulture);
             }
         }
     }
