@@ -28,6 +28,19 @@ public class ApiPriceService : PriceService
     }
 
     /// <inheritdoc />
+    public async Task<ICollection<Price>> GetTodayPriceChanges()
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/today");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
+
+        return data ?? new List<Price>();
+    }
+
+    /// <inheritdoc />
     public async Task<ICollection<Price>> GetTopPriceChanges()
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/prices/top");

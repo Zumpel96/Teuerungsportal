@@ -2,8 +2,10 @@
     <MudTextField Class="mx-2 mb-2" @bind-Value="@Search" Label="@L?["search"]" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" OnAdornmentClick="@Redirect"/>
 
     <MudDivider/>
-
+    
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
+
+    <MudNavLink Href="/changes" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">@L?["priceChanges"]</MudNavLink>
 
     <MudNavGroup Title="@L?["products"]" Icon="@Icons.Material.Filled.ShoppingCart">
         <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">@L?["categories"]</MudNavLink>

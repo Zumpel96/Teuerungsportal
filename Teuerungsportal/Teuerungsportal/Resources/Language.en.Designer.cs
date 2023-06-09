@@ -420,6 +420,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Price Changes.
+        /// </summary>
+        internal static string priceChanges {
+            get {
+                return ResourceManager.GetString("priceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Here you can see all information about the current product. Additionally, you can view current statistics and recent changes..
         /// </summary>
         internal static string productInfo {
@@ -555,7 +564,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Prices.
+        ///   Looks up a localized string similar to Today&apos;s Price Changes.
         /// </summary>
         internal static string todayChanges {
             get {
