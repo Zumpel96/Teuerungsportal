@@ -19,14 +19,27 @@
         </MudItem>
     }
 
-    <MudItem xs="12">
+    <MudItem xs="12" lg="6">
+        <MudText Typo="Typo.h1">@L?["priceHistory"]</MudText>
         @if (IsLoadingPriceData)
         {
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
         }
         else
         {
-            <InflationChart ChartData="@TotalPriceHistory"/>
+            <InflationTransitionChart ChartData="@InflationHistory"/>
+        }
+    </MudItem>
+
+    <MudItem xs="12" lg="6">
+        <MudText Typo="Typo.h1">@L?["inflation"]</MudText>
+        @if (IsLoadingPriceData)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+        }
+        else
+        {
+            <InflationOverviewChart ChartData="@InflationOverview"/>
         }
     </MudItem>
 

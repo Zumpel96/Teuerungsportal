@@ -19,6 +19,9 @@ public partial class Index
     private PriceService? PriceService { get; set; }
 
     [Inject]
+    private InflationDataService? InflationDataService { get; set; }
+
+    [Inject]
     private IDialogService? DialogService { get; set; }
     
     [Inject]
@@ -36,6 +39,10 @@ public partial class Index
     private Announcement? Announcement { get; set; }
 
     private ICollection<Price> TotalPriceHistory { get; set; } = new List<Price>();
+    
+    private ICollection<InflationData> InflationHistory { get; set; } = new List<InflationData>();
+    
+    private ICollection<InflationData> InflationOverview { get; set; } = new List<InflationData>();
     
     private ICollection<Price> WorstPriceChanges { get; set; } = new List<Price>();
     
@@ -71,10 +78,17 @@ public partial class Index
             return;
         }
 
+        if (this.InflationDataService == null)
+        {
+            return;
+        }
+
         this.IsLoadingPriceData = true;
         var cookieConsentThread = this.LocalStorageService.GetItemAsync<bool>("cookieConsent");
         var announcementThread = this.AnnouncementService.GetAnnouncement();
-        
+
+        this.InflationHistory = await this.InflationDataService.GetInflationDataForMonth();
+        this.InflationOverview = await this.InflationDataService.GetInflationDataForYear();
         
         this.CurrentPricePage = 1;
         this.TotalPriceHistory = await this.PriceService.GetPriceChanges();
