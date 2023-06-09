@@ -148,7 +148,7 @@
         <value>Author</value>
     </data>
     <data name="todayChanges" xml:space="preserve">
-        <value>New Prices</value>
+        <value>Today's Price Changes</value>
     </data>
     <data name="welcome" xml:space="preserve">
         <value>Hello!</value>
@@ -215,5 +215,8 @@
     </data>
     <data name="noTopChanges" xml:space="preserve">
         <value>Sadly, there have not been any price changes in the last 24 hours which would affect consumers positively.</value>
+    </data>
+    <data name="priceChanges" xml:space="preserve">
+        <value>Price Changes</value>
     </data>
 </root>
