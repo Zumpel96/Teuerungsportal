@@ -107,7 +107,7 @@
             }
             else
             {
-                <PriceChangesChart ChartData="@PriceHistory"/>
+                <PriceTransitionChart ProductName="@CurrentProduct.Name" PriceData="@PriceHistory"/>
             }
         </MudPaper>
     </MudItem>

@@ -28,7 +28,7 @@ public static class GetPriceChangesChartDataForYear
                                      [grouped_prices] AS
                                   (SELECT [pr].[storeId],
                                           DATEFROMPARTS(YEAR([timestamp]), MONTH([timestamp]), 1) AS [date],
-                                          SUM(100 / [currentValue] * [previousValue] - 100) /
+                                          SUM(((100 / [previousValue]) * [currentValue]) - 100) /
                                      (SELECT CASE
                                                  WHEN COUNT(*) > 1 THEN COUNT(*)
                                                  ELSE 1

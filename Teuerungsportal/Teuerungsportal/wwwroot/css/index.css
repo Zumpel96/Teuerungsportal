@@ -31,6 +31,34 @@
     margin-bottom: 32px !important;
 }
 
+.main-svg {
+    background: rgba(0,0,0,0)!important;
+}
+
+.xgrid {
+    stroke: rgba(0,0,0,0)!important;
+}
+
+.ygrid {
+    stroke: rgba(0, 0, 0, 0) !important;
+}
+
+.xtick text {
+    fill: #C3C3C5!important;
+}
+
+.ytick text {
+    fill: #C3C3C5 !important;
+}
+
+.legend .bg {
+    fill: rgba(0, 0, 0, 0) !important;
+}
+
+.legendtext {
+    fill: #C3C3C5 !important;
+}
+
 .mud-typography:focus-visible {
     outline: none!important;
 }

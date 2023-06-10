@@ -3,8 +3,13 @@ namespace Teuerungsportal.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using Plotly.Blazor;
+using Plotly.Blazor.ConfigLib;
+using Plotly.Blazor.LayoutLib;
+using Plotly.Blazor.Traces;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
+using Margin = Plotly.Blazor.LayoutLib.Margin;
 
 public partial class InflationOverviewChart
 {
@@ -15,11 +20,25 @@ public partial class InflationOverviewChart
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
-    private ChartOptions ChartOptions { get; set; } = new ();
+    private PlotlyChart? Chart { get; set; }
 
-    private List<ChartSeries> ProcessedChartData { get; set; } = new ();
+    private Config Config { get; set; } = new () { Responsive = true, DisplayModeBar = DisplayModeBarEnum.False, ScrollZoom = ScrollZoomFlag.False };
 
-    private string[] Labels { get; set; } = Array.Empty<string>();
+    private Layout? Layout { get; set; } = new ()
+                                           {
+                                               DragMode = DragModeEnum.False,
+                                               BarMode = BarModeEnum.Group,
+                                               Height = 400,
+                                               Margin = new Margin
+                                                        {
+                                                            L = 30,
+                                                            B = 0,
+                                                            R = 0,
+                                                            T = 0,
+                                                        },
+                                           };
+
+    private IList<ITrace> Data { get; set; } = new List<ITrace>();
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -34,61 +53,40 @@ public partial class InflationOverviewChart
             return;
         }
 
-        var dateLabels = new List<DateTime>();
-        var chartSeries = new List<ChartSeries>();
-        var storeLabels = new List<string>();
-
         var today = DateTime.Today;
-        for (var i = 12; i >= 0; i--)
-        {
-            var newDate = new DateTime(today.Year, today.Month, 1);
-            dateLabels.Add(newDate.AddMonths(-i));
-        }
 
         var storeData = this.ChartData.OrderBy(p => p.Date).GroupBy(p => p.Store!.Name).ToList();
-        if (storeData.Count >= 1)
+        foreach (var store in storeData)
         {
-            foreach (var store in storeData)
+            var x = new List<object>();
+            var y = new List<object>();
+
+            for (var i = 11; i >= 0; i--)
             {
-                if (!storeLabels.Contains(store.Key))
+                var newDate = new DateTime(today.Year, today.Month, 1);
+                newDate = newDate.AddMonths(-i);
+
+                x.Add(newDate.ToString("MMM"));
+
+                var foundValue = store.ToList().FirstOrDefault(p => p.Date.Date == newDate);
+                if (foundValue == null)
                 {
-                    storeLabels.Add(store.Key);
+                    y.Add(0);
                 }
-
-                var storePrices = store.ToList();
-                var processedStoreData = this.ProcessChartData(storePrices, dateLabels);
-
-                chartSeries.Add(
-                                new ChartSeries()
-                                {
-                                    Name = store.Key,
-                                    Data = processedStoreData.ToArray(),
-                                });
-            }
-        }
-        
-        this.ProcessedChartData = chartSeries;
-        this.Labels = dateLabels.Select(d => d.ToString("MMM")).ToArray();
-        this.ChartOptions.YAxisTicks = 1;
-        this.ChartOptions.MaxNumYAxisTicks = 5;
-        this.ChartOptions.InterpolationOption = InterpolationOption.NaturalSpline;
-    }
-
-    private List<double> ProcessChartData(ICollection<InflationData> prices, ICollection<DateTime> dates)
-    {
-        var chartTotalData = new List<double>(12);
-        foreach (var date in dates)
-        {
-            var foundEntry = prices.FirstOrDefault(d => d.Date == date);
-            if (foundEntry == null)
-            {
-                chartTotalData.Add(0);
-                continue;
+                else
+                {
+                    y.Add(foundValue.InflationValue);
+                }
             }
 
-            chartTotalData.Add(foundEntry.InflationValue);
+            this.Data.Add(
+                          new Bar()
+                          {
+                              X = x,
+                              Y = y,
+                              Name = store.Key,
+                              ShowLegend = true,
+                          });
         }
-
-        return chartTotalData;
     }
 }
