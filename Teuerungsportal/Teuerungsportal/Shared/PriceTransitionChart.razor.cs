@@ -2,7 +2,6 @@ namespace Teuerungsportal.Shared;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using MudBlazor;
 using Plotly.Blazor;
 using Plotly.Blazor.ConfigLib;
 using Plotly.Blazor.LayoutLib;
@@ -11,11 +10,15 @@ using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Margin = Plotly.Blazor.LayoutLib.Margin;
 
-public partial class InflationTransitionChart
+public partial class PriceTransitionChart
 {
     [Parameter]
     [EditorRequired]
-    public ICollection<InflationData> ChartData { get; set; } = new List<InflationData>();
+    public ICollection<Price> PriceData { get; set; } = new List<Price>();
+
+    [Parameter]
+    [EditorRequired]
+    public string ProductName { get; set; } = string.Empty;
 
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
@@ -52,48 +55,44 @@ public partial class InflationTransitionChart
             return;
         }
 
-        if (!this.ChartData.Any())
+        if (!this.PriceData.Any())
         {
             return;
         }
 
-        var today = DateTime.Today;
+        var x = new List<object>();
+        var y = new List<object>();
 
-        var storeData = this.ChartData.OrderBy(p => p.Date).GroupBy(p => p.Store!.Name).ToList();
-        foreach (var store in storeData)
+
+        var prices = this.PriceData.OrderBy(p => p.TimeStamp).ToList();
+        var currentDate = prices.First().TimeStamp.Date;
+        var previousValue = prices.First().CurrentValue;
+
+        do
         {
-            var x = new List<object>();
-            var y = new List<object>();
-
-            var previousValue = 1d;
-            for (var i = 30; i >= 0; i--)
+            x.Add(currentDate.ToString("dd.MMM"));
+            var foundValue = prices.FirstOrDefault(p => p.TimeStamp.Date == currentDate);
+            if (foundValue == null)
             {
-                var newDate = DateTime.Today;
-                newDate = newDate.AddDays(-i);
-
-                x.Add(newDate.ToString("dd.MMM"));
-
-                var foundValue = store.ToList().FirstOrDefault(p => p.Date.Date == newDate);
-                if (foundValue == null)
-                {
-                    y.Add(previousValue);
-                }
-                else
-                {
-                    var newValue = previousValue / 100 * (100 + foundValue.InflationValue);
-                    previousValue = newValue;
-                    y.Add(newValue);
-                }
+                y.Add(previousValue);
+            }
+            else
+            {
+                previousValue = foundValue.CurrentValue;
+                y.Add(foundValue.CurrentValue);
             }
 
-            this.Data.Add(
-                          new Scatter()
-                          {
-                              X = x,
-                              Y = y,
-                              Name = store.Key,
-                              ShowLegend = true,
-                          });
+            currentDate = currentDate.AddDays(1);
         }
+        while (currentDate != DateTime.Today.AddDays(1));
+
+        this.Data.Add(
+                      new Scatter()
+                      {
+                          X = x,
+                          Y = y,
+                          Name = this.ProductName,
+                          ShowLegend = false,
+                      });
     }
 }
