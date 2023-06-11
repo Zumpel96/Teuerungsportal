@@ -90,6 +90,7 @@ public class BillaDataExtractor
             {
                 var newProduct = new Product()
                                  {
+                                     id = Guid.NewGuid(),
                                      name = data.name,
                                      articleNumber = articleNumber,
                                      url = data.canonicalPath,

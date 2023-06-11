@@ -90,6 +90,7 @@ public class SparDataExtractor
             {
                 var newProduct = new Product()
                                  {
+                                     id = Guid.NewGuid(),
                                      name = data["short-description"],
                                      articleNumber = articleNumber,
                                      url = data["url"],
