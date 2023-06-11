@@ -35,8 +35,8 @@ public partial class InflationTransitionChart
                                                Height = 400,
                                                Margin = new Margin
                                                         {
-                                                            L = 30,
-                                                            B = 0,
+                                                            L = 40,
+                                                            B = 60,
                                                             R = 0,
                                                             T = 0,
                                                         },
@@ -57,8 +57,6 @@ public partial class InflationTransitionChart
             return;
         }
 
-        var today = DateTime.Today;
-
         var storeData = this.ChartData.OrderBy(p => p.Date).GroupBy(p => p.Store!.Name).ToList();
         foreach (var store in storeData)
         {
@@ -76,13 +74,13 @@ public partial class InflationTransitionChart
                 var foundValue = store.ToList().FirstOrDefault(p => p.Date.Date == newDate);
                 if (foundValue == null)
                 {
-                    y.Add(previousValue);
+                    y.Add(previousValue * 100 - 100);
                 }
                 else
                 {
                     var newValue = previousValue / 100 * (100 + foundValue.InflationValue);
                     previousValue = newValue;
-                    y.Add(newValue);
+                    y.Add(newValue * 100 - 100);
                 }
             }
 
