@@ -39,7 +39,7 @@ public partial class PriceTransitionChart
                                                Margin = new Margin
                                                         {
                                                             L = 30,
-                                                            B = 0,
+                                                            B = 30,
                                                             R = 0,
                                                             T = 0,
                                                         },
