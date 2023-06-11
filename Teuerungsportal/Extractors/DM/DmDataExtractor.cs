@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 public class Product
 {
+    public Guid id { get; set; }
     public string name { get; set; }
 
     public string articleNumber { get; set; }
@@ -93,6 +94,21 @@ public class DmDataExtractor
                                  };
 
                 await this.DbProducts.AddAsync(newProduct);
+                await this.DbProducts.FlushAsync();
+            }
+            else
+            {
+                var existingProduct = new Product()
+                                      {
+                                          id = (Guid)existingProductId,
+                                          name = data["name"],
+                                          articleNumber = articleNumber,
+                                          url = data["relativeProductUrl"],
+                                          brand = data["brandName"],
+                                          storeId = new Guid(DmStoreId),
+                                      };
+
+                await this.DbProducts.AddAsync(existingProduct);
                 await this.DbProducts.FlushAsync();
             }
 

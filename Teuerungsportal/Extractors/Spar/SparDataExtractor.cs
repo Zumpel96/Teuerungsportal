@@ -5,11 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 public class Product
 {
+    public Guid id { get; set; }
+
     public string name { get; set; }
 
     public string articleNumber { get; set; }
@@ -97,6 +98,21 @@ public class SparDataExtractor
                                  };
 
                 await this.DbProducts.AddAsync(newProduct);
+                await this.DbProducts.FlushAsync();
+            }
+            else
+            {
+                var existingProduct = new Product()
+                                      {
+                                          id = (Guid)existingProductId,
+                                          name = data["short-description"],
+                                          articleNumber = articleNumber,
+                                          url = data["url"],
+                                          brand = data["brand"][0],
+                                          storeId = new Guid(SparStoreId),
+                                      };
+
+                await this.DbProducts.AddAsync(existingProduct);
                 await this.DbProducts.FlushAsync();
             }
 
