@@ -26,24 +26,28 @@
         <MudTd Class="responsive-table-text" DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
         @if (!HideCategory)
         {
-            @if (context.Product?.Category == null)
-            {
-                <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
-                    @foreach (var category in AllCategories)
-                    {
-                        <CategoryVisualizer Category="@category" RecursionLevel="0"/>
-
-                        @if (category != AllCategories.Last())
+            <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">
+                @if (context.Product?.Category == null)
+                {
+                    <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
+                        @foreach (var category in AllCategories)
                         {
-                            <MudSelectItem Value="@(new Category())" Disabled><MudDivider/></MudSelectItem>
+                            <CategoryVisualizer Category="@category" RecursionLevel="0"/>
+
+                            @if (category != AllCategories.Last())
+                            {
+                                <MudSelectItem Value="@(new Category())" Disabled>
+                                    <MudDivider/>
+                                </MudSelectItem>
+                            }
                         }
-                    }
-                </MudSelect>
-            }
-            else
-            {
-                <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
-            }
+                    </MudSelect>
+                }
+                else
+                {
+                    @context.Product?.Category?.Name
+                }
+            </MudTd>
         }
         @if (!HideStore)
         {
