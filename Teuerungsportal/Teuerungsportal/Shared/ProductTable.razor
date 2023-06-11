@@ -22,7 +22,7 @@
         {
             @if (context.Category == null)
             {
-                <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Label="@L?["categorize"]" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context, category))">
+                <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context, category))">
                     @foreach (var category in AllCategories)
                     {
                         <CategoryVisualizer Category="@category" RecursionLevel="0"/>

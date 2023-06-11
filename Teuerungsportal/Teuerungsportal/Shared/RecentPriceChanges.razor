@@ -17,7 +17,6 @@
         <MudTh>@L?["price"]</MudTh>
         <MudTh>@L?["priceChange"]</MudTh>
         <MudTh></MudTh>
-        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
         @if (!HideDate)
@@ -29,7 +28,7 @@
         {
             @if (context.Product?.Category == null)
             {
-                <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Label="@L?["categorize"]" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
+                <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
                     @foreach (var category in AllCategories)
                     {
                         <CategoryVisualizer Category="@category" RecursionLevel="0"/>
@@ -43,9 +42,8 @@
             }
             else
             {
-                <MudTd DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
+                <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
             }
-            <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
         }
         @if (!HideStore)
         {

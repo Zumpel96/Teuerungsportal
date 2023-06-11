@@ -1,4 +1,5 @@
 ﻿@page "/products/uncategorized"
+@page "/products/uncategorized/{searchString}"
 
 <PageTitle>Teuerungsportal - @L?["uncategorizedProducts"]</PageTitle>
 
@@ -14,6 +15,11 @@
 
     <MudItem xs="12">
         <MudPaper>
+            <EditForm Model="@Search" OnValidSubmit="@SearchRedirect">
+                <DataAnnotationsValidator/>
+                <MudTextField Class="mx-2 mb-2" @bind-Value="@Search.Text" Label="@L?["search"]" For="@(() => Search.Text)" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" Clearable OnClearButtonClick="SearchRedirect"/>
+            </EditForm>
+
             <ProductTable NumberOfPages="@NumberOfPages" Page="@Page" Products="@ProductList" IsLoading="@IsLoading" PageChanged="@OnPageChanged"/>
         </MudPaper>
     </MudItem>

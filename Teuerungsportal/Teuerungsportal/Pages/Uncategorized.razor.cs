@@ -8,6 +8,14 @@ using Teuerungsportal.Services.Interfaces;
 
 public partial class Uncategorized
 {
+    public class SearchModel
+    {
+        public string Text { get; set; } = string.Empty;
+    }
+
+    [Parameter]
+    public string? SearchString { get; set; }
+    
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
 
@@ -25,6 +33,8 @@ public partial class Uncategorized
     
     private int NumberOfPages { get; set; }
 
+    private SearchModel Search { get; set; } = new ();
+
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -35,8 +45,19 @@ public partial class Uncategorized
 
         this.IsLoading = true;
         this.Page = 1;
-        this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
-        this.NumberOfPages = await this.ProductService.GetProductsWithoutCategoryPages();
+
+        if (string.IsNullOrEmpty(this.SearchString))
+        {
+            this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
+            this.NumberOfPages = await this.ProductService.GetProductsWithoutCategoryPages();
+        }
+        else
+        {
+            this.Search = new SearchModel() { Text = this.SearchString };
+            this.ProductList = await this.ProductService.GetProductsWithoutCategorySearch(this.SearchString, this.Page);
+            this.NumberOfPages = await this.ProductService.GetProductsWithoutCategorySearchPages(this.SearchString);
+        }
+        
         this.IsLoading = false;
     }
 
@@ -51,6 +72,23 @@ public partial class Uncategorized
         this.IsLoading = true;
         this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
         this.IsLoading = false;
+    }
+
+    private void SearchRedirect()
+    {
+        if (this.NavigationManager == null)
+        {
+            return;
+        }
+
+        this.ProductList = new List<Product>();
+        if (this.Search.Text == string.Empty)
+        {
+            this.NavigationManager.NavigateTo($"products/uncategorized");
+            return;
+        }
+
+        this.NavigationManager.NavigateTo($"products/uncategorized/{this.Search.Text}");
     }
 
     private void Redirect(Product? product)
