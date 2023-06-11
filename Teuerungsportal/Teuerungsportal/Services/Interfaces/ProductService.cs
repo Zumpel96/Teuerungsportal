@@ -7,6 +7,10 @@ public interface ProductService
     public Task<int> GetProductsWithoutCategoryPages();
     
     public Task<ICollection<Product>> GetProductsWithoutCategory(int page);
+
+    public Task<int> GetProductsWithoutCategorySearchPages(string searchString);
+
+    public Task<ICollection<Product>> GetProductsWithoutCategorySearch(string searchString, int page);
     
     public Task<Product?> GetProduct(string store, string productNumber);
 
