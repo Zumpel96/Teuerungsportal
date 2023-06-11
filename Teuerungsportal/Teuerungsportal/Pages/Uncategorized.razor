@@ -14,25 +14,7 @@
 
     <MudItem xs="12">
         <MudPaper>
-            <MudTable Items="@ProductList" Hover="true" RowsPerPage="25" LoadingProgressColor="Color.Info" Loading="IsLoading">
-                <HeaderContent>
-                    <MudTh>@L?["productName"]</MudTh>
-                    <MudTh>@L?["articleNumber"]</MudTh>
-                    <MudTh>@L?["store"]</MudTh>
-                    <MudTh>@L?["brand"]</MudTh>
-                    <MudTh></MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="@L?["productName"]">@context.Name</MudTd>
-                    <MudTd DataLabel="@L?["articleNumber"]">@context.ArticleNumber</MudTd>
-                    <MudTd DataLabel="@L?["store"]">@context.Store?.Name</MudTd>
-                    <MudTd DataLabel="@L?["brand"]">@context.Brand</MudTd>
-                    <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context))"/>
-                </RowTemplate>
-                <PagerContent>
-                    <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
-                </PagerContent>
-            </MudTable>
+            <ProductTable NumberOfPages="@NumberOfPages" Page="@Page" Products="@ProductList" IsLoading="@IsLoading" PageChanged="@OnPageChanged"/>
         </MudPaper>
     </MudItem>
 </MudGrid>

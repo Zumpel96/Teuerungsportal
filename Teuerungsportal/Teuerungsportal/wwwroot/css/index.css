@@ -27,6 +27,10 @@
     padding: 32px!important;
 }
 
+.mud-popover {
+    padding: 0 !important;
+}
+
 .mud-alert {
     margin-bottom: 32px !important;
 }
@@ -79,4 +83,21 @@
     width: 80%;
     height: auto;
     max-width: 10rem;
+}
+
+.select-heading-item {
+    font-weight: 1200 !important;
+    font-size: 1.5rem !important;
+}
+
+.select-sub-heading-item {
+    font-weight: normal !important;
+    font-size: 1.0rem !important;
+}
+
+.select-text-item {
+    font-weight: normal !important;   
+    font-style: italic !important;
+    font-size: 0.8rem !important;
+    padding-left: var(--recursion-padding);
 }

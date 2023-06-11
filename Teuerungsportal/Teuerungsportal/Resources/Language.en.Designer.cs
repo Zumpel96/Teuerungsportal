@@ -60,6 +60,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Category.
+        /// </summary>
+        internal static string addCategory {
+            get {
+                return ResourceManager.GetString("addCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your overview of inflation in Austria..
         /// </summary>
         internal static string appInfo {
@@ -119,6 +128,15 @@ namespace Teuerungsportal.Resources {
         internal static string categoriesInfo {
             get {
                 return ResourceManager.GetString("categoriesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Categorize.
+        /// </summary>
+        internal static string categorize {
+            get {
+                return ResourceManager.GetString("categorize", resourceCulture);
             }
         }
         

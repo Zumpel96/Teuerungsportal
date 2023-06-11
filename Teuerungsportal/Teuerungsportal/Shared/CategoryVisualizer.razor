@@ -1,0 +1,10 @@
+﻿<MudSelectItem Value="@Category" Disabled="Category.SubCategories.Any()" >
+    <MudText Class="@RecursionClass" Style="@RecursionPadding">
+            @Category.Name
+    </MudText>
+</MudSelectItem>
+
+@foreach (var subCategory in Category.SubCategories)
+{
+    <CategoryVisualizer Category="@subCategory" RecursionLevel="@(RecursionLevel + 1)"/>
+}
