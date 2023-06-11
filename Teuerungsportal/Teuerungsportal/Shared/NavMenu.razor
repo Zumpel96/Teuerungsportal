@@ -1,8 +1,11 @@
 ﻿<MudNavMenu Rounded>
-    <MudTextField Class="mx-2 mb-2" @bind-Value="@Search" Label="@L?["search"]" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" OnAdornmentClick="@Redirect"/>
+    <EditForm Model="@Search" OnValidSubmit="@Redirect">
+        <DataAnnotationsValidator/>
+        <MudTextField Class="mx-2 mb-2" @bind-Value="@Search.Text" Label="@L?["search"]" For="@(() => Search.Text)" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
+    </EditForm>
 
     <MudDivider/>
-    
+
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
 
     <MudNavLink Href="/changes" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">@L?["priceChanges"]</MudNavLink>

@@ -10,6 +10,13 @@ using Teuerungsportal.Resources;
 
 public partial class NavMenu
 {
+    public class SearchModel
+    {
+        [Required]
+        [StringLength(30, MinimumLength = 3)]
+        public string Text { get; set; } = string.Empty;
+    }
+    
     [Parameter]
     public bool DrawerState { get; set; }
     
@@ -25,7 +32,7 @@ public partial class NavMenu
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
     
-    private string Search { get; set; } = string.Empty;
+    private SearchModel Search { get; set; } = new ();
 
     private async Task ChangeLanguage(string culture)
     {
@@ -39,7 +46,7 @@ public partial class NavMenu
             return;
         }
         
-        await this.LocalStorage.SetItemAsync<string>("culture", culture);
+        await this.LocalStorage.SetItemAsync("culture", culture);
         this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad: true);
     }
     
@@ -50,7 +57,8 @@ public partial class NavMenu
             return;
         }
 
-        this.NavigationManager.NavigateTo($"search/{this.Search}");
+        this.NavigationManager.NavigateTo($"search/{this.Search.Text}");
+        this.Search = new SearchModel();
     }
 
     private async Task ToggleDrawer()
