@@ -6,7 +6,7 @@
     <MudItem xs="12">
         <MudPaper>
             <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
-            <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
+            <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" IsLoading="@IsLoadingPriceData"/>
         </MudPaper>
     </MudItem>
 </MudGrid>

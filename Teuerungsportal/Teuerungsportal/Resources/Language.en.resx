@@ -231,4 +231,10 @@
     <data name="inflation" xml:space="preserve">
         <value>Inflation</value>
     </data>
+    <data name="categorize" xml:space="preserve">
+        <value>Categorize</value>
+    </data>
+    <data name="addCategory" xml:space="preserve">
+        <value>Add Category</value>
+    </data>
 </root>
