@@ -1,17 +1,18 @@
-namespace Api.Extractors.Penny;
+namespace Api.Extractors.Unimarkt;
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 public class Product
 {
     public Guid id { get; set; }
-    
+
     public string name { get; set; }
 
     public string articleNumber { get; set; }
@@ -30,9 +31,9 @@ public class Price
     public Guid productId { get; set; }
 }
 
-public class PennyDataExtractor
+public class UnimarktDataExtractor
 {
-    private const string PennyStoreId = "420207b4-519d-4919-ab45-1e55b769aefe";
+    private const string UnimarktStoreId = "1f8b6fd6-a37e-47cd-a509-2a910a3396b3";
 
     private const string ProductIdCommand = "SELECT TOP(1) id FROM [dbo].[product] WHERE storeId=@storeId AND articleNumber=@articleNumber";
 
@@ -48,10 +49,10 @@ public class PennyDataExtractor
 
     private IAsyncCollector<Price> DbPrices { get; set; }
 
-    public PennyDataExtractor(string url, IAsyncCollector<Product> dbProducts, IAsyncCollector<Price> dbPrices)
+    public UnimarktDataExtractor(string category, IAsyncCollector<Product> dbProducts, IAsyncCollector<Price> dbPrices)
     {
         this.Client = new HttpClient();
-        this.Url = url;
+        this.Url = $"https://shop.unimarkt.at/{category}";
 
         var sqlConnectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
         this.SqlConnection = new SqlConnection(sqlConnectionString);
@@ -62,24 +63,26 @@ public class PennyDataExtractor
 
     public async Task Run()
     {
-        // Initiate http call
-        var response = await this.Client.GetAsync(this.Url);
+        // Get http page
+        var client = new HtmlWeb();
 
         // Handle the http response
-        var json = await response.Content.ReadAsStringAsync();
-        dynamic responseData = JsonConvert.DeserializeObject(json);
-
-        if (responseData == null)
+        var response = client.Load(this.Url);
+        if (response == null)
         {
             return;
         }
 
-        // Iterate over Data
-        foreach (var hit in responseData["results"])
-        {
-            var data = hit;
+        var products = response.DocumentNode.SelectNodes("//div[@ class='produktContainer']");
 
-            var articleNumber = $"{data["sku"]}";
+        // Iterate over Data
+        foreach (var product in products)
+        {
+            var articleNumber = $"{product.Attributes.FirstOrDefault(a => a.Name == "data-articleid")?.Value}";
+            var name = $"{product.Descendants("span").FirstOrDefault(c => c.Attributes["class"].Value.Contains("name"))?.InnerText}";
+            var brand = $"{product.Attributes.FirstOrDefault(a => a.Name == "data-marke")?.Value}";
+            var price = $"{product.Attributes.FirstOrDefault(a => a.Name == "data-price")?.Value}";
+            var url = $"/{product.Attributes.FirstOrDefault(a => a.Name == "data-name")?.Value}-{articleNumber}";
 
             // Create Product if it does not exist
             var existingProductId = await this.GetProduct(articleNumber);
@@ -88,11 +91,11 @@ public class PennyDataExtractor
                 var newProduct = new Product()
                                  {
                                      id = Guid.NewGuid(),
-                                     name = data["name"],
+                                     name = name,
                                      articleNumber = articleNumber,
-                                     url = data["slug"],
-                                     brand = string.Empty,
-                                     storeId = new Guid(PennyStoreId),
+                                     url = url,
+                                     brand = brand,
+                                     storeId = new Guid(UnimarktStoreId),
                                  };
 
                 await this.DbProducts.AddAsync(newProduct);
@@ -103,11 +106,11 @@ public class PennyDataExtractor
                 var existingProduct = new Product()
                                       {
                                           id = (Guid)existingProductId,
-                                          name = data["name"],
+                                          name = name,
                                           articleNumber = articleNumber,
-                                          url = data["slug"],
-                                          brand = string.Empty,
-                                          storeId = new Guid(PennyStoreId),
+                                          url = url,
+                                          brand = brand,
+                                          storeId = new Guid(UnimarktStoreId),
                                       };
 
                 await this.DbProducts.AddAsync(existingProduct);
@@ -121,13 +124,11 @@ public class PennyDataExtractor
                 continue;
             }
 
-            var parseSuccess = double.TryParse(data["price"]["regular"]["value"].ToString(), out double newPriceValue);
+            var parseSuccess = double.TryParse(price, out double newPriceValue);
             if (!parseSuccess)
             {
                 continue;
             }
-
-            newPriceValue = newPriceValue / 100;
 
             // Check if Price has Changed
             var recentPriceValue = await this.GetRecentPrice((Guid)existingProductId);
@@ -151,7 +152,7 @@ public class PennyDataExtractor
     private async Task<Guid?> GetProduct(string articleNumber)
     {
         var existsCommand = new SqlCommand(ProductIdCommand, this.SqlConnection);
-        existsCommand.Parameters.AddWithValue("@storeId", PennyStoreId);
+        existsCommand.Parameters.AddWithValue("@storeId", UnimarktStoreId);
         existsCommand.Parameters.AddWithValue("@articleNumber", articleNumber);
 
         await this.SqlConnection.OpenAsync();
