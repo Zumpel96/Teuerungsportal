@@ -237,4 +237,22 @@
     <data name="addCategory" xml:space="preserve">
         <value>Kategorie hinzufügen</value>
     </data>
+    <data name="createCategoryInfo" xml:space="preserve">
+        <value>Erstellen Sie eine neue Kategorie. Diese wird automatisch einer Platzhaltergruppe zugeteilt und kann unter dem Punkt "Nicht Bestätigt" gefunden werden.</value>
+    </data>
+    <data name="categoryName" xml:space="preserve">
+        <value>Kategoriename</value>
+    </data>
+    <data name="createCategory" xml:space="preserve">
+        <value>Neue Kategorie erstellen</value>
+    </data>
+    <data name="categoryNameInfo" xml:space="preserve">
+        <value>Geben Sie einen Kategorienamen ein</value>
+    </data>
+    <data name="save" xml:space="preserve">
+        <value>Speichern</value>
+    </data>
+    <data name="cancel" xml:space="preserve">
+        <value>Abbruch</value>
+    </data>
 </root>

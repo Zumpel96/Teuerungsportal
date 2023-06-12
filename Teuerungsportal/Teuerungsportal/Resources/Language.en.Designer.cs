@@ -114,6 +114,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string cancel {
+            get {
+                return ResourceManager.GetString("cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         internal static string categories {
@@ -155,6 +164,24 @@ namespace Teuerungsportal.Resources {
         internal static string categoryInfo {
             get {
                 return ResourceManager.GetString("categoryInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category Name.
+        /// </summary>
+        internal static string categoryName {
+            get {
+                return ResourceManager.GetString("categoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a category name.
+        /// </summary>
+        internal static string categoryNameInfo {
+            get {
+                return ResourceManager.GetString("categoryNameInfo", resourceCulture);
             }
         }
         
@@ -218,6 +245,24 @@ namespace Teuerungsportal.Resources {
         internal static string cookieConsentText {
             get {
                 return ResourceManager.GetString("cookieConsentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new Category.
+        /// </summary>
+        internal static string createCategory {
+            get {
+                return ResourceManager.GetString("createCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new category. It will be added to a placeholder group automatically and can be found under &quot;Nicht Bestätigt&quot;..
+        /// </summary>
+        internal static string createCategoryInfo {
+            get {
+                return ResourceManager.GetString("createCategoryInfo", resourceCulture);
             }
         }
         
@@ -524,6 +569,15 @@ namespace Teuerungsportal.Resources {
         internal static string recentPriceChanges {
             get {
                 return ResourceManager.GetString("recentPriceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string save {
+            get {
+                return ResourceManager.GetString("save", resourceCulture);
             }
         }
         

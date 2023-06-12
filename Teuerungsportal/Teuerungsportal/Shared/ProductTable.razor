@@ -1,4 +1,5 @@
 ﻿@using Teuerungsportal.Models
+
 <MudTable Items="@Products" Hover="true" Loading="@IsLoading">
     <HeaderContent>
         <MudTh>@L?["productName"]</MudTh>
@@ -23,7 +24,15 @@
             <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">
                 @if (context.Category == null)
                 {
-                    <MudSelect Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context, category))">
+                    <MudSelect Value="@SelectedCategory" Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context, category))">
+                        <MudSelectItem Value="@(new Category() { Name = "newCategory" })">
+                            @L?["createCategory"]
+                        </MudSelectItem>
+
+                        <MudSelectItem Value="@(new Category())" Disabled>
+                            <MudDivider/>
+                        </MudSelectItem>
+
                         @foreach (var category in AllCategories)
                         {
                             <CategoryVisualizer Category="@category" RecursionLevel="0"/>

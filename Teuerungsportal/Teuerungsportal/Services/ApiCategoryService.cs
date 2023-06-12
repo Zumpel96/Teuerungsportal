@@ -109,4 +109,11 @@ public class ApiCategoryService : CategoryService
 
         return data ?? new List<InflationData>();
     }
+
+    /// <inheritdoc />
+    public async Task AddCategory(string categoryName)
+    {
+        var response = await this.Client.PostAsync($"{BaseUrl}/category/new/{categoryName}", null);
+        response.EnsureSuccessStatusCode();
+    }
 }
