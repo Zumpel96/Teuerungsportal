@@ -19,4 +19,6 @@ public interface CategoryService
     public Task<ICollection<Price>> GetCategoryPriceChanges(Guid categoryId, int page);
     
     public Task<ICollection<InflationData>> GetCategoryInflationData(Guid categoryId);
+
+    public Task AddCategory(string categoryName);
 }

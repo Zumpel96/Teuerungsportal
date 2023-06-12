@@ -3,9 +3,11 @@ namespace Teuerungsportal.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using Newtonsoft.Json;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
+using Teuerungsportal.Shared;
 
 public partial class ProductOverview
 {
@@ -14,6 +16,9 @@ public partial class ProductOverview
 
     [Parameter]
     public string ProductNumber { get; set; } = string.Empty;
+
+    [Inject]
+    private IDialogService? DialogService { get; set; }
 
     [Inject]
     private IStringLocalizer<Language>? L { get; set; }
@@ -33,15 +38,17 @@ public partial class ProductOverview
 
     private ICollection<Category> AllCategories { get; set; } = new List<Category>();
 
+    private Category? SelectedCategory { get; set; }
+
     private int PricePages { get; set; }
 
     private int CurrentPricePage { get; set; }
 
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
 
-    private string SelectedCategoryName { get; set; } = string.Empty;
-
     private bool IsLoading { get; set; }
+
+    private bool IsCategorizing { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
@@ -55,7 +62,7 @@ public partial class ProductOverview
         {
             return;
         }
-        
+
         if (this.CategoryService == null)
         {
             return;
@@ -73,7 +80,7 @@ public partial class ProductOverview
 
         if (this.CurrentProduct.Category == null)
         {
-            this.AllCategories = await this.CategoryService.GetUngroupedCategories();
+            this.AllCategories = await this.CategoryService.GetCategories();
         }
 
         this.ParentCategories.Add(new BreadcrumbItem(this.L["overview"], $"stores"));
@@ -92,42 +99,32 @@ public partial class ProductOverview
         this.PricePages = await this.ProductService.GetProductPriceChangesPages(this.CurrentProduct.Id);
         this.CurrentPricePage = 1;
         this.PriceHistory = await this.ProductService.GetProductPriceChanges(this.CurrentProduct.Id, this.CurrentPricePage);
-        
+
         this.IsLoading = false;
     }
 
-    private Task<IEnumerable<string>> Search(string value)
+    private async Task AddCategory(Product product, Category? category)
     {
-        return Task.FromResult(
-                               this.AllCategories.Where(c => c.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase)).
-                                    Select(c => c.Name));
-    }
-
-    private async Task SubmitCategory()
-    {
+        this.SelectedCategory = null;
+        if (category?.Name == "newCategory")
+        {
+            category = await this.CreateNewCategory();
+        }
+        
         if (this.ProductService == null)
         {
             return;
         }
 
-        if (this.NavigationManager == null)
+        if (category == null || category.Id == Guid.Empty)
         {
             return;
         }
 
-        var category = this.AllCategories.FirstOrDefault(
-                                                         c => string.Equals(
-                                                                            c.Name,
-                                                                            this.SelectedCategoryName,
-                                                                            StringComparison.CurrentCultureIgnoreCase));
-
-        if (category == null)
-        {
-            return;
-        }
-
-        await this.ProductService.UpdateProductCategory(this.CurrentProduct.Id, category.Id);
-        this.NavigationManager.NavigateTo($"/stores/{this.StoreName}/{this.ProductNumber}", true);
+        this.IsCategorizing = true;
+        await this.ProductService.UpdateProductCategory(product.Id, category.Id);
+        product.Category = category;
+        this.IsCategorizing = false;
     }
 
     private async Task OnPricePageChanged(int page)
@@ -141,5 +138,51 @@ public partial class ProductOverview
         this.IsLoading = true;
         this.PriceHistory = await this.ProductService.GetProductPriceChanges(this.CurrentProduct.Id, this.CurrentPricePage);
         this.IsLoading = false;
+    }
+
+    private async Task<Category?> CreateNewCategory()
+    {
+        if (this.CategoryService == null)
+        {
+            return null;
+        }
+
+        if (this.DialogService == null)
+        {
+            return null;
+        }
+
+        if (this.L == null)
+        {
+            return null;
+        }
+
+        var dialog = await this.DialogService.ShowAsync<CategoryCreation>(this.L["createCategory"]);
+        await dialog.Result;
+
+        var oldUncategorized = this.AllCategories.FirstOrDefault(c => c.Id == new Guid("23b3d57b-7d2f-4544-b4d3-3b7fdbdd22f8"));
+        var oldUncategorizedCopy = JsonConvert.DeserializeObject<Category?>(JsonConvert.SerializeObject(oldUncategorized));
+
+        this.AllCategories = await this.CategoryService.GetCategories();
+        this.AllCategories = this.AllCategories.OrderBy(c => c.Name).ToList();
+
+        var newUncategorized = this.AllCategories.FirstOrDefault(c => c.Id == new Guid("23b3d57b-7d2f-4544-b4d3-3b7fdbdd22f8"));
+
+        if (newUncategorized == null || oldUncategorizedCopy == null)
+        {
+            return null;
+        }
+
+        if (newUncategorized.SubCategories.Count == oldUncategorizedCopy.SubCategories.Count)
+        {
+            return null;
+        }
+
+        var newUncategorizedCategory =
+        newUncategorized.SubCategories.FirstOrDefault(
+                                                      nsc => oldUncategorizedCopy.SubCategories.FirstOrDefault(osc => osc.Id == nsc.Id) ==
+                                                             null);
+
+        return newUncategorizedCategory;
     }
 }

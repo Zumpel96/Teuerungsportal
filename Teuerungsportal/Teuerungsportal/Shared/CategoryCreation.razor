@@ -1,0 +1,13 @@
+﻿<EditForm Model="Model" OnValidSubmit="@Submit">
+    <DataAnnotationsValidator/>
+    <MudDialog>
+        <DialogContent>
+            <MudAlert Severity="Severity.Info">@L?["createCategoryInfo"]</MudAlert>
+            <MudTextField For="@(() => Model.Name)" T="string" @bind-Value="Model.Name" Label="@L?["categoryName"]" Placeholder="@L?["categoryNameInfo"]"></MudTextField>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Color="Color.Success" ButtonType="ButtonType.Submit">@L?["save"]</MudButton>
+            <MudButton Color="Color.Primary" OnClick="Cancel">@L?["cancel"]</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

@@ -4,8 +4,13 @@
 
 <MudGrid>
     <MudItem xs="12">
+        <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
+        <MudDivider/>
+    </MudItem>
+
+
+    <MudItem xs="12">
         <MudPaper>
-            <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
             <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" IsLoading="@IsLoadingPriceData"/>
         </MudPaper>
     </MudItem>

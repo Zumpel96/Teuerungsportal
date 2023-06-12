@@ -237,4 +237,22 @@
     <data name="addCategory" xml:space="preserve">
         <value>Add Category</value>
     </data>
+    <data name="categoryName" xml:space="preserve">
+        <value>Category Name</value>
+    </data>
+    <data name="categoryNameInfo" xml:space="preserve">
+        <value>Enter a category name</value>
+    </data>
+    <data name="createCategory" xml:space="preserve">
+        <value>Create new Category</value>
+    </data>
+    <data name="createCategoryInfo" xml:space="preserve">
+        <value>Create a new category. It will be added to a placeholder group automatically and can be found under "Nicht Bestätigt".</value>
+    </data>
+    <data name="cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="save" xml:space="preserve">
+        <value>Save</value>
+    </data>
 </root>

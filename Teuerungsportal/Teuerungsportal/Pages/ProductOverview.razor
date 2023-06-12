@@ -1,4 +1,5 @@
 ﻿@page "/stores/{storeName}/{productNumber}"
+@using Teuerungsportal.Models
 
 <PageTitle>@L?["appName"] - @L?["product"]</PageTitle>
 
@@ -67,7 +68,7 @@
                 <MudText Typo="Typo.h3"  Class="mt-4">@L?["category"]</MudText>
             }
 
-            @if (IsLoading)
+            @if (IsLoading || IsCategorizing)
             {
                 <MudSkeleton Width="80%" Height="1rem"  Class="mt-4"/>
             }
@@ -79,10 +80,27 @@
                 }
                 else
                 {
-                    <div class="d-flex justify-center align-content-center no-wrap mt-4">
-                        <MudAutocomplete T="string" Label="@L?["category"]" @bind-Value="@SelectedCategoryName" SearchFunc="@Search" ResetValueOnEmptyText coerceText/>
-                        <MudFab Class="ml-3" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Disabled="@(SelectedCategoryName == string.Empty)" OnClick="@SubmitCategory"/>
-                    </div>
+                    <MudSelect Value="@SelectedCategory" Disabled="@(IsLoading || IsCategorizing)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(CurrentProduct, category))">
+                        <MudSelectItem Value="@(new Category() { Name = "newCategory" })">
+                            @L?["createCategory"]
+                        </MudSelectItem>
+
+                        <MudSelectItem Value="@(new Category())" Disabled>
+                            <MudDivider/>
+                        </MudSelectItem>
+
+                        @foreach (var category in AllCategories)
+                        {
+                            <CategoryVisualizer Category="@category" RecursionLevel="0"/>
+
+                            @if (category != AllCategories.Last())
+                            {
+                                <MudSelectItem Value="@(new Category())" Disabled>
+                                    <MudDivider/>
+                                </MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
                 }
             }
 

@@ -114,6 +114,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abbruch.
+        /// </summary>
+        internal static string cancel {
+            get {
+                return ResourceManager.GetString("cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kategorien.
         /// </summary>
         internal static string categories {
@@ -155,6 +164,24 @@ namespace Teuerungsportal.Resources {
         internal static string categoryInfo {
             get {
                 return ResourceManager.GetString("categoryInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kategoriename.
+        /// </summary>
+        internal static string categoryName {
+            get {
+                return ResourceManager.GetString("categoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geben Sie einen Kategorienamen ein.
+        /// </summary>
+        internal static string categoryNameInfo {
+            get {
+                return ResourceManager.GetString("categoryNameInfo", resourceCulture);
             }
         }
         
@@ -218,6 +245,24 @@ namespace Teuerungsportal.Resources {
         internal static string cookieConsentText {
             get {
                 return ResourceManager.GetString("cookieConsentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neue Kategorie erstellen.
+        /// </summary>
+        internal static string createCategory {
+            get {
+                return ResourceManager.GetString("createCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erstellen Sie eine neue Kategorie. Diese wird automatisch einer Platzhaltergruppe zugeteilt und kann unter dem Punkt &quot;Nicht Bestätigt&quot; gefunden werden..
+        /// </summary>
+        internal static string createCategoryInfo {
+            get {
+                return ResourceManager.GetString("createCategoryInfo", resourceCulture);
             }
         }
         
@@ -524,6 +569,15 @@ namespace Teuerungsportal.Resources {
         internal static string recentPriceChanges {
             get {
                 return ResourceManager.GetString("recentPriceChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speichern.
+        /// </summary>
+        internal static string save {
+            get {
+                return ResourceManager.GetString("save", resourceCulture);
             }
         }
         
