@@ -255,4 +255,7 @@
     <data name="save" xml:space="preserve">
         <value>Save</value>
     </data>
+    <data name="newProducts" xml:space="preserve">
+        <value>New Products</value>
+    </data>
 </root>
