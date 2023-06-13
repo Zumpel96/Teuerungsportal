@@ -393,6 +393,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neue Produkte.
+        /// </summary>
+        internal static string newProducts {
+            get {
+                return ResourceManager.GetString("newProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keine Elternkategorie.
         /// </summary>
         internal static string noParentCategory {

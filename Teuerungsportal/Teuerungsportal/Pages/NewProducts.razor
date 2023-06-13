@@ -1,0 +1,17 @@
+﻿@page "/new"
+
+<PageTitle>@L?["appName"]</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h1">@L?["newProducts"]</MudText>
+        <MudDivider/>
+    </MudItem>
+
+
+    <MudItem xs="12">
+        <MudPaper>
+            <ProductTable Products="@TotalNewProducts" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" IsLoading="@IsLoadingProductData"/>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

@@ -255,4 +255,7 @@
     <data name="cancel" xml:space="preserve">
         <value>Abbruch</value>
     </data>
+    <data name="newProducts" xml:space="preserve">
+        <value>Neue Produkte</value>
+    </data>
 </root>

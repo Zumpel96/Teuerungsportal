@@ -18,6 +18,10 @@ public interface ProductService
 
     public Task<ICollection<Price>> GetProductPriceChanges(Guid productId, int page);
 
+    public Task<int> GetNewProductsPages();
+
+    public Task<ICollection<Product>> GetNewProducts(int page);
+
     public Task<int> GetProductSearchPages(string searchString);
 
     public Task<ICollection<Product>> GetProductsSearch(string searchString, int page);
