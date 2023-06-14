@@ -31,8 +31,8 @@ public partial class InflationOverviewChart
                                                Height = 400,
                                                Margin = new Margin
                                                         {
-                                                            L = 30,
-                                                            B = 30,
+                                                            L = 40,
+                                                            B = 60,
                                                             R = 0,
                                                             T = 0,
                                                         },

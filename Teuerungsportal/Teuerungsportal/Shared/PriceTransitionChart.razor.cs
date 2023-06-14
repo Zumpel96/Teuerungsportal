@@ -5,10 +5,12 @@ using Microsoft.Extensions.Localization;
 using Plotly.Blazor;
 using Plotly.Blazor.ConfigLib;
 using Plotly.Blazor.LayoutLib;
+using Plotly.Blazor.LayoutLib.YAxisLib;
 using Plotly.Blazor.Traces;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Margin = Plotly.Blazor.LayoutLib.Margin;
+using TypeEnum = Plotly.Blazor.LayoutLib.XAxisLib.TypeEnum;
 
 public partial class PriceTransitionChart
 {
@@ -38,11 +40,19 @@ public partial class PriceTransitionChart
                                                Height = 400,
                                                Margin = new Margin
                                                         {
-                                                            L = 30,
-                                                            B = 30,
+                                                            L = 40,
+                                                            B = 60,
                                                             R = 0,
                                                             T = 0,
                                                         },
+                                               YAxis = new List<YAxis>()
+                                                       {
+                                                           new YAxis()
+                                                           {
+                                                               RangeMode = RangeModeEnum.ToZero
+                                                               
+                                                           },
+                                                       }
                                            };
 
     private IList<ITrace> Data { get; set; } = new List<ITrace>();
@@ -62,7 +72,6 @@ public partial class PriceTransitionChart
 
         var x = new List<object>();
         var y = new List<object>();
-
 
         var prices = this.PriceData.OrderBy(p => p.TimeStamp).ToList();
         var currentDate = prices.First().TimeStamp.Date;
