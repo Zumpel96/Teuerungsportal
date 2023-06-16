@@ -6,40 +6,15 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using global::Extractors.General;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-public class Product
-{
-    public Guid id { get; set; }
-
-    public string name { get; set; }
-
-    public string articleNumber { get; set; }
-
-    public string url { get; set; }
-
-    public string brand { get; set; }
-
-    public Guid storeId { get; set; }
-}
-
-public class Price
-{
-    public double value { get; set; }
-
-    public Guid productId { get; set; }
-}
-
 public class HoferDataExtractor
 {
-    private const string HoferStoreId = "b8aa3d69-3f74-4ce4-acae-ac147058c483";
-
-    private const string ProductIdCommand = "SELECT TOP(1) id FROM [dbo].[product] WHERE storeId=@storeId AND articleNumber=@articleNumber";
-
-    private const string RecentPriceCommand = "SELECT TOP(1) value FROM [dbo].[price] WHERE productId=@productId ORDER BY timeStamp DESC";
+    private readonly Guid HoferStoreId = new ("b8aa3d69-3f74-4ce4-acae-ac147058c483");
 
     private HttpClient Client { get; set; }
 
@@ -47,11 +22,11 @@ public class HoferDataExtractor
 
     private SqlConnection SqlConnection { get; set; }
 
-    private IAsyncCollector<Product> DbProducts { get; set; }
+    private IAsyncCollector<ProductDto> DbProducts { get; set; }
 
-    private IAsyncCollector<Price> DbPrices { get; set; }
+    private IAsyncCollector<PriceDto> DbPrices { get; set; }
 
-    public HoferDataExtractor(string category, IAsyncCollector<Product> dbProducts, IAsyncCollector<Price> dbPrices)
+    public HoferDataExtractor(string category, IAsyncCollector<ProductDto> dbProducts, IAsyncCollector<PriceDto> dbPrices)
     {
         this.Client = new HttpClient();
         this.Client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -78,10 +53,13 @@ public class HoferDataExtractor
                         };
         var tokenContent = new FormUrlEncodedContent(tokenBody);
         tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+        
+        log.LogTrace("Fetching Token");
         var tokenResponse = await this.Client.PostAsync("https://shopservice.roksh.at/session/configure", tokenContent);
+
         if (!tokenResponse.Headers.TryGetValues("JWT-Auth", out var tokenValues))
         {
+            log.LogError("Token not found in Header");
             return;
         }
 
@@ -97,26 +75,40 @@ public class HoferDataExtractor
 
         var pagesRequest = new HttpRequestMessage(HttpMethod.Post, "https://shopservice.roksh.at/productlist/GetProductList");
         pagesRequest.Headers.Add("Bearer", token);
-        
+
         var pagesContent = new StringContent(JsonConvert.SerializeObject(pagesBody), null, "application/json");
         pagesRequest.Content = pagesContent;
-        
-        var pagesResponse = await this.Client.SendAsync(pagesRequest);
-        var pagesResponseJson = await pagesResponse.Content.ReadAsStringAsync();
 
+        log.LogTrace("Fetching Page Data");
+        var pagesResponse = await this.Client.SendAsync(pagesRequest);
+
+        var pagesResponseJson = await pagesResponse.Content.ReadAsStringAsync();
         dynamic pagesResponseData = JsonConvert.DeserializeObject(pagesResponseJson);
+
         if (pagesResponseData == null)
         {
-            return;
-        }
-        
-        if (!int.TryParse(pagesResponseData["TotalPages"].ToString(), out int numberOfPages))
-        {
+            log.LogError("Could not fetch page data");
             return;
         }
 
+        if (!int.TryParse(pagesResponseData["TotalPages"].ToString(), out int numberOfPages))
+        {
+            log.LogError("Could not load TotalPages from Body");
+            return;
+        }
+
+        // Read existing products
+        log.LogTrace("Loading existing Data");
+        var existingData = await DataLoading.GetStoreProducts(log, this.HoferStoreId, this.SqlConnection);
+
+        var upsertProducts = new List<ProductDto>();
+        var insertPrices = new List<PriceDto>();
+
+        log.LogTrace($"{numberOfPages} Pages");
         for (var i = 0; i < numberOfPages; i++)
         {
+            log.LogTrace($"Page {i}");
+            
             // Get products
             var productsBody = new Dictionary<string, string>()
                                {
@@ -130,122 +122,107 @@ public class HoferDataExtractor
             var productsContent = new StringContent(JsonConvert.SerializeObject(productsBody), null, "application/json");
             productsRequest.Content = productsContent;
 
+            log.LogTrace("Loading page data");
             var productsResponse = await this.Client.SendAsync(productsRequest);
+
             var productsResponseJson = await productsResponse.Content.ReadAsStringAsync();
-            
             dynamic responseData = JsonConvert.DeserializeObject(productsResponseJson);
             if (responseData == null)
             {
+                log.LogError("Response Body was empty!");
                 return;
             }
 
             // Iterate over Data
-            foreach (var hit in responseData["ProductList"])
+            log.LogTrace("Processing request response");
+            foreach (var data in responseData["ProductList"])
             {
-                var data = hit;
+                log.LogTrace("Processing Entry");
                 var articleNumber = $"{data["ProductID"]}";
 
-                // Create Product if it does not exist
-                var existingProductId = await this.GetProduct(articleNumber);
-                if (existingProductId == null)
+                if (!double.TryParse(data["Price"].ToString(), out double newPriceValue))
                 {
-                    var newProduct = new Product()
+                    continue;
+                }
+
+                // Check if product exists
+                if (existingData.TryGetValue(articleNumber, out var value))
+                {
+                    log.LogTrace("Existing Product");
+                    var existingProduct = value.Product;
+                    var newProduct = new ProductDto()
+                                     {
+                                         id = existingProduct.id,
+                                         name = data["ProductName"],
+                                         articleNumber = articleNumber,
+                                         url = string.Empty,
+                                         brand = data["Brand"],
+                                         storeId = this.HoferStoreId,
+                                         categoryId = existingProduct.categoryId,
+                                     };
+
+                    if (!existingProduct.Equals(newProduct))
+                    {
+                        log.LogInformation("Updating Product");
+                        upsertProducts.Add(newProduct);
+                    }
+
+                    var currentPrice = value.Price;
+                    if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
+                    {
+                        log.LogInformation("Adding Price");
+                        var newPrice = new PriceDto()
+                                       {
+                                           value = newPriceValue,
+                                           productId = existingProduct.id,
+                                       };
+
+                        insertPrices.Add(newPrice);
+                    }
+                }
+                else
+                {
+                    log.LogInformation("New Product");
+
+                    var newProduct = new ProductDto()
                                      {
                                          id = Guid.NewGuid(),
                                          name = data["ProductName"],
                                          articleNumber = articleNumber,
                                          url = string.Empty,
                                          brand = data["Brand"],
-                                         storeId = new Guid(HoferStoreId),
+                                         storeId = this.HoferStoreId,
+                                         categoryId = null,
                                      };
 
-                    await this.DbProducts.AddAsync(newProduct);
-                    await this.DbProducts.FlushAsync();
+                    var newPrice = new PriceDto()
+                                   {
+                                       value = newPriceValue,
+                                       productId = newProduct.id,
+                                   };
+
+                    existingData.Add(articleNumber, (newProduct, newPriceValue));
+                    
+                    upsertProducts.Add(newProduct);
+                    insertPrices.Add(newPrice);
                 }
-                else
-                {
-                    var existingProduct = new Product()
-                                          {
-                                              id = (Guid)existingProductId,
-                                              name = data["ProductName"],
-                                              articleNumber = articleNumber,
-                                              url = string.Empty,
-                                              brand = data["Brand"],
-                                              storeId = new Guid(HoferStoreId),
-                                          };
-
-                    await this.DbProducts.AddAsync(existingProduct);
-                    await this.DbProducts.FlushAsync();
-                }
-
-                // Fetch Product
-                existingProductId = await this.GetProduct(articleNumber);
-                if (existingProductId == null)
-                {
-                    continue;
-                }
-
-                var parseSuccess = double.TryParse(data["Price"].ToString(), out double newPriceValue);
-                if (!parseSuccess)
-                {
-                    continue;
-                }
-
-                // Check if Price has Changed
-                var recentPriceValue = await this.GetRecentPrice((Guid)existingProductId);
-                if (Math.Round(recentPriceValue, 2) == Math.Round(newPriceValue, 2))
-                {
-                    continue;
-                }
-
-                // Create new Price
-                var newPrice = new Price()
-                               {
-                                   value = newPriceValue,
-                                   productId = (Guid)existingProductId,
-                               };
-
-                await this.DbPrices.AddAsync(newPrice);
-                await this.DbPrices.FlushAsync();
             }
         }
-    }
 
-    private async Task<Guid?> GetProduct(string articleNumber)
-    {
-        var existsCommand = new SqlCommand(ProductIdCommand, this.SqlConnection);
-        existsCommand.Parameters.AddWithValue("@storeId", HoferStoreId);
-        existsCommand.Parameters.AddWithValue("@articleNumber", articleNumber);
-
-        await this.SqlConnection.OpenAsync();
-
-        await using var existsReader = await existsCommand.ExecuteReaderAsync();
-        var existingProductId = Guid.Empty;
-        while (existsReader.Read())
+        log.LogInformation($"Upserting {upsertProducts.Count} Products");
+        foreach (var product in upsertProducts)
         {
-            existingProductId = new Guid(existsReader["id"].ToString() ?? string.Empty);
+            await this.DbProducts.AddAsync(product);
         }
+        
+        await this.DbProducts.FlushAsync();
 
-        await this.SqlConnection.CloseAsync();
-        return existingProductId == Guid.Empty ? null : existingProductId;
-    }
-
-    private async Task<double> GetRecentPrice(Guid productId)
-    {
-        var recentPriceCommand = new SqlCommand(RecentPriceCommand, this.SqlConnection);
-        recentPriceCommand.Parameters.AddWithValue("@productId", productId);
-
-        await this.SqlConnection.OpenAsync();
-
-        await using var recentPriceReader = await recentPriceCommand.ExecuteReaderAsync();
-        double recentPriceValue = 0;
-        while (recentPriceReader.Read())
+        log.LogInformation($"Inserting {insertPrices.Count} Prices");
+        foreach (var price in insertPrices)
         {
-            var value = recentPriceReader["value"].ToString();
-            double.TryParse(value, out recentPriceValue);
+            await this.DbPrices.AddAsync(price);
         }
-
-        await this.SqlConnection.CloseAsync();
-        return recentPriceValue;
+        
+        await this.DbPrices.FlushAsync();
     }
 }

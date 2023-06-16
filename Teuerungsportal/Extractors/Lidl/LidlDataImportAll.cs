@@ -5,14 +5,15 @@ using Microsoft.Extensions.Logging;
 namespace Api.Extractors.Lidl;
 
 using System;
+using global::Extractors.General;
 
 public static class SparDataImportAll
 {
     [FunctionName("LidlDataImportAll")]
     public static async Task Run(
-        [TimerTrigger("10 0 11/12 * * *")] TimerInfo myTimer,
-        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
-        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Price> dbPrices,
+        [TimerTrigger("0 10 4/12 * * *")] TimerInfo myTimer,
+        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
+        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
@@ -20,7 +21,7 @@ public static class SparDataImportAll
         var dataExtractor = new LidlDataExtractor(dbProducts, dbPrices);
         try
         {
-            await dataExtractor.Run();
+            await dataExtractor.Run(log);
         }
         catch (Exception e)
         {

@@ -5,24 +5,22 @@ using Microsoft.Extensions.Logging;
 namespace Api.Extractors.Spar;
 
 using System;
+using global::Extractors.General;
 
 public static class SparDataImportCategory11
 {
     [FunctionName("SparDataImportCategory11")]
     public static async Task Run(
-        [TimerTrigger("0 20 9/12 * * *")] TimerInfo myTimer,
-        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
-        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Price> dbPrices,
+        [TimerTrigger("0 15 7/12 * * *")] TimerInfo myTimer,
+        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
+        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
-        var url = $"https://search-spar.spar-ics.com/fact-finder/rest/v4/search/products_lmos_at?query=*&q=*&page=1&hitsPerPage=1000000&filter=category-path:F11";
-        log.LogInformation("url: {Url}", url);
-
-        var dataExtractor = new SparDataExtractor(url, dbProducts, dbPrices);
+        var dataExtractor = new SparDataExtractor("F11", dbProducts, dbPrices);
         try
         {
-            await dataExtractor.Run();
+            await dataExtractor.Run(log);
         }
         catch (Exception e)
         {
