@@ -5,24 +5,22 @@ using Microsoft.Extensions.Logging;
 namespace Api.Extractors.Penny;
 
 using System;
+using global::Extractors.General;
 
 public static class PennyDataImportPage0
 {
     [FunctionName("PennyDataImportPage0")]
     public static async Task Run(
-        [TimerTrigger("0 10 0/12 * * *")] TimerInfo myTimer,
-        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
-        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Price> dbPrices,
+        [TimerTrigger("0 20 4/12 * * *")] TimerInfo myTimer,
+        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
+        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
-        var url = $"https://www.penny.at/api/products?page=0&pageSize=500";
-        log.LogInformation("url: {Url}", url);
-
-        var dataExtractor = new PennyDataExtractor(url, dbProducts, dbPrices);
+        var dataExtractor = new PennyDataExtractor(0, dbProducts, dbPrices);
         try
         {
-            await dataExtractor.Run();
+            await dataExtractor.Run(log);
         }
         catch (Exception e)
         {

@@ -6,24 +6,23 @@ namespace Api.Extractors.Dm;
 
 using System;
 using Api.Extractors.DM;
+using global::Extractors.General;
 
 public static class DmDataImportCategory1
 {
     [FunctionName("DmDataImportCategory1")]
     public static async Task Run(
-        [TimerTrigger("0 10 6/12 * * *")] TimerInfo myTimer,
-        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Product> dbProducts,
-        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<Price> dbPrices,
+        [TimerTrigger("0 50 2/12 * * *")] TimerInfo myTimer,
+        [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
+        [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
-        var url = $"https://product-search.services.dmtech.com/at/search/crawl?pageSize=10000&allCategories.id=010000";
-        log.LogInformation("url: {Url}", url);
 
-        var dataExtractor = new DmDataExtractor(url, dbProducts, dbPrices);
+        var dataExtractor = new DmDataExtractor("010000", dbProducts, dbPrices);
         try
         {
-            await dataExtractor.Run();
+            await dataExtractor.Run(log);
         }
         catch (Exception e)
         {
