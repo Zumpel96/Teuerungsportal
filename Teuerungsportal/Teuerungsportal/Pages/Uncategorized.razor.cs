@@ -70,7 +70,16 @@ public partial class Uncategorized
         
         this.Page = i;
         this.IsLoading = true;
-        this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
+        if (this.Search.Text == string.Empty)
+        {
+            this.ProductList = await this.ProductService.GetProductsWithoutCategory(this.Page);
+        }
+        else
+        {
+
+            this.ProductList = await this.ProductService.GetProductsWithoutCategorySearch(this.Search.Text, this.Page);
+        }
+
         this.IsLoading = false;
     }
 
