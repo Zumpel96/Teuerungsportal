@@ -1,6 +1,7 @@
 namespace Api.Extractors.Econtrol;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,8 @@ public class EcontrolDataExtractor
         // Read existing products
         log.LogTrace("Loading existing Data");
         var existingData = await DataLoading.GetStoreProducts(log, this.EcontrolStoreId, this.SqlConnection);
+        var upsertProducts = new List<ProductDto>();
+        var insertPrices = new List<PriceDto>();
 
         var sum = 0f;
         var count = 0;
@@ -91,71 +94,31 @@ public class EcontrolDataExtractor
             count++;
         }
 
-        var articleNumber = $"ECAPAT{this.ZipCode}";
-        var newPriceValue = Math.Round(sum / count, 2);
-
-        // Check if product exists
-        if (existingData.TryGetValue(articleNumber, out var value))
+        try
         {
-            log.LogTrace("Existing Product");
-            var existingProduct = value.Product;
-            var newProduct = new ProductDto()
-                             {
-                                 id = existingProduct.id,
-                                 name = $"Durchschnitt Strom {this.ZipCode}",
-                                 articleNumber = articleNumber,
-                                 url = string.Empty,
-                                 brand = string.Empty,
-                                 storeId = this.EcontrolStoreId,
-                                 categoryId = this.CategoryId,
-                             };
-
-            if (!existingProduct.Equals(newProduct))
-            {
-                log.LogInformation("Updating Product");
-                await this.DbProducts.AddAsync(newProduct);
-            }
-
-            var currentPrice = value.Price;
-            if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
-            {
-                log.LogInformation("Adding Price");
-                var newPrice = new PriceDto()
-                               {
-                                   value = newPriceValue,
-                                   productId = existingProduct.id,
-                               };
-
-                await this.DbPrices.AddAsync(newPrice);
-            }
+            DataLoading.ProcessProductWithPrice(
+                                                $"ECAPAT{this.ZipCode}",
+                                                $"Durchschnitt Strom {this.ZipCode}",
+                                                string.Empty,
+                                                string.Empty,
+                                                this.EcontrolStoreId,
+                                                Math.Round(sum / count, 2),
+                                                existingData,
+                                                upsertProducts,
+                                                insertPrices,
+                                                log);
         }
-        else
+        catch (Exception)
         {
-            log.LogInformation("New Product");
-
-            var newProduct = new ProductDto()
-                             {
-                                 id = Guid.NewGuid(),
-                                 name = $"Durchschnitt Strom {this.ZipCode}",
-                                 articleNumber = articleNumber,
-                                 url = string.Empty,
-                                 brand = string.Empty,
-                                 storeId = this.EcontrolStoreId,
-                                 categoryId = this.CategoryId,
-                             };
-
-            var newPrice = new PriceDto()
-                           {
-                               value = newPriceValue,
-                               productId = newProduct.id,
-                           };
-
-            existingData.Add(articleNumber, (newProduct, newPriceValue));
-            
-            await this.DbProducts.AddAsync(newProduct);
-            await this.DbPrices.AddAsync(newPrice);
+            log.LogWarning("Could not Process Data!");
         }
 
-        await this.DbPrices.FlushAsync();
+        foreach (var product in upsertProducts)
+        {
+            product.categoryId = this.CategoryId;
+        }
+
+        await DataLoading.UpsertProducts(upsertProducts, this.DbProducts, log);
+        await DataLoading.InsertPrices(insertPrices, this.DbPrices, log);
     }
 }

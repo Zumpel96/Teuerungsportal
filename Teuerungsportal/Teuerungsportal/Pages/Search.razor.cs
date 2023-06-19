@@ -17,10 +17,7 @@ public partial class Search
     [Inject]
     private ProductService? ProductService { get; set; }
 
-    [Inject]
-    private NavigationManager? NavigationManager { get; set; }
-
-    private ICollection<Product> ProductList { get; set; } = new List<Product>();
+    private ICollection<Price> ProductList { get; set; } = new List<Price>();
 
     private bool IsLoading { get; set; }
 
@@ -61,20 +58,5 @@ public partial class Search
         this.IsLoading = true;
         this.ProductList = await this.ProductService.GetProductsSearch(this.SearchString, this.Page);
         this.IsLoading = false;
-    }
-
-    private void Redirect(Product? product)
-    {
-        if (this.NavigationManager == null)
-        {
-            return;
-        }
-
-        if (product?.Store == null)
-        {
-            return;
-        }
-
-        this.NavigationManager.NavigateTo($"/stores/{product.Store.Name}/{product.ArticleNumber}");
     }
 }

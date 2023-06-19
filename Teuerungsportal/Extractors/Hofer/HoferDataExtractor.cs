@@ -53,7 +53,7 @@ public class HoferDataExtractor
                         };
         var tokenContent = new FormUrlEncodedContent(tokenBody);
         tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        
+
         log.LogTrace("Fetching Token");
         var tokenResponse = await this.Client.PostAsync("https://shopservice.roksh.at/session/configure", tokenContent);
 
@@ -108,7 +108,7 @@ public class HoferDataExtractor
         for (var i = 0; i < numberOfPages; i++)
         {
             log.LogTrace($"Page {i}");
-            
+
             // Get products
             var productsBody = new Dictionary<string, string>()
                                {
@@ -137,92 +137,28 @@ public class HoferDataExtractor
             log.LogTrace("Processing request response");
             foreach (var data in responseData["ProductList"])
             {
-                log.LogTrace("Processing Entry");
-                var articleNumber = $"{data["ProductID"]}";
-
-                if (!double.TryParse(data["Price"].ToString(), out double newPriceValue))
+                try
                 {
-                    continue;
+                    DataLoading.ProcessProductWithPrice(
+                                                        data["ProductID"],
+                                                        data["ProductName"],
+                                                        string.Empty,
+                                                        data["Brand"],
+                                                        this.HoferStoreId,
+                                                        data["Price"],
+                                                        existingData,
+                                                        upsertProducts,
+                                                        insertPrices,
+                                                        log);
                 }
-
-                // Check if product exists
-                if (existingData.TryGetValue(articleNumber, out var value))
+                catch (Exception)
                 {
-                    log.LogTrace("Existing Product");
-                    var existingProduct = value.Product;
-                    var newProduct = new ProductDto()
-                                     {
-                                         id = existingProduct.id,
-                                         name = data["ProductName"],
-                                         articleNumber = articleNumber,
-                                         url = string.Empty,
-                                         brand = data["Brand"],
-                                         storeId = this.HoferStoreId,
-                                         categoryId = existingProduct.categoryId,
-                                     };
-
-                    if (!existingProduct.Equals(newProduct))
-                    {
-                        log.LogInformation("Updating Product");
-                        upsertProducts.Add(newProduct);
-                    }
-
-                    var currentPrice = value.Price;
-                    if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
-                    {
-                        log.LogInformation("Adding Price");
-                        var newPrice = new PriceDto()
-                                       {
-                                           value = newPriceValue,
-                                           productId = existingProduct.id,
-                                       };
-
-                        insertPrices.Add(newPrice);
-                    }
-                }
-                else
-                {
-                    log.LogInformation("New Product");
-
-                    var newProduct = new ProductDto()
-                                     {
-                                         id = Guid.NewGuid(),
-                                         name = data["ProductName"],
-                                         articleNumber = articleNumber,
-                                         url = string.Empty,
-                                         brand = data["Brand"],
-                                         storeId = this.HoferStoreId,
-                                         categoryId = null,
-                                     };
-
-                    var newPrice = new PriceDto()
-                                   {
-                                       value = newPriceValue,
-                                       productId = newProduct.id,
-                                   };
-
-                    existingData.Add(articleNumber, (newProduct, newPriceValue));
-                    
-                    upsertProducts.Add(newProduct);
-                    insertPrices.Add(newPrice);
+                    log.LogWarning("Could not Process Data!");
                 }
             }
         }
 
-        log.LogInformation($"Upserting {upsertProducts.Count} Products");
-        foreach (var product in upsertProducts)
-        {
-            await this.DbProducts.AddAsync(product);
-        }
-        
-        await this.DbProducts.FlushAsync();
-
-        log.LogInformation($"Inserting {insertPrices.Count} Prices");
-        foreach (var price in insertPrices)
-        {
-            await this.DbPrices.AddAsync(price);
-        }
-        
-        await this.DbPrices.FlushAsync();
+        await DataLoading.UpsertProducts(upsertProducts, this.DbProducts, log);
+        await DataLoading.InsertPrices(insertPrices, this.DbPrices, log);
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 public class SparDataExtractor
 {
@@ -36,8 +37,8 @@ public class SparDataExtractor
         this.DbPrices = dbPrices;
         this.DbProducts = dbProducts;
     }
-    
-        public async Task Run(ILogger log)
+
+    public async Task Run(ILogger log)
     {
         // Initiate http call
         log.LogTrace("Executing HTTP Request");
@@ -63,101 +64,39 @@ public class SparDataExtractor
 
         var upsertProducts = new List<ProductDto>();
         var insertPrices = new List<PriceDto>();
-        
+
         // Iterate over Data
         log.LogTrace("Processing request response");
         foreach (var hit in responseData["hits"])
         {
-            log.LogTrace("Processing Entry");
             var data = hit["masterValues"];
             if (data["item-type"] != "Product")
             {
                 continue;
             }
-            
-            var articleNumber = $"{data["product-number"]}";
-            if (!double.TryParse(data["price"].ToString(), out double newPriceValue))
+
+            try
             {
-                continue;
+                DataLoading.ProcessProductWithPrice(
+                                                    data["product-number"],
+                                                    data["short-description"],
+                                                    data["url"],
+                                                    data["brand"][0],
+                                                    this.SparStoreId,
+                                                    data["price"],
+                                                    existingData,
+                                                    upsertProducts,
+                                                    insertPrices,
+                                                    log);
             }
-
-            // Check if product exists
-            if (existingData.TryGetValue(articleNumber, out var value))
+            catch (Exception)
             {
-                log.LogTrace("Existing Product");
-                var existingProduct = value.Product;
-                var newProduct = new ProductDto()
-                                 {
-                                     id = existingProduct.id,
-                                     name = data["short-description"],
-                                     articleNumber = articleNumber,
-                                     url = data["url"],
-                                     brand = data["brand"][0],
-                                     storeId = this.SparStoreId,
-                                     categoryId = existingProduct.categoryId,
-                                 };
-
-                if (!existingProduct.Equals(newProduct))
-                {
-                    log.LogInformation("Updating Product");
-                    upsertProducts.Add(newProduct);
-                }
-
-                var currentPrice = value.Price;
-                if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
-                {
-                    log.LogInformation("Adding Price");
-                    var newPrice = new PriceDto()
-                                   {
-                                       value = newPriceValue,
-                                       productId = existingProduct.id,
-                                   };
-
-                    insertPrices.Add(newPrice);
-                }
-            }
-            else
-            {
-                log.LogInformation("New Product");
-
-                var newProduct = new ProductDto()
-                                 {
-                                     id = Guid.NewGuid(),
-                                     name = data["short-description"],
-                                     articleNumber = articleNumber,
-                                     url = data["url"],
-                                     brand = data["brand"][0],
-                                     storeId = this.SparStoreId,
-                                     categoryId = null,
-                                 };
-
-                var newPrice = new PriceDto()
-                               {
-                                   value = newPriceValue,
-                                   productId = newProduct.id,
-                               };
-
-                existingData.Add(articleNumber, (newProduct, newPriceValue));
-
-                upsertProducts.Add(newProduct);
-                insertPrices.Add(newPrice);
+                log.LogWarning("Could not Process Data!");
             }
         }
 
-        log.LogInformation($"Upserting {upsertProducts.Count} Products");
-        foreach (var product in upsertProducts)
-        {
-            await this.DbProducts.AddAsync(product);
-        }
+        await DataLoading.UpsertProducts(upsertProducts, this.DbProducts, log);
+        await DataLoading.InsertPrices(insertPrices, this.DbPrices, log);
 
-        await this.DbProducts.FlushAsync();
-
-        log.LogInformation($"Inserting {insertPrices.Count} Prices");
-        foreach (var price in insertPrices)
-        {
-            await this.DbPrices.AddAsync(price);
-        }
-
-        await this.DbPrices.FlushAsync();
     }
 }

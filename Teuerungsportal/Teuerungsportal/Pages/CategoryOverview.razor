@@ -94,13 +94,7 @@
 
             <MudTabPanel Text="@L?["recentPriceChanges"]">
                 <MudPaper>
-                    <RecentPriceChanges PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
-                </MudPaper>
-            </MudTabPanel>
-
-            <MudTabPanel Text="@L?["products"]">
-                <MudPaper>
-                    <ProductTable Products="@Products" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" HideCategory IsLoading="@IsLoadingProductData"/>
+                    <RecentPriceChanges HideBrand PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideCategory IsLoading="@IsLoadingPriceData"/>
                 </MudPaper>
             </MudTabPanel>
         </MudTabs>

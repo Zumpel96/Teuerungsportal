@@ -20,7 +20,7 @@ public partial class NewProducts
 
     private int CurrentProductPage { get; set; }
 
-    private ICollection<Product> TotalNewProducts { get; set; } = new List<Product>();
+    private ICollection<Price> TotalNewProducts { get; set; } = new List<Price>();
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()

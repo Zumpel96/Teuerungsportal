@@ -11,7 +11,7 @@
 
     <MudItem xs="12">
         <MudPaper>
-            <ProductTable Products="@TotalNewProducts" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" IsLoading="@IsLoadingProductData"/>
+            <RecentPriceChanges PriceChanges="@TotalNewProducts" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" IsLoading="@IsLoadingProductData"/>
         </MudPaper>
     </MudItem>
 </MudGrid>

@@ -10,6 +10,10 @@
         {
             <MudTh>@L?["category"]</MudTh>
         }
+        @if (!HideBrand)
+        {
+            <MudTh>@L?["brand"]</MudTh>
+        }
         @if (!HideStore)
         {
             <MudTh>@L?["store"]</MudTh>
@@ -31,7 +35,7 @@
                 {
                     <MudSelect Value="@SelectedCategory" Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
 
-                        <MudSelectItem Value="@(new Category() {Name = "newCategory"})">
+                        <MudSelectItem Value="@(new Category() { Name = "newCategory" })">
                             @L?["createCategory"]
                         </MudSelectItem>
 
@@ -58,6 +62,10 @@
                 }
             </MudTd>
         }
+        @if (!HideBrand)
+        {
+            <MudTd Class="responsive-table-text" DataLabel="@L?["brand"]">@context.Product?.Brand</MudTd>
+        }
         @if (!HideStore)
         {
             <MudTd Class="responsive-table-text" DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
@@ -65,7 +73,7 @@
         <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
             @($"{Math.Round(context.CurrentValue, 2):N2}€")
         </MudTd>
-        <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
+        <MudTd Class="responsive-table-text" DataLabel="@L?["priceChange"]">
             <div>
                 @if (context.PreviousValue == null)
                 {

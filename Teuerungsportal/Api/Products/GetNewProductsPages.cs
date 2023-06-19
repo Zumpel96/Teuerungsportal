@@ -35,8 +35,12 @@ public static class GetNewProductsPages
                                   [dbo].[product] [p] ON [p].[id] = [c].[productId]
                                 JOIN
                                   [dbo].[store] [s] ON [s].[id] = [p].[storeId]
+                                JOIN 
+                                  [dbo].[price] [pr] on [pr].[productId] = [p].[id]
                                 WHERE 
                                   [c].[priceCount] = 1
+                                AND 
+                                  [pr].[timestamp] >= DATEADD(day,-1,GETDATE())
                                 AND
                                   [s].[hidden] = 0;",
                 commandType: System.Data.CommandType.Text,
@@ -44,6 +48,6 @@ public static class GetNewProductsPages
         IEnumerable<CountDbo> count)
     {
         var countList = count.ToList();
-        return !countList.Any() ? new OkObjectResult(0) : new OkObjectResult((int)Math.Ceiling((double)countList.First().Count / 25));
+        return !countList.Any() ? new OkObjectResult(0) : new OkObjectResult((int)Math.Ceiling((double)countList.First().Count / 10));
     }
 }
