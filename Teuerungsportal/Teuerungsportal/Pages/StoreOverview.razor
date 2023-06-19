@@ -37,7 +37,7 @@
                     }
                     else
                     {
-                        <RecentPriceChanges PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
+                        <RecentPriceChanges HideBrand PriceChanges="@PriceChanges" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" HideStore IsLoading="@IsLoadingPriceData"/>
                     }
                 </MudPaper>
             </MudTabPanel>
@@ -52,19 +52,6 @@
                     else
                     {
                         <InflationTransitionChart ChartData="@InflationHistory"/>
-                    }
-                </MudPaper>
-            </MudTabPanel>
-            
-            <MudTabPanel Text="@L?["products"]">
-                <MudPaper>
-                    @if (IsLoadingMeta)
-                    {
-                        <MudSkeleton Width="100%" Height="20rem"/>
-                    }
-                    else
-                    {
-                        <ProductTable Products="@Products" Page="@CurrentProductPage" NumberOfPages="ProductPages" PageChanged="@OnProductPageChanged" HideStore IsLoading="@IsLoadingProductData"/>
                     }
                 </MudPaper>
             </MudTabPanel>

@@ -7,4 +7,6 @@ public class PriceDto
     public double value { get; set; }
 
     public Guid productId { get; set; }
+    
+    public DateTime timestamp { get; set; }
 }

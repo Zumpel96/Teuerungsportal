@@ -7,7 +7,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiProductService : ProductService
 {
-    private const string BaseUrl = "https://fun-teuerungsportal-prod-westeu-001.azurewebsites.net";
+    private const string BaseUrl = "https://api.teuerungsportal.at";
     private HttpClient Client { get; set; }
 
     public ApiProductService(HttpClient client)
@@ -28,15 +28,15 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Product>> GetProductsWithoutCategory(int page)
+    public async Task<ICollection<Price>> GetProductsWithoutCategory(int page)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/products/noCategory/{page}");
         
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<ICollection<Product>>(responseBody);
+        var data = JsonConvert.DeserializeObject<ICollection<Price>>(responseBody);
 
-        return data ?? new List<Product>();
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />
@@ -52,15 +52,15 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Product>> GetProductsWithoutCategorySearch(string searchString, int page)
+    public async Task<ICollection<Price>> GetProductsWithoutCategorySearch(string searchString, int page)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/products/noCategory/search/{searchString}/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<ICollection<Product>>(responseBody);
+        var data = JsonConvert.DeserializeObject<ICollection<Price>>(responseBody);
 
-        return data ?? new List<Product>();
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />
@@ -118,16 +118,16 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Product>> GetNewProducts(int page)
+    public async Task<ICollection<Price>> GetNewProducts(int page)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/products/new/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        var data = JsonConvert.DeserializeObject<List<Product>>(responseBody);
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
 
-        return data ?? new List<Product>();
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />
@@ -143,16 +143,16 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Product>> GetProductsSearch(string searchString, int page)
+    public async Task<ICollection<Price>> GetProductsSearch(string searchString, int page)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}/{page}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        var data = JsonConvert.DeserializeObject<List<Product>>(responseBody);
+        var data = JsonConvert.DeserializeObject<List<Price>>(responseBody);
 
-        return data ?? new List<Product>();
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />

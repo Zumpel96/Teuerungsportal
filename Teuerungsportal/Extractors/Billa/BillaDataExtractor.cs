@@ -35,8 +35,8 @@ public class BillaDataExtractor
         this.DbPrices = dbPrices;
         this.DbProducts = dbProducts;
     }
-    
-    
+
+
     public async Task Run(ILogger log)
     {
         // Initiate http call
@@ -63,12 +63,11 @@ public class BillaDataExtractor
 
         var upsertProducts = new List<ProductDto>();
         var insertPrices = new List<PriceDto>();
-        
+
         // Iterate over Data
         log.LogTrace("Processing request response");
         foreach (var tile in responseData["tiles"])
         {
-            log.LogTrace("Processing Entry");
             if (tile["type"] != "product")
             {
                 log.LogTrace("Skipping Non-Product");
@@ -76,90 +75,28 @@ public class BillaDataExtractor
             }
 
             var data = tile["data"];
-            var articleNumber = $"{data["articleId"]}";
 
-            if (!double.TryParse(data["price"]["final"].ToString(), out double newPriceValue))
+            try
             {
-                continue;
+                DataLoading.ProcessProductWithPrice(
+                                                    data["articleId"],
+                                                    data["name"],
+                                                    data["canonicalPath"],
+                                                    data["brand"],
+                                                    this.BillaStoreId,
+                                                    data["price"]["final"],
+                                                    existingData,
+                                                    upsertProducts,
+                                                    insertPrices,
+                                                    log);
             }
-
-            // Check if product exists
-            if (existingData.TryGetValue(articleNumber, out var value))
+            catch (Exception)
             {
-                log.LogTrace("Existing Product");
-                var existingProduct = value.Product;
-                var newProduct = new ProductDto()
-                                 {
-                                     id = existingProduct.id,
-                                     name = data["name"],
-                                     articleNumber = articleNumber,
-                                     url = data["canonicalPath"],
-                                     brand = data["brand"],
-                                     storeId = this.BillaStoreId,
-                                     categoryId = existingProduct.categoryId,
-                                 };
-
-                if (!existingProduct.Equals(newProduct))
-                {
-                    log.LogInformation("Updating Product");
-                    upsertProducts.Add(newProduct);
-                }
-
-                var currentPrice = value.Price;
-                if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
-                {
-                    log.LogInformation("Adding Price");
-                    var newPrice = new PriceDto()
-                                   {
-                                       value = newPriceValue,
-                                       productId = existingProduct.id,
-                                   };
-
-                    insertPrices.Add(newPrice);
-                }
-            }
-            else
-            {
-                log.LogInformation("New Product");
-
-                var newProduct = new ProductDto()
-                                 {
-                                     id = Guid.NewGuid(),
-                                     name = data["name"],
-                                     articleNumber = articleNumber,
-                                     url = data["canonicalPath"],
-                                     brand = data["brand"],
-                                     storeId = this.BillaStoreId,
-                                     categoryId = null,
-                                 };
-
-                var newPrice = new PriceDto()
-                               {
-                                   value = newPriceValue,
-                                   productId = newProduct.id,
-                               };
-
-                existingData.Add(articleNumber, (newProduct, newPriceValue));
-
-                upsertProducts.Add(newProduct);
-                insertPrices.Add(newPrice);
+                log.LogWarning("Could not Process Data!");
             }
         }
 
-        log.LogInformation($"Upserting {upsertProducts.Count} Products");
-        foreach (var product in upsertProducts)
-        {
-            await this.DbProducts.AddAsync(product);
-        }
-
-        await this.DbProducts.FlushAsync();
-
-        log.LogInformation($"Inserting {insertPrices.Count} Prices");
-        foreach (var price in insertPrices)
-        {
-            await this.DbPrices.AddAsync(price);
-        }
-
-        await this.DbPrices.FlushAsync();
+        await DataLoading.UpsertProducts(upsertProducts, this.DbProducts, log);
+        await DataLoading.InsertPrices(insertPrices, this.DbPrices, log);
     }
 }

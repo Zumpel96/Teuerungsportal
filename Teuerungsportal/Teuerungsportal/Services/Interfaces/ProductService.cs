@@ -6,11 +6,11 @@ public interface ProductService
 {
     public Task<int> GetProductsWithoutCategoryPages();
     
-    public Task<ICollection<Product>> GetProductsWithoutCategory(int page);
+    public Task<ICollection<Price>> GetProductsWithoutCategory(int page);
 
     public Task<int> GetProductsWithoutCategorySearchPages(string searchString);
 
-    public Task<ICollection<Product>> GetProductsWithoutCategorySearch(string searchString, int page);
+    public Task<ICollection<Price>> GetProductsWithoutCategorySearch(string searchString, int page);
     
     public Task<Product?> GetProduct(string store, string productNumber);
 
@@ -20,11 +20,11 @@ public interface ProductService
 
     public Task<int> GetNewProductsPages();
 
-    public Task<ICollection<Product>> GetNewProducts(int page);
+    public Task<ICollection<Price>> GetNewProducts(int page);
 
     public Task<int> GetProductSearchPages(string searchString);
 
-    public Task<ICollection<Product>> GetProductsSearch(string searchString, int page);
+    public Task<ICollection<Price>> GetProductsSearch(string searchString, int page);
     
     public Task UpdateProductCategory(Guid productId, Guid categoryId);
 }

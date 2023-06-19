@@ -62,99 +62,33 @@ public class PennyDataExtractor
 
         var upsertProducts = new List<ProductDto>();
         var insertPrices = new List<PriceDto>();
-        
+
         // Iterate over Data
         log.LogTrace("Processing request response");
         foreach (var data in responseData["results"])
         {
-            log.LogTrace("Processing Entry");
-            var articleNumber = $"{data["sku"]}";
-
-            if (!double.TryParse(data["price"]["regular"]["value"].ToString(), out double newPriceValue))
+            try
             {
-                continue;
+                DataLoading.ProcessProductWithPrice(
+                                                    data["sku"],
+                                                    data["name"],
+                                                    data["slug"],
+                                                    string.Empty,
+                                                    this.PennyStoreId,
+                                                    data["price"]["regular"]["value"],
+                                                    existingData,
+                                                    upsertProducts,
+                                                    insertPrices,
+                                                    log,
+                                                    100);
             }
-
-            newPriceValue /= 100;
-            newPriceValue = Math.Round(newPriceValue, 2);
-
-            // Check if product exists
-            if (existingData.TryGetValue(articleNumber, out var value))
+            catch (Exception)
             {
-                log.LogTrace("Existing Product");
-                var existingProduct = value.Product;
-                var newProduct = new ProductDto()
-                                 {
-                                     id = existingProduct.id,
-                                     name = data["name"],
-                                     articleNumber = articleNumber,
-                                     url = data["slug"],
-                                     brand = string.Empty,
-                                     storeId = this.PennyStoreId,
-                                     categoryId = existingProduct.categoryId,
-                                 };
-
-                if (!existingProduct.Equals(newProduct))
-                {
-                    log.LogInformation("Updating Product");
-                    upsertProducts.Add(newProduct);
-                }
-
-                var currentPrice = value.Price;
-                if (currentPrice != null && Math.Round((double)currentPrice, 2) != newPriceValue)
-                {
-                    log.LogInformation("Adding Price");
-                    var newPrice = new PriceDto()
-                                   {
-                                       value = newPriceValue,
-                                       productId = existingProduct.id,
-                                   };
-
-                    insertPrices.Add(newPrice);
-                }
-            }
-            else
-            {
-                log.LogInformation("New Product");
-
-                var newProduct = new ProductDto()
-                                 {
-                                     id = Guid.NewGuid(),
-                                     name = data["name"],
-                                     articleNumber = articleNumber,
-                                     url = data["slug"],
-                                     brand = string.Empty,
-                                     storeId = this.PennyStoreId,
-                                     categoryId = null,
-                                 };
-
-                var newPrice = new PriceDto()
-                               {
-                                   value = newPriceValue,
-                                   productId = newProduct.id,
-                               };
-
-                existingData.Add(articleNumber, (newProduct, newPriceValue));
-
-                upsertProducts.Add(newProduct);
-                insertPrices.Add(newPrice);
+                log.LogWarning("Could not Process Data!");
             }
         }
-
-        log.LogInformation($"Upserting {upsertProducts.Count} Products");
-        foreach (var product in upsertProducts)
-        {
-            await this.DbProducts.AddAsync(product);
-        }
-
-        await this.DbProducts.FlushAsync();
-
-        log.LogInformation($"Inserting {insertPrices.Count} Prices");
-        foreach (var price in insertPrices)
-        {
-            await this.DbPrices.AddAsync(price);
-        }
-
-        await this.DbPrices.FlushAsync();
+        
+        await DataLoading.UpsertProducts(upsertProducts, this.DbProducts, log);
+        await DataLoading.InsertPrices(insertPrices, this.DbPrices, log);
     }
 }

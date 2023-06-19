@@ -25,7 +25,7 @@ public partial class Uncategorized
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
 
-    private ICollection<Product> ProductList { get; set; } = new List<Product>();
+    private ICollection<Price> ProductList { get; set; } = new List<Price>();
 
     private bool IsLoading { get; set; }
 
@@ -81,7 +81,7 @@ public partial class Uncategorized
             return;
         }
 
-        this.ProductList = new List<Product>();
+        this.ProductList = new List<Price>();
         if (this.Search.Text == string.Empty)
         {
             this.NavigationManager.NavigateTo($"products/uncategorized");
@@ -89,20 +89,5 @@ public partial class Uncategorized
         }
 
         this.NavigationManager.NavigateTo($"products/uncategorized/{this.Search.Text}");
-    }
-
-    private void Redirect(Product? product)
-    {
-        if (this.NavigationManager == null)
-        {
-            return;
-        }
-
-        if (product?.Store == null)
-        {
-            return;
-        }
-
-        this.NavigationManager.NavigateTo($"/stores/{product.Store.Name}/{product.ArticleNumber}");
     }
 }

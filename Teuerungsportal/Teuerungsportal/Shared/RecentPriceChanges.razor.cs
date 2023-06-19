@@ -28,6 +28,9 @@ public partial class RecentPriceChanges
     public EventCallback<int> PageChanged { get; set; }
 
     [Parameter]
+    public bool HideBrand { get; set; }
+
+    [Parameter]
     public bool HideCategory { get; set; }
 
     [Parameter]

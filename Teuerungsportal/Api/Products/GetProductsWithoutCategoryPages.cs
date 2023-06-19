@@ -32,6 +32,6 @@ public static class GetProductsWithoutCategoryPages
         IEnumerable<CountDbo> count)
     {
         var countList = count.ToList();
-        return !countList.Any() ? new OkObjectResult(0) : new OkObjectResult((int)Math.Ceiling((double)countList.First().Count / 25));
+        return !countList.Any() ? new OkObjectResult(0) : new OkObjectResult((int)Math.Ceiling((double)countList.First().Count / 10));
     }
 }

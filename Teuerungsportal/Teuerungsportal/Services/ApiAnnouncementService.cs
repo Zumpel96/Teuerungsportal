@@ -6,7 +6,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiAnnouncementService : AnnouncementService
 {
-    private const string BaseUrl = "https://fun-teuerungsportal-prod-westeu-001.azurewebsites.net";
+    private const string BaseUrl = "https://api.teuerungsportal.at";
     private HttpClient Client { get; set; }
 
     public ApiAnnouncementService(HttpClient client)
