@@ -49,8 +49,8 @@ public static class GetProductsWithoutCategorySearch
             parameters: "@page={page},@searchString={searchString}",
             commandType: System.Data.CommandType.Text,
             connectionStringSetting: "SqlConnectionString")]
-      IEnumerable<ProductDbo> products)
+      IEnumerable<PriceDbo> prices)
     {
-      return new OkObjectResult(products.Select(dbo => new Product(dbo)));
+      return new OkObjectResult(prices.Select(dbo => new Price(dbo)));
     }
 }
