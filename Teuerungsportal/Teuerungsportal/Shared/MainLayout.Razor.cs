@@ -3,6 +3,7 @@ namespace Teuerungsportal.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using MudBlazor.Utilities;
 using Teuerungsportal.Resources;
 
 public partial class MainLayout
@@ -34,13 +35,13 @@ public partial class MainLayout
                                                          LetterSpacing = ".0075em",
                                                      },
                                                 H2= new H2
-                                                     {
-                                                         FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" },
-                                                         FontSize = "1.75rem",
-                                                         FontWeight = 450,
-                                                         LineHeight = 1.2,
-                                                         LetterSpacing = ".0055em",
-                                                     },
+                                                    {
+                                                        FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" },
+                                                        FontSize = "1.75rem",
+                                                        FontWeight = 450,
+                                                        LineHeight = 1.2,
+                                                        LetterSpacing = ".0055em",
+                                                    },
                                                 H3 = new H3
                                                      {
                                                          FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" },

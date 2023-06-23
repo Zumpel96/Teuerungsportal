@@ -1,0 +1,21 @@
+﻿<MudDialog>
+    <DialogContent>
+        @if (IsLoading)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
+        }
+        else
+        {
+            <PriceTransitionChart ProductName="@Product.Name" PriceData="@PriceHistory"/>
+        }
+
+        <MudGrid Class="mt-8">
+            <MudItem Style="min-width: 36rem">
+                <RecentPriceChanges IsLoading="@IsLoading" PriceChanges="@PriceHistory" HideDetails HideBrand HideCategory HideStore HideName/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Submit">Close</MudButton>
+    </DialogActions>
+</MudDialog>

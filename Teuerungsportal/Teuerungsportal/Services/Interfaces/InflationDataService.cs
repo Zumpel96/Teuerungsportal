@@ -5,6 +5,6 @@ using Teuerungsportal.Models;
 public interface InflationDataService
 {
     public Task<ICollection<InflationData>> GetInflationDataForMonth();
-    
-    public Task<ICollection<InflationData>> GetInflationDataForYear();
+
+    public Task<ICollection<FilteredCount>> GetInflationData(string? filter);
 }

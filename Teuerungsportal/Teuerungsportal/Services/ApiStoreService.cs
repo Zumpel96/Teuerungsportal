@@ -29,6 +29,17 @@ public class ApiStoreService : StoreService
     }
 
     /// <inheritdoc />
+    public async Task<int> GetAllStoresCount()
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/stores/total");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<int>(responseBody);
+    }
+
+    /// <inheritdoc />
     public async Task<Store?> GetStore(string name)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/stores/{name}");

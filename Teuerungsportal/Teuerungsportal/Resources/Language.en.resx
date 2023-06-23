@@ -258,4 +258,22 @@
     <data name="newProducts" xml:space="preserve">
         <value>New Products</value>
     </data>
+    <data name="moreInfos" xml:space="preserve">
+        <value>More Information</value>
+    </data>
+    <data name="allTime" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="thisMonth" xml:space="preserve">
+        <value>This Month</value>
+    </data>
+    <data name="thisWeek" xml:space="preserve">
+        <value>This Week</value>
+    </data>
+    <data name="thisYear" xml:space="preserve">
+        <value>This Year</value>
+    </data>
+    <data name="today" xml:space="preserve">
+        <value>Today</value>
+    </data>
 </root>
