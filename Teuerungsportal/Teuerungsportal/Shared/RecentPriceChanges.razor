@@ -1,11 +1,14 @@
 ﻿@using Teuerungsportal.Models
-<MudTable Items="@PriceChanges" Hover="true" Loading="@IsLoading">
+<MudTable Items="@PriceChanges" Hover="true" Loading="@IsLoading" Virtualize="@Virtualize" LoadingProgressColor="Color.Primary">
     <HeaderContent>
         @if (!HideDate)
         {
             <MudTh>@L?["changeDateTime"]</MudTh>
         }
-        <MudTh>@L?["productName"]</MudTh>
+        @if (!HideName)
+        {
+            <MudTh>@L?["productName"]</MudTh>
+        }
         @if (!HideCategory)
         {
             <MudTh>@L?["category"]</MudTh>
@@ -20,47 +23,23 @@
         }
         <MudTh>@L?["price"]</MudTh>
         <MudTh>@L?["priceChange"]</MudTh>
-        <MudTh></MudTh>
+        @if (!HideDetails)
+        {
+            <MudTh></MudTh>
+        }
     </HeaderContent>
     <RowTemplate>
         @if (!HideDate)
         {
             <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
         }
-        <MudTd Class="responsive-table-text" DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
+        @if (!HideName)
+        {
+            <MudTd Class="responsive-table-text" DataLabel="@L?["productName"]">@context.Product?.Name</MudTd>
+        }
         @if (!HideCategory)
         {
-            <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">
-                @if (context.Product?.Category == null)
-                {
-                    <MudSelect Value="@SelectedCategory" Disabled="@(IsCategorizing || IsLoading)" T="Category?" Placeholder="@L?["addCategory"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" ValueChanged="@((Category? category) => AddCategory(context.Product!, category))">
-
-                        <MudSelectItem Value="@(new Category() { Name = "newCategory" })">
-                            @L?["createCategory"]
-                        </MudSelectItem>
-
-                        <MudSelectItem Value="@(new Category())" Disabled>
-                            <MudDivider/>
-                        </MudSelectItem>
-
-                        @foreach (var category in AllCategories)
-                        {
-                            <CategoryVisualizer Category="@category" RecursionLevel="0"/>
-
-                            @if (category != AllCategories.Last())
-                            {
-                                <MudSelectItem Value="@(new Category())" Disabled>
-                                    <MudDivider/>
-                                </MudSelectItem>
-                            }
-                        }
-                    </MudSelect>
-                }
-                else
-                {
-                    @context.Product?.Category?.Name
-                }
-            </MudTd>
+            <MudTd Class="responsive-table-text" DataLabel="@L?["category"]">@context.Product?.Category?.Name</MudTd>
         }
         @if (!HideBrand)
         {
@@ -101,14 +80,15 @@
                 }
             </div>
         </MudTd>
-        <MudTd Class="responsive-table-text">
-            <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => Redirect(context.Product))"/>
-        </MudTd>
-    </RowTemplate>
-    <PagerContent>
-        @if (!HidePagination)
+        @if (!HideDetails)
         {
-            <MudPagination SelectedChanged="@OnPageChanged" BoundaryCount="2" MiddleCount="7" Count="@NumberOfPages" Class="pa-4" Disabled="IsLoading"/>
+            <MudTd Class="responsive-table-text">
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="@(() => ShowProductDetails(context.Product))"/>
+            </MudTd>
         }
-    </PagerContent>
+    </RowTemplate>
+
+    <LoadingContent>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="24rem"/>
+    </LoadingContent>
 </MudTable>

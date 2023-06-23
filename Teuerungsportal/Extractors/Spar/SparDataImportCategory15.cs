@@ -11,7 +11,7 @@ public static class SparDataImportCategory15
 {
     [FunctionName("SparDataImportCategory15")]
     public static async Task Run(
-        [TimerTrigger("0 35 7/12 * * *")] TimerInfo myTimer,
+        [TimerTrigger("0 35 4/12 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
         [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)

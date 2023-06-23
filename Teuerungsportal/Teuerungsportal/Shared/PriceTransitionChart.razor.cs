@@ -5,8 +5,10 @@ using Microsoft.Extensions.Localization;
 using Plotly.Blazor;
 using Plotly.Blazor.ConfigLib;
 using Plotly.Blazor.LayoutLib;
+using Plotly.Blazor.LayoutLib.LegendLib;
 using Plotly.Blazor.LayoutLib.YAxisLib;
 using Plotly.Blazor.Traces;
+using Plotly.Blazor.Traces.ScatterLib.LineLib;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Margin = Plotly.Blazor.LayoutLib.Margin;
@@ -31,7 +33,7 @@ public partial class PriceTransitionChart
                                           {
                                               Responsive = true,
                                               DisplayModeBar = DisplayModeBarEnum.False,
-                                              ScrollZoom = ScrollZoomFlag.False
+                                              ScrollZoom = ScrollZoomFlag.False,
                                           };
 
     private Layout? Layout { get; set; } = new ()
@@ -40,19 +42,31 @@ public partial class PriceTransitionChart
                                                Height = 400,
                                                Margin = new Margin
                                                         {
-                                                            L = 40,
-                                                            B = 60,
+                                                            L = 50,
                                                             R = 0,
                                                             T = 0,
+                                                            B = 60,
+                                                            Pad = 16,
                                                         },
+                                               Legend = new Legend
+                                                        {
+                                                            Orientation = OrientationEnum.H,
+                                                        },
+                                               XAxis = new List<XAxis>()
+                                                       {
+                                                           new ()
+                                                           {
+                                                               DTick = 7,
+                                                           },
+                                                       },
                                                YAxis = new List<YAxis>()
                                                        {
-                                                           new YAxis()
+                                                           new ()
                                                            {
-                                                               RangeMode = RangeModeEnum.ToZero
-                                                               
+                                                               TickSuffix = "€",
+                                                               RangeMode = RangeModeEnum.ToZero,
                                                            },
-                                                       }
+                                                       },
                                            };
 
     private IList<ITrace> Data { get; set; } = new List<ITrace>();
@@ -80,7 +94,7 @@ public partial class PriceTransitionChart
         do
         {
             x.Add(currentDate.ToString("dd.MMM"));
-            var foundValue = prices.FirstOrDefault(p => p.TimeStamp.Date == currentDate);
+            var foundValue = prices.LastOrDefault(p => p.TimeStamp.Date == currentDate);
             if (foundValue == null)
             {
                 y.Add(previousValue);

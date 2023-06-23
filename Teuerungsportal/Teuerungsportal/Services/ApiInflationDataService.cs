@@ -6,7 +6,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiInflationDataService : InflationDataService
 {
-    private const string BaseUrl = "https://api.teuerungsportal.at";
+    private const string BaseUrl = "https://api.teuerungsportal.at/v2";
     private HttpClient Client { get; set; }
 
     public ApiInflationDataService(HttpClient client)
@@ -28,15 +28,15 @@ public class ApiInflationDataService : InflationDataService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<InflationData>> GetInflationDataForYear()
+    public async Task<ICollection<FilteredCount>> GetInflationData(string? filter)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/prices/chart/year");
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/inflation{filter}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        var data = JsonConvert.DeserializeObject<List<InflationData>>(responseBody);
+        var data = JsonConvert.DeserializeObject<List<FilteredCount>>(responseBody);
 
-        return data ?? new List<InflationData>();
+        return data ?? new List<FilteredCount>();
     }
 }

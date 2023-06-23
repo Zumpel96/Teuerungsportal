@@ -5,7 +5,7 @@
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar Elevation="1">
+    <MudAppBar Elevation="0" Color="Color.Transparent">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
     </MudAppBar>
     <MudDrawer @bind-Open="@DrawerOpen" Breakpoint="Breakpoint.Md" Elevation="1" Variant="@DrawerVariant.Responsive" PreserveOpenState="true">

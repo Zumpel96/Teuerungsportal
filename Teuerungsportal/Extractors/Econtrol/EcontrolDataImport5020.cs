@@ -11,7 +11,7 @@ public static class EcontrolDataImport5020
 {
     [FunctionName("EcontrolDataImport5020")]
     public static async Task Run(
-        [TimerTrigger("0 40 3/12 * * *")] TimerInfo myTimer,
+        [TimerTrigger("0 40 0/12 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
         [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)

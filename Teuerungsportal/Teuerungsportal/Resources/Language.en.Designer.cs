@@ -69,6 +69,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string allTime {
+            get {
+                return ResourceManager.GetString("allTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your overview of inflation in Austria..
         /// </summary>
         internal static string appInfo {
@@ -393,6 +402,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More Information.
+        /// </summary>
+        internal static string moreInfos {
+            get {
+                return ResourceManager.GetString("moreInfos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Products.
         /// </summary>
         internal static string newProducts {
@@ -686,6 +704,42 @@ namespace Teuerungsportal.Resources {
         internal static string supportInfo {
             get {
                 return ResourceManager.GetString("supportInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Month.
+        /// </summary>
+        internal static string thisMonth {
+            get {
+                return ResourceManager.GetString("thisMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Week.
+        /// </summary>
+        internal static string thisWeek {
+            get {
+                return ResourceManager.GetString("thisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Year.
+        /// </summary>
+        internal static string thisYear {
+            get {
+                return ResourceManager.GetString("thisYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        internal static string today {
+            get {
+                return ResourceManager.GetString("today", resourceCulture);
             }
         }
         

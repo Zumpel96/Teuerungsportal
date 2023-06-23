@@ -7,7 +7,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiProductService : ProductService
 {
-    private const string BaseUrl = "https://api.teuerungsportal.at";
+    private const string BaseUrl = "https://api.teuerungsportal.at/v2";
     private HttpClient Client { get; set; }
 
     public ApiProductService(HttpClient client)
@@ -160,5 +160,18 @@ public class ApiProductService : ProductService
     {
         var response = await this.Client.PostAsync($"{BaseUrl}/products/{productId}/category/{categoryId}", null);
         response.EnsureSuccessStatusCode();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<FilteredCount>> GetAllProductCounts(string? filter)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/total{filter}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<List<FilteredCount>>(responseBody);
+
+        return data ?? new List<FilteredCount>();
     }
 }

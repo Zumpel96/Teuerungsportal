@@ -12,7 +12,7 @@ public static class DmDataImportCategory6
 {
     [FunctionName("DmDataImportCategory6")]
     public static async Task Run(
-        [TimerTrigger("0 15 3/12 * * *")] TimerInfo myTimer,
+        [TimerTrigger("0 15 0/12 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
         [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)

@@ -11,7 +11,7 @@ public static class UnimarktDataImportCategory4
 {
     [FunctionName("UnimarktDataImportCategory4")]
     public static async Task Run(
-        [TimerTrigger("0 20 9/12 * * *")] TimerInfo myTimer,
+        [TimerTrigger("0 20 6/12 * * *")] TimerInfo myTimer,
         [Sql(commandText: "dbo.product", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<ProductDto> dbProducts,
         [Sql(commandText: "dbo.price", connectionStringSetting: "SqlConnectionString")] IAsyncCollector<PriceDto> dbPrices,
         ILogger log)

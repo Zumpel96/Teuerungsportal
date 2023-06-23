@@ -27,4 +27,6 @@ public interface ProductService
     public Task<ICollection<Price>> GetProductsSearch(string searchString, int page);
     
     public Task UpdateProductCategory(Guid productId, Guid categoryId);
+    
+    public Task<ICollection<FilteredCount>> GetAllProductCounts(string? filter);
 }
