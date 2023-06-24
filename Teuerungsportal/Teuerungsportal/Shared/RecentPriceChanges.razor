@@ -87,8 +87,9 @@
             </MudTd>
         }
     </RowTemplate>
-
-    <LoadingContent>
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="24rem"/>
-    </LoadingContent>
 </MudTable>
+
+@if (IsLoading)
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="24rem"/>
+}
