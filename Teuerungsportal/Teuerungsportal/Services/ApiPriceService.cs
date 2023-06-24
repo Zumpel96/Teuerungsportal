@@ -28,9 +28,9 @@ public class ApiPriceService : PriceService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetTodayPriceChanges()
+    public async Task<ICollection<Price>> GetTodayPriceChanges(int page, string filter, IEnumerable<string> storeNames)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/prices/today");
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/{page}/{filter}/{string.Join("+", storeNames)}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
