@@ -101,3 +101,14 @@
     font-size: 0.8rem !important;
     padding-left: var(--recursion-padding);
 }
+
+.filter-button {
+    width: 12rem;
+    height: 6rem;
+    border-radius: 32px!important;
+    border: 2px solid white!important;
+}
+
+.inactive-filter-button {
+   opacity: 0.5; 
+}

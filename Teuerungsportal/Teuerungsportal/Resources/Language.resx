@@ -276,4 +276,13 @@
     <data name="allTime" xml:space="preserve">
         <value>Gesamt</value>
     </data>
+    <data name="grouped" xml:space="preserve">
+        <value>Gruppiert</value>
+    </data>
+    <data name="ascending" xml:space="preserve">
+        <value>Aufsteigend</value>
+    </data>
+    <data name="descending" xml:space="preserve">
+        <value>Absteigend</value>
+    </data>
 </root>

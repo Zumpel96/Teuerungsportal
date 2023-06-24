@@ -20,7 +20,7 @@ public interface ProductService
 
     public Task<int> GetNewProductsPages();
 
-    public Task<ICollection<Price>> GetNewProducts(int page);
+    public Task<ICollection<Price>> GetNewProducts(int page, string filter, ICollection<string> storeNames);
 
     public Task<int> GetProductSearchPages(string searchString);
 
