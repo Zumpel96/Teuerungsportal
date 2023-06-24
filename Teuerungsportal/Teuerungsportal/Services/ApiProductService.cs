@@ -76,21 +76,22 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<int> GetProductSearchPages(string searchString)
+    public async Task<ICollection<FilteredCount>> GetProductSearchCounts(string searchString)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/total/search/{searchString}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<int>(responseBody);
 
-        return data;
+        var data = JsonConvert.DeserializeObject<List<FilteredCount>>(responseBody);
+
+        return data ?? new List<FilteredCount>();
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetProductsSearch(string searchString, int page)
+    public async Task<ICollection<Price>> GetProductsSearch(int page, string searchString, string filter, IEnumerable<string> storeNames)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}/{page}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/search/{searchString}/{page}/{filter}/{string.Join("+", storeNames)}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();

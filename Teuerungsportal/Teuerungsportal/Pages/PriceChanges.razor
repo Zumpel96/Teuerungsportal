@@ -6,7 +6,6 @@
 <MudGrid>
     <MudItem xs="12">
         <MudText Typo="Typo.h1">@L?["todayChanges"]</MudText>
-        <MudDivider/>
     </MudItem>
 
     <MudItem xs="12" Class="d-flex flex-row justify-center align-center flex-wrap wrap gap-8">
@@ -63,7 +62,7 @@
         }
         else
         {
-            <RecentPriceChanges PriceChanges="@TotalNewProducts" IsLoading="@(IsLoadingProductData)" HideDate Virtualize/>
+            <RecentPriceChanges PriceChanges="@TotalPriceChanges" IsLoading="@(IsLoadingProductData)" HideDate Virtualize/>
         }
     </MudItem>
 </MudGrid>

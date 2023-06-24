@@ -13,7 +13,7 @@ function onDivScroll(dotNetHelper) {
 
         let clientHeight = document.documentElement.clientHeight;
         
-        let offset = 200;
+        let offset = 400;
         
         if (scrollTop + clientHeight >= scrollHeight - offset) {
             dotNetHelper.invokeMethodAsync('LoadMoreData');

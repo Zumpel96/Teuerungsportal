@@ -2,6 +2,8 @@ namespace Teuerungsportal.Pages;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
+using Teuerungsportal.Helpers;
 using Teuerungsportal.Models;
 using Teuerungsportal.Resources;
 using Teuerungsportal.Services.Interfaces;
@@ -17,13 +19,36 @@ public partial class Search
     [Inject]
     private ProductService? ProductService { get; set; }
 
-    private ICollection<Price> ProductList { get; set; } = new List<Price>();
+    [Inject]
+    private IJSRuntime? JSRuntime { get; set; }
 
-    private bool IsLoading { get; set; }
+    private bool IsLoadingCountData { get; set; }
 
-    private int Page { get; set; }
-    
-    private int NumberOfPages { get; set; }
+    private bool IsLoadingProductData { get; set; }
+
+    private int CurrentProductPage { get; set; }
+
+    private OrderType OrderType { get; set; }
+
+    private ICollection<FilteredCount> FilteredCount { get; set; } = new List<FilteredCount>();
+
+    private IList<bool> ActiveFilters { get; set; } = new List<bool>();
+
+    private ICollection<Price> TotalSearchProducts { get; set; } = new List<Price>();
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (this.JSRuntime == null)
+        {
+            return;
+        }
+
+        if (firstRender)
+        {
+            await this.JSRuntime.InvokeVoidAsync("onDivScroll", DotNetObjectReference.Create(this));
+        }
+    }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
@@ -33,30 +58,139 @@ public partial class Search
             return;
         }
 
-        if (this.SearchString == string.Empty)
+        this.CurrentProductPage = 1;
+
+        await this.LoadCounts();
+        await this.LoadProducts();
+    }
+
+    private async Task LoadCounts()
+    {
+        if (this.ProductService == null || this.IsLoadingCountData)
         {
             return;
         }
 
-        this.IsLoading = true;
-        this.Page = 1;
+        this.IsLoadingCountData = true;
+        this.StateHasChanged();
 
-        this.NumberOfPages = await this.ProductService.GetProductSearchPages(this.SearchString);
-        this.ProductList = await this.ProductService.GetProductsSearch(this.SearchString, this.Page);
-        
-        this.IsLoading = false;
+        this.FilteredCount = await this.ProductService.GetProductSearchCounts(this.SearchString);
+
+        this.ActiveFilters = new List<bool>();
+        foreach (var unused in this.FilteredCount)
+        {
+            this.ActiveFilters.Add(true);
+        }
+
+        this.IsLoadingCountData = false;
+        this.StateHasChanged();
     }
 
-    private async Task OnPageChanged(int i)
+    private async Task LoadProducts()
+    {
+        if (this.ProductService == null || this.IsLoadingProductData)
+        {
+            return;
+        }
+
+        this.IsLoadingProductData = true;
+        this.StateHasChanged();
+
+        var newProducts = this.OrderType switch
+                          {
+                              OrderType.Grouped => await this.ProductService.GetProductsSearch(
+                                                                                                this.CurrentProductPage,
+                                                                                                this.SearchString,
+                                                                                                "store",
+                                                                                                this.GetActiveStores()),
+                              OrderType.Descending => await this.ProductService.GetProductsSearch(
+                                                                                                  this.CurrentProductPage,
+                                                                                                  this.SearchString,
+                                                                                                  "descending",
+                                                                                                  this.GetActiveStores()),           
+                              OrderType.PriceChange => await this.ProductService.GetProductsSearch(
+                                                                                                   this.CurrentProductPage,
+                                                                                                   this.SearchString,
+                                                                                                   "change",
+                                                                                                   this.GetActiveStores()),
+                              _ => await this.ProductService.GetProductsSearch(
+                                                                               this.CurrentProductPage,
+                                                                               this.SearchString,
+                                                                               "ascending",
+                                                                               this.GetActiveStores()),
+                          };
+
+        this.TotalSearchProducts = this.TotalSearchProducts.Concat(newProducts).ToList();
+        this.IsLoadingProductData = false;
+
+        this.StateHasChanged();
+    }
+
+    private async Task ToggleFilter(int index)
+    {
+        this.ActiveFilters[index] = !this.ActiveFilters[index];
+        this.CurrentProductPage = 1;
+        this.TotalSearchProducts = new List<Price>();
+
+        await this.LoadProducts();
+    }
+
+    private async Task ChangeOrderType(OrderType orderType)
+    {
+        this.OrderType = orderType;
+        this.CurrentProductPage = 1;
+        this.TotalSearchProducts = new List<Price>();
+
+        await this.LoadProducts();
+    }
+
+    [JSInvokable]
+    public async Task LoadMoreData()
     {
         if (this.ProductService == null)
         {
             return;
         }
-        
-        this.Page = i;
-        this.IsLoading = true;
-        this.ProductList = await this.ProductService.GetProductsSearch(this.SearchString, this.Page);
-        this.IsLoading = false;
+
+        if (this.IsLoadingProductData)
+        {
+            return;
+        }
+
+        var activeSum = 0d;
+        for (var i = 0; i < this.FilteredCount.Count; i++)
+        {
+            if (!this.ActiveFilters.ElementAt(i))
+            {
+                continue;
+            }
+
+            activeSum += this.FilteredCount.ElementAt(i).Count;
+        }
+
+        if (this.TotalSearchProducts.Count >= activeSum)
+        {
+            return;
+        }
+
+        this.CurrentProductPage++;
+        await this.LoadProducts();
+    }
+
+    private ICollection<string> GetActiveStores()
+    {
+        var activeStores = new List<string>();
+
+        for (var i = 0; i < this.FilteredCount.Count; i++)
+        {
+            if (!this.ActiveFilters[i])
+            {
+                continue;
+            }
+
+            activeStores.Add(this.FilteredCount.ElementAt(i).StoreName);
+        }
+
+        return activeStores;
     }
 }

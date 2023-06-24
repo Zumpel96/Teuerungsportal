@@ -31,7 +31,7 @@ public partial class PriceChanges
 
     private IList<bool> ActiveFilters { get; set; } = new List<bool>();
 
-    private ICollection<Price> TotalNewProducts { get; set; } = new List<Price>();
+    private ICollection<Price> TotalPriceChanges { get; set; } = new List<Price>();
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -113,7 +113,7 @@ public partial class PriceChanges
                                                                                 this.GetActiveStores()),
                           };
 
-        this.TotalNewProducts = this.TotalNewProducts.Concat(newProducts).ToList();
+        this.TotalPriceChanges = this.TotalPriceChanges.Concat(newProducts).ToList();
         this.IsLoadingProductData = false;
 
         this.StateHasChanged();
@@ -123,7 +123,7 @@ public partial class PriceChanges
     {
         this.ActiveFilters[index] = !this.ActiveFilters[index];
         this.CurrentProductPage = 1;
-        this.TotalNewProducts = new List<Price>();
+        this.TotalPriceChanges = new List<Price>();
 
         await this.LoadProducts();
     }
@@ -132,7 +132,7 @@ public partial class PriceChanges
     {
         this.OrderType = orderType;
         this.CurrentProductPage = 1;
-        this.TotalNewProducts = new List<Price>();
+        this.TotalPriceChanges = new List<Price>();
 
         await this.LoadProducts();
     }
@@ -161,7 +161,7 @@ public partial class PriceChanges
             activeSum += this.FilteredCount.ElementAt(i).Count;
         }
 
-        if (this.TotalNewProducts.Count >= activeSum)
+        if (this.TotalPriceChanges.Count >= activeSum)
         {
             return;
         }
