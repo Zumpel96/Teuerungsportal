@@ -1,4 +1,5 @@
 ﻿@page "/changes"
+@using Teuerungsportal.Helpers
 
 <PageTitle>@L?["appName"]</PageTitle>
 
@@ -8,10 +9,61 @@
         <MudDivider/>
     </MudItem>
 
+    <MudItem xs="12" Class="d-flex flex-row justify-center align-center flex-wrap wrap gap-8">
+        @if (IsLoadingCountData)
+        {
+            <MudSkeleton Class="m-4" SkeletonType="SkeletonType.Rectangle" Width="12rem" Height="6rem"/>
+            <MudSkeleton Class="m-4" SkeletonType="SkeletonType.Rectangle" Width="12rem" Height="6rem"/>
+            <MudSkeleton Class="m-4" SkeletonType="SkeletonType.Rectangle" Width="12rem" Height="6rem"/>
+        }
+        else
+        {
+            @for (var i = 0; i < FilteredCount.Count; i++)
+            {
+                var currentCount = i;
+
+                if (FilteredCount.ElementAt(currentCount).Count == 0)
+                {
+                    continue;
+                }
+
+                <MudButton Disabled="@IsLoadingProductData" Class="@($"filter-button {(ActiveFilters[i] ? string.Empty : "inactive-filter-button")}")" OnClick="@(() => ToggleFilter(currentCount))">
+                    <MudGrid Class="d-flex flex-column justify-center align-center m-4">
+                        <MudText Typo="Typo.h2">@($"{FilteredCount.ElementAt(currentCount).Count:n0}")</MudText>
+                        <MudText Typo="Typo.body1">@FilteredCount.ElementAt(currentCount).StoreName</MudText>
+                    </MudGrid>
+                </MudButton>
+            }
+        }
+    </MudItem>
 
     <MudItem xs="12">
-        <MudPaper>
-            <RecentPriceChanges PriceChanges="@PaginatedPriceHistory" Page="@CurrentPricePage" NumberOfPages="PricePages" PageChanged="@OnPricePageChanged" IsLoading="@IsLoadingPriceData"/>
-        </MudPaper>
+        <MudDivider/>
+    </MudItem>
+
+    <MudItem xs="12">
+        <MudButton Disabled="@(IsLoadingCountData || IsLoadingProductData)" Variant="Variant.Text" Color="@(OrderType == OrderType.Grouped ? Color.Primary : Color.Transparent)" OnClick="@(() => ChangeOrderType(OrderType.Grouped))">
+            @L?["grouped"]
+        </MudButton>
+        <MudButton Disabled="@(IsLoadingCountData || IsLoadingProductData)" Variant="Variant.Text" Color="@(OrderType == OrderType.Descending ? Color.Primary : Color.Transparent)" OnClick="@(() => ChangeOrderType(OrderType.Descending))">
+            @L?["descending"]
+        </MudButton>
+        <MudButton Disabled="@(IsLoadingCountData || IsLoadingProductData)" Variant="Variant.Text" Color="@(OrderType == OrderType.Ascending ? Color.Primary : Color.Transparent)" OnClick="@(() => ChangeOrderType(OrderType.Ascending))">
+            @L?["ascending"]
+        </MudButton>
+        <MudButton Disabled="@(IsLoadingCountData || IsLoadingProductData)" Variant="Variant.Text" Color="@(OrderType == OrderType.PriceChange ? Color.Primary : Color.Transparent)" OnClick="@(() => ChangeOrderType(OrderType.PriceChange))">
+            @L?["priceChange"]
+        </MudButton>
+    </MudItem>
+
+    <MudItem xs="12">
+        @if (IsLoadingCountData)
+        {
+            <MudSkeleton Class="m-4" SkeletonType="SkeletonType.Rectangle" Width="100%" Height="16rem"/>
+        }
+        else
+        {
+            <RecentPriceChanges PriceChanges="@TotalNewProducts" IsLoading="@(IsLoadingProductData)" HideDate Virtualize/>
+        }
     </MudItem>
 </MudGrid>

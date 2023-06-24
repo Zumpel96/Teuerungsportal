@@ -4,5 +4,6 @@ public enum OrderType
 {   
     Grouped,
     Descending,
-    Ascending
+    Ascending,
+    PriceChange,
 }
