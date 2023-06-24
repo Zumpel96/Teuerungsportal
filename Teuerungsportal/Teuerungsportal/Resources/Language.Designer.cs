@@ -105,6 +105,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aufsteigend.
+        /// </summary>
+        internal static string ascending {
+            get {
+                return ResourceManager.GetString("ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Autor.
         /// </summary>
         internal static string author {
@@ -303,6 +312,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Absteigend.
+        /// </summary>
+        internal static string descending {
+            get {
+                return ResourceManager.GetString("descending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string english {
@@ -317,6 +335,15 @@ namespace Teuerungsportal.Resources {
         internal static string german {
             get {
                 return ResourceManager.GetString("german", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gruppiert.
+        /// </summary>
+        internal static string grouped {
+            get {
+                return ResourceManager.GetString("grouped", resourceCulture);
             }
         }
         

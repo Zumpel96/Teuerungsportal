@@ -118,9 +118,9 @@ public class ApiProductService : ProductService
     }
 
     /// <inheritdoc />
-    public async Task<ICollection<Price>> GetNewProducts(int page)
+    public async Task<ICollection<Price>> GetNewProducts(int page, string filter, ICollection<string> storeNames)
     {
-        var response = await this.Client.GetAsync($"{BaseUrl}/products/new/{page}");
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/new/{page}/{filter}/{string.Join("+", storeNames)}");
 
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();

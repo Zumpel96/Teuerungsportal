@@ -276,4 +276,13 @@
     <data name="today" xml:space="preserve">
         <value>Today</value>
     </data>
+    <data name="ascending" xml:space="preserve">
+        <value>Ascending</value>
+    </data>
+    <data name="descending" xml:space="preserve">
+        <value>Descending</value>
+    </data>
+    <data name="grouped" xml:space="preserve">
+        <value>Grouped</value>
+    </data>
 </root>
