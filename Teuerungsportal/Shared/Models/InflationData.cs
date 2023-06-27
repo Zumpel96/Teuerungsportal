@@ -23,6 +23,7 @@ public class InflationData
                      {
                          Id = dbo.StoreId,
                          Name = dbo.StoreName,
+                         Color = dbo.StoreColor,
                      };
     }
 }

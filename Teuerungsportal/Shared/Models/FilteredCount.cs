@@ -4,7 +4,7 @@ using Shared.DatabaseObjects;
 
 public class FilteredCount
 {
-    public string StoreName { get; set; }
+    public Store Store { get; set; }
 
     public double Count { get; set; }
 
@@ -16,7 +16,7 @@ public class FilteredCount
 
     public FilteredCount()
     {
-        this.StoreName = string.Empty;
+        this.Store = new Store();
         this.Count = 0;
         this.IncreasedCount = 0;
         this.DecreasedCount = 0;
@@ -25,10 +25,15 @@ public class FilteredCount
 
     public FilteredCount(FilteredCountDbo dbo)
     {
-        this.StoreName = dbo.StoreName;
         this.Count = dbo.Count;
         this.IncreasedCount = dbo.IncreasedCount;
         this.DecreasedCount = dbo.DecreasedCount;
         this.NewCount = dbo.NewCount;
+
+        this.Store = new Store()
+                     {
+                         Name = dbo.StoreName,
+                         Color = dbo.StoreColor,
+                     };
     }
 }

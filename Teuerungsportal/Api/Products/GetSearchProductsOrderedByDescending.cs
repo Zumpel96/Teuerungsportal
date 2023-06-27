@@ -25,6 +25,7 @@ public static class GetSearchProductsOrderedByDescending
                                 [pr].[name] AS [productName], 
 								[pr].[brand],
                                 [pr].[storeId], 
+                                [s].[color] AS [storeColor],
                                 [s].[name] AS [storeName], 
                                 [pr].[categoryId] AS [categoryId], 
                                 [c].[name] AS [categoryName], 
@@ -52,6 +53,7 @@ public static class GetSearchProductsOrderedByDescending
                               [categoryName],
                               [storeId],
                               [storeName],
+                              [storeColor],
                               [timestamp],
 							  [currentValue],
 							  [previousValue]

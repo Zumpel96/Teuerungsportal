@@ -174,7 +174,7 @@ public partial class NewProducts
                 continue;
             }
 
-            activeStores.Add(this.FilteredCount.ElementAt(i).StoreName);
+            activeStores.Add(this.FilteredCount.ElementAt(i).Store.Name);
         }
 
         return activeStores;

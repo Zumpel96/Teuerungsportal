@@ -9,5 +9,7 @@ public class InflationDataDbo
     public Guid StoreId { get; set; }
 
     public string StoreName { get; set; } = string.Empty;
+    
+    public string StoreColor { get; set; } = "#FFFFFF";
 
 }

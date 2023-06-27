@@ -52,6 +52,7 @@ public static class GetNumberOfProductsSearch
                           ) 
                           SELECT 
                             [name] AS [StoreName], 
+                            [color] AS [StoreColor], 
                             (
                               SELECT 
                                 COUNT([id]) 
@@ -120,6 +121,7 @@ public static class GetNumberOfProductsSearch
                             [s].[hidden] = 0 
                           GROUP BY 
                             [s].[name], 
+                            [s].[color], 
                             [s].[id];",
                 parameters: "@searchString={searchString}",
                 commandType: System.Data.CommandType.Text,

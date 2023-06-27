@@ -75,7 +75,7 @@
                         @foreach (var productsCount in orderedProductsCounts)
                         {
                             <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@productsCount.StoreName</MudText>
+                                <MudText Typo="Typo.body1" Align="Align.Left">@productsCount.Store.Name</MudText>
                             </MudItem>
                             <MudItem xs="6" Class="justify-end d-flex">
                                 <MudText Typo="Typo.body1" Align="Align.Right">@($"{productsCount.Count:n0}")</MudText>
@@ -149,7 +149,7 @@
                         @foreach (var priceChange in orderedPriceChanges)
                         {
                             <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.StoreName</MudText>
+                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.Store.Name</MudText>
                             </MudItem>
                             <MudItem xs="6" Class="justify-end d-flex">
                                 <MudText Typo="Typo.body1" Align="Align.Right">@($"{priceChange.Count:n0}")</MudText>
@@ -223,7 +223,7 @@
                         @foreach (var priceChange in orderedPriceChanges)
                         {
                             <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.StoreName</MudText>
+                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.Store.Name</MudText>
                             </MudItem>
                             <MudItem xs="6" Class="justify-end d-flex">
                                 <MudText Typo="Typo.body1" Align="Align.Right">@($"{priceChange.Count:n3}%")</MudText>

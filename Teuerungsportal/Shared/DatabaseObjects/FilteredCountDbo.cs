@@ -4,6 +4,8 @@ public class FilteredCountDbo
 {
     public string StoreName { get; set; } = string.Empty;
     
+    public string StoreColor { get; set; } = "#FFFFFF";
+    
     public double Count { get; set; }  
     
     public double IncreasedCount { get; set; }    

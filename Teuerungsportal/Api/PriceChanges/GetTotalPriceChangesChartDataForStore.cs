@@ -44,6 +44,7 @@ public static class GetTotalPriceChangesChartDataForStore
                                             CONVERT(date, [p].[timestamp]))
                                 SELECT [g].[storeId] AS [storeId],
                                        [s].[name] AS [storeName],
+                                       [s].[color] AS [storeColor], 
                                        [g].[date] AS [date],
                                        [g].[inflationValue] AS [inflationValue]
                                 FROM [grouped_prices] [g]

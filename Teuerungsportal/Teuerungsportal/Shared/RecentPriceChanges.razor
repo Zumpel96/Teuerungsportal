@@ -1,4 +1,7 @@
 ﻿@using Teuerungsportal.Models
+@using Color = MudBlazor.Color
+@using Size = MudBlazor.Size
+@using System.Drawing
 <MudTable Items="@PriceChanges" Hover="true" Loading="@IsLoading" Virtualize="@Virtualize" LoadingProgressColor="Color.Primary">
     <HeaderContent>
         @if (!HideDate)
@@ -47,7 +50,13 @@
         }
         @if (!HideStore)
         {
-            <MudTd Class="responsive-table-text" DataLabel="@L?["store"]">@context.Product?.Store?.Name</MudTd>
+            <MudTd Class="responsive-table-text" DataLabel="@L?["store"]">
+                @{
+                    var translatedColor = ColorTranslator.FromHtml(context.Product?.Store?.Color ?? "#FFFFFF");
+                    var color = $"color: {context.Product?.Store?.Color}; background-color: rgba({translatedColor.R}, {translatedColor.G}, {translatedColor.B}, 0.2)";
+                }
+                <MudChip Variant="Variant.Text" Color="Color.Primary" Style="@color">@context.Product?.Store?.Name</MudChip>
+            </MudTd>
         }
         <MudTd Class="responsive-table-text" DataLabel="@L?["price"]">
             @($"{Math.Round(context.CurrentValue, 2):N2}€")
