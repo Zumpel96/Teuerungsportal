@@ -14,7 +14,7 @@ public static class GetInflationDataTotal
 {
     [FunctionName("GetInflationDataTotalV2")]
     public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/inflation")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/inflation/total")] HttpRequest req,
         [Sql(
                 commandText: @"
                          WITH [previous_prices] AS (

@@ -294,6 +294,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dunkler Modus.
+        /// </summary>
+        internal static string darkTheme {
+            get {
+                return ResourceManager.GetString("darkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string dashboard {
@@ -416,6 +425,15 @@ namespace Teuerungsportal.Resources {
         internal static string liabilityText {
             get {
                 return ResourceManager.GetString("liabilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heller Modus.
+        /// </summary>
+        internal static string lightTheme {
+            get {
+                return ResourceManager.GetString("lightTheme", resourceCulture);
             }
         }
         
@@ -573,6 +591,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Änderungsdatum.
+        /// </summary>
+        internal static string priceChangeDate {
+            get {
+                return ResourceManager.GetString("priceChangeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preisänderungen.
         /// </summary>
         internal static string priceChanges {
@@ -654,7 +681,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Geschäft.
+        ///   Looks up a localized string similar to Händler.
         /// </summary>
         internal static string store {
             get {
@@ -672,7 +699,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Geschäfte.
+        ///   Looks up a localized string similar to Händler.
         /// </summary>
         internal static string stores {
             get {

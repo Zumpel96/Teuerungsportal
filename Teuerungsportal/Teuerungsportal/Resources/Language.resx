@@ -61,7 +61,7 @@
         <value>Produkt</value>
     </data>
     <data name="store" xml:space="preserve">
-        <value>Geschäft</value>
+        <value>Händler</value>
     </data>
     <data name="price" xml:space="preserve">
         <value>Preis</value>
@@ -79,7 +79,7 @@
         <value>Hier können Sie alle Infos zum aktuellen Produkt sehen. Außerdem sehen Sie aktuelle Statistiken und kürzliche Änderungen.</value>
     </data>
     <data name="stores" xml:space="preserve">
-        <value>Geschäfte</value>
+        <value>Händler</value>
     </data>
     <data name="storesInfo" xml:space="preserve">
         <value>Hier finden Sie eine Gesamtübersicht aller gefilterten Geschäfte. Klicken Sie einfach auf ein Geschäft um in die entsprechende Übersicht zu gelangen.</value>
@@ -284,5 +284,14 @@
     </data>
     <data name="descending" xml:space="preserve">
         <value>Absteigend</value>
+    </data>
+    <data name="darkTheme" xml:space="preserve">
+        <value>Dunkler Modus</value>
+    </data>
+    <data name="lightTheme" xml:space="preserve">
+        <value>Heller Modus</value>
+    </data>
+    <data name="priceChangeDate" xml:space="preserve">
+        <value>Änderungsdatum</value>
     </data>
 </root>

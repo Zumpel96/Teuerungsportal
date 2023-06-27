@@ -10,6 +10,12 @@ using Teuerungsportal.Resources;
 
 public partial class NavMenu
 {
+    [Parameter]
+    public bool IsDarkTheme { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsDarkThemeChanged { get; set; }
+    
     public class SearchModel
     {
         [Required]
@@ -33,6 +39,18 @@ public partial class NavMenu
     private NavigationManager? NavigationManager { get; set; }
     
     private SearchModel Search { get; set; } = new ();
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        if (this.LocalStorage == null)
+        {
+            return;
+        }
+
+        this.IsDarkTheme = await this.LocalStorage.GetItemAsync<bool>("isDarkTheme");
+        await this.IsDarkThemeChanged.InvokeAsync(this.IsDarkTheme);
+    }
 
     private async Task ChangeLanguage(string culture)
     {
@@ -65,5 +83,17 @@ public partial class NavMenu
     {
         this.DrawerState = !this.DrawerState;
         await this.DrawerStateChanged.InvokeAsync(this.DrawerState);
+    }
+
+    private async Task ToggleTheme()
+    {
+        if (this.LocalStorage == null)
+        {
+            return;
+        }
+        
+        this.IsDarkTheme = !this.IsDarkTheme;
+        await this.IsDarkThemeChanged.InvokeAsync(this.IsDarkTheme);
+        await this.LocalStorage.SetItemAsync("isDarkTheme", this.IsDarkTheme);
     }
 }

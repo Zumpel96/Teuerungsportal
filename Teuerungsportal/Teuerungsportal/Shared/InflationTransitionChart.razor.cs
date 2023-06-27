@@ -41,7 +41,7 @@ public partial class InflationTransitionChart
                                                         {
                                                             L = 50,
                                                             T = 0,
-                                                            B = 0,
+                                                            B = 60,
                                                             Pad = 16,
                                                         },
                                                Legend = new Legend

@@ -42,20 +42,14 @@ public class HoferDataExtractor
     public async Task Run(ILogger log)
     {
         // Get token
-        var tokenBody = new Dictionary<string, string>()
-                        {
-                            { "OwnWebshopProviderCode", "" },
-                            { "SetUserSelectedShopsOnFirstSiteLoad", "true" },
-                            { "RedirectToDashboardNeeded", "false" },
-                            { "ShopsSelectedForRoot", "hofer" },
-                            { "BrandProviderSelectedForRoot", "null" },
-                            { "UserSelectedShops", "[]" }
-                        };
-        var tokenContent = new FormUrlEncodedContent(tokenBody);
-        tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
         log.LogTrace("Fetching Token");
-        var tokenResponse = await this.Client.PostAsync("https://shopservice.roksh.at/session/configure", tokenContent);
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://shopservice.roksh.at/session/configure");
+        var content = new StringContent(
+                                        "{\r\n    \"OwnWebshopProviderCode\": \"\",\r\n    \"SetUserSelectedShopsOnFirstSiteLoad\": true,\r\n    \"RedirectToDashboardNeeded\": false,\r\n    \"ShopsSelectedForRoot\": \"hofer\",\r\n    \"BrandProviderSelectedForRoot\": null,\r\n    \"UserSelectedShops\": []\r\n}",
+                                        null,
+                                        "application/json");
+        request.Content = content;
+        var tokenResponse = await this.Client.SendAsync(request);
 
         if (!tokenResponse.Headers.TryGetValues("JWT-Auth", out var tokenValues))
         {

@@ -28,6 +28,32 @@ public class ApiPriceService : PriceService
     }
 
     /// <inheritdoc />
+    public async Task<FilteredCount> GetStorePriceChangesCount(string? filter, Guid storeId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/store/{storeId}{filter}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<FilteredCount>(responseBody);
+
+        return data ?? new FilteredCount();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetStorePriceChanges(string? filter, int page, Guid storeId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/prices/store/{storeId}/{page}{filter}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<ICollection<Price>>(responseBody);
+
+        return data ?? new List<Price>();
+    }
+
+    /// <inheritdoc />
     public async Task<ICollection<Price>> GetTodayPriceChanges(int page, string filter, IEnumerable<string> storeNames)
     {
         var response = await this.Client.GetAsync($"{BaseUrl}/prices/{page}/{filter}/{string.Join("+", storeNames)}");

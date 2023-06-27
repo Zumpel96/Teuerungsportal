@@ -8,7 +8,7 @@ using Teuerungsportal.Services.Interfaces;
 
 public class ApiStoreService : StoreService
 {
-    private const string BaseUrl = "https://api.teuerungsportal.at";
+    private const string BaseUrl = "https://api.teuerungsportal.at/v2";
     private HttpClient Client { get; set; }
     
     public ApiStoreService(HttpClient client)

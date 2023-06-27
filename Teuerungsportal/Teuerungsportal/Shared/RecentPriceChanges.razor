@@ -31,7 +31,7 @@
     <RowTemplate>
         @if (!HideDate)
         {
-            <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy HH:mm")</MudTd>
+            <MudTd Class="responsive-table-text" DataLabel="@L?["changeDateTime"]">@context.TimeStamp.ToString("dd.MM.yyyy")</MudTd>
         }
         @if (!HideName)
         {

@@ -21,9 +21,6 @@ public partial class Index
     private ProductService? ProductService { get; set; }
 
     [Inject]
-    private StoreService? StoreService { get; set; }
-
-    [Inject]
     private InflationDataService? InflationDataService { get; set; }
 
     [Inject]

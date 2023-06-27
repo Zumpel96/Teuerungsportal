@@ -285,4 +285,13 @@
     <data name="grouped" xml:space="preserve">
         <value>Grouped</value>
     </data>
+    <data name="lightTheme" xml:space="preserve">
+        <value>Light Mode</value>
+    </data>
+    <data name="darkTheme" xml:space="preserve">
+        <value>Dark Theme</value>
+    </data>
+    <data name="priceChangeDate" xml:space="preserve">
+        <value>Change Date</value>
+    </data>
 </root>

@@ -1,32 +1,42 @@
-﻿<MudNavMenu Rounded>
-    <EditForm Model="@Search" OnValidSubmit="@Redirect">
-        <DataAnnotationsValidator/>
-        <MudTextField Class="mx-2 mb-2" @bind-Value="@Search.Text" Label="@L?["search"]" For="@(() => Search.Text)" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
-    </EditForm>
+﻿<MudNavMenu Bordered Style="height: 100%">
+    <div class="d-flex justify-space-between flex-column" style="height: 100%">
+        <div>
+            <EditForm Model="@Search" OnValidSubmit="@Redirect">
+                <DataAnnotationsValidator/>
+                <MudTextField Class="mx-6 mb-2 search-input" @bind-Value="@Search.Text" Label="@L?["search"]" For="@(() => Search.Text)" Variant="Variant.Text" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
+            </EditForm>
 
-    <MudDivider/>
+            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
 
-    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
+            <MudNavLink Href="/changes" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">@L?["priceChanges"]</MudNavLink>
 
-    <MudNavLink Href="/changes" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">@L?["priceChanges"]</MudNavLink>
-    
-    <MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddShoppingCart">@L?["newProducts"]</MudNavLink>
+            <MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddShoppingCart">@L?["newProducts"]</MudNavLink>
 
-    <MudNavGroup Title="@L?["products"]" Icon="@Icons.Material.Filled.ShoppingCart">
-        <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix">@L?["categories"]</MudNavLink>
-        <MudNavLink Href="/products/uncategorized" Match="NavLinkMatch.Prefix">@L?["uncategorized"]</MudNavLink>
-    </MudNavGroup>
+            @* <MudNavLink Href="/categories" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Category">@L?["categories"]</MudNavLink> *@
 
-    <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
+            <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
+        </div>
+        <div>
+            <MudDivider/>
 
-    <MudDivider/>
+            <MudNavGroup Title="@L?["language"]" Icon="@Icons.Material.Filled.Flag">
+                <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>
+                <MudNavLink OnClick="@(() => ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
+            </MudNavGroup>
 
-    <MudNavGroup Title="@L?["language"]" Icon="@Icons.Material.Filled.Flag">
-        <MudNavLink OnClick="@(() => ChangeLanguage("de-DE"))">@L?["german"]</MudNavLink>
-        <MudNavLink OnClick="@(() => ChangeLanguage("en-US"))">@L?["english"]</MudNavLink>
-    </MudNavGroup>
+            @if (IsDarkTheme)
+            {
+                <MudNavLink Icon="@Icons.Material.Filled.Lightbulb" OnClick="@ToggleTheme">@L?["lightTheme"]</MudNavLink>
+            }
+            else
+            {
+                <MudNavLink Icon="@Icons.Material.Outlined.Lightbulb" OnClick="@ToggleTheme">@L?["darkTheme"]</MudNavLink>
+            }
 
-    <MudNavLink Href="https://github.com/Zumpel96/Teuerungsportal" Match="NavLinkMatch.Prefix" Icon="@Icons.Custom.Brands.GitHub" Target="blank">@L?["source"]</MudNavLink>
 
-    <MudNavLink Href="/impress" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">@L?["impress"]</MudNavLink>
+            <MudNavLink Href="https://github.com/Zumpel96/Teuerungsportal" Match="NavLinkMatch.Prefix" Icon="@Icons.Custom.Brands.GitHub" Target="blank">@L?["source"]</MudNavLink>
+
+            <MudNavLink Href="/impress" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">@L?["impress"]</MudNavLink>
+        </div>
+    </div>
 </MudNavMenu>
