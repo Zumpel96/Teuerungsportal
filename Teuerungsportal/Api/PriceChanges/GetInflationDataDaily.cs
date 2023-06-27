@@ -14,7 +14,7 @@ public static class GetInflationDataDaily
 {
     [FunctionName("GetInflationDataDailyV2")]
     public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/inflation/day")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/inflation/total/day")] HttpRequest req,
         [Sql(
                 commandText: @"
                          WITH [previous_prices] AS (

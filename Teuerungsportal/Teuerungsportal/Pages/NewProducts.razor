@@ -20,18 +20,15 @@
             @for (var i = 0; i < FilteredCount.Count; i++)
             {
                 var currentCount = i;
+                var currentFilteredCount = FilteredCount.ElementAt(currentCount);
+                currentFilteredCount.NewCount = currentFilteredCount.Count;
 
                 if (FilteredCount.ElementAt(currentCount).Count == 0)
                 {
                     continue;
                 }
 
-                <MudButton Disabled="@IsLoadingProductData" Class="@($"filter-button {(ActiveFilters[i] ? string.Empty : "inactive-filter-button")}")" OnClick="@(() => ToggleFilter(currentCount))">
-                    <MudGrid Class="d-flex flex-column justify-center align-center m-4">
-                        <MudText Typo="Typo.h2">@($"{FilteredCount.ElementAt(currentCount).Count:n0}")</MudText>
-                        <MudText Typo="Typo.body1">@FilteredCount.ElementAt(currentCount).StoreName</MudText>
-                    </MudGrid>
-                </MudButton>
+                <FilterCountVisualizer FilteredCount="@currentFilteredCount" IsActive="@ActiveFilters[i]" IsLoading="IsLoadingProductData" OnClick="@(() => ToggleFilter(currentCount))"/>
             }
         }
     </MudItem>
@@ -53,13 +50,6 @@
     </MudItem>
 
     <MudItem xs="12">
-        @if (IsLoadingCountData)
-        {
-            <MudSkeleton Class="m-4" SkeletonType="SkeletonType.Rectangle" Width="100%" Height="16rem"/>
-        }
-        else
-        {
-            <RecentPriceChanges PriceChanges="@TotalNewProducts" IsLoading="@(IsLoadingProductData)" HideDate Virtualize/>
-        }
+        <RecentPriceChanges PriceChanges="@TotalNewProducts" IsLoading="@(IsLoadingProductData || IsLoadingCountData)" HideDate Virtualize/>
     </MudItem>
 </MudGrid>

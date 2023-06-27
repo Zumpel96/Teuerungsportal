@@ -19,4 +19,6 @@ public interface ProductService
     public Task<ICollection<Price>> GetProductsSearch(int page, string searchString, string filter, IEnumerable<string> storeNames);
     
     public Task<ICollection<FilteredCount>> GetAllProductCounts(string? filter);
+    
+    public Task<FilteredCount> GetStoreProductCounts(string? filter, Guid storeId);
 }

@@ -48,11 +48,11 @@
 }
 
 .xtick text {
-    fill: #C3C3C5!important;
+    fill: var(--mud-palette-text-primary)!important;
 }
 
 .ytick text {
-    fill: #C3C3C5 !important;
+    fill: var(--mud-palette-text-primary) !important;
 }
 
 .legend .bg {
@@ -60,7 +60,7 @@
 }
 
 .legendtext {
-    fill: #C3C3C5 !important;
+    fill: var(--mud-palette-text-primary) !important;
 }
 
 .mud-typography:focus-visible {
@@ -76,13 +76,13 @@
 .loading-bg {
     width: 100vw;
     height: 100vh;
-    background-color: #32333D;
+    background-color: #191716;
 }
 
 .loading-logo {
     width: 80%;
     height: auto;
-    max-width: 10rem;
+    max-width: 30rem;
 }
 
 .select-heading-item {
@@ -106,9 +106,21 @@
     width: 12rem;
     height: 6rem;
     border-radius: 32px!important;
-    border: 2px solid white!important;
+    border: 2px solid var(--mud-palette-text-primary)!important;
 }
 
 .inactive-filter-button {
-   opacity: 0.5; 
+   opacity: 0.2; 
+}
+
+.mud-dialog, .mud-popover {
+    background-color: var(--mud-palette-appbar-background)!important;
+}
+
+.search-input > .mud-input-control-input-container > .mud-input > .mud-input-slot {
+    color: rgb(225, 225, 225)!important;
+}
+
+.search-input > .mud-input-control-input-container > .mud-input-label {
+    color: rgb(225, 225, 225) !important;
 }

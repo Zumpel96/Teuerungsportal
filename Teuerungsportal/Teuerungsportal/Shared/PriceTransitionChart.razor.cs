@@ -114,6 +114,14 @@ public partial class PriceTransitionChart
                       {
                           X = x,
                           Y = y,
+                          Marker = new ()
+                                   {
+                                       Color = "#F1A208",
+                                   },
+                          Line = new ()
+                                 {
+                                     Color = "#F1A208",
+                                 },
                           Name = this.ProductName,
                           ShowLegend = false,
                       });

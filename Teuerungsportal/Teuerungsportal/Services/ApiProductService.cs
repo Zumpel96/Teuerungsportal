@@ -113,4 +113,17 @@ public class ApiProductService : ProductService
 
         return data ?? new List<FilteredCount>();
     }
+
+    /// <inheritdoc />
+    public async Task<FilteredCount> GetStoreProductCounts(string? filter, Guid storeId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/products/store/{storeId}{filter}");
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<FilteredCount>(responseBody);
+
+        return data ?? new FilteredCount();
+    }
 }

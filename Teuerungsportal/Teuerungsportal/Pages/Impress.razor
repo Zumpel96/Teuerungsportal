@@ -6,23 +6,19 @@
     <MudItem xs="12" lg="6">
         <MudGrid>
             <MudItem xs="12">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["author"]</MudText>
-                    <MudText Typo="Typo.body1">Bernhard Ruckenstuhl - Gerasdorfer Straße 162/3 - 1210 Wien</MudText>
-                    <MudText Typo="Typo.body1">
-                        <MudLink Href="mailto:bernhardruckenstuhl96@gmail.com">bernhardruckenstuhl96@gmail.com</MudLink>
-                    </MudText>
-                </MudPaper>
+                <MudText Typo="Typo.h1">@L?["author"]</MudText>
+                <MudText Typo="Typo.body1">Bernhard Ruckenstuhl - Gerasdorfer Straße 162/3 - 1210 Wien</MudText>
+                <MudText Typo="Typo.body1">
+                    <MudLink Href="mailto:bernhardruckenstuhl96@gmail.com">bernhardruckenstuhl96@gmail.com</MudLink>
+                </MudText>
             </MudItem>
 
             <MudItem xs="12">
-                <MudPaper>
-                    <MudText Typo="Typo.h1">@L?["impress"]</MudText>
-                    <MudText Typo="Typo.h2">@L?["liability"]</MudText>
-                    <MudText Typo="Typo.body1" Class="mb-3">@L?["liabilityText"]</MudText>
-                    <MudText Typo="Typo.h2">@L?["citation"]</MudText>
-                    <MudText Typo="Typo.body1">@L?["citationText"]</MudText>
-                </MudPaper>
+                <MudText Typo="Typo.h1">@L?["impress"]</MudText>
+                <MudText Typo="Typo.h2">@L?["liability"]</MudText>
+                <MudText Typo="Typo.body1" Class="mb-3">@L?["liabilityText"]</MudText>
+                <MudText Typo="Typo.h2">@L?["citation"]</MudText>
+                <MudText Typo="Typo.body1">@L?["citationText"]</MudText>
             </MudItem>
         </MudGrid>
     </MudItem>
@@ -36,7 +32,7 @@
 
             <MudDivider/>
 
-            <MudList>
+            <div class="d-flex flex-row flex-wrap gap-x-8 gap-y-4">
                 @if (IsLoading)
                 {
                     <MudSkeleton Width="30%" Height="1rem" Class="mt-4"/>
@@ -48,10 +44,10 @@
                 {
                     @foreach (var donator in Donators)
                     {
-                        <MudListItem Text="@donator.Name"/>
+                        <MudText Typo="Typo.body1">@donator.Name</MudText>
                     }
                 }
-            </MudList>
+            </div>
         </MudPaper>
     </MudItem>
 </MudGrid>

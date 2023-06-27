@@ -6,4 +6,5 @@ public enum OrderType
     Descending,
     Ascending,
     PriceChange,
+    Time,
 }

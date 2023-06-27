@@ -294,6 +294,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark Theme.
+        /// </summary>
+        internal static string darkTheme {
+            get {
+                return ResourceManager.GetString("darkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         internal static string dashboard {
@@ -416,6 +425,15 @@ namespace Teuerungsportal.Resources {
         internal static string liabilityText {
             get {
                 return ResourceManager.GetString("liabilityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Mode.
+        /// </summary>
+        internal static string lightTheme {
+            get {
+                return ResourceManager.GetString("lightTheme", resourceCulture);
             }
         }
         
@@ -569,6 +587,15 @@ namespace Teuerungsportal.Resources {
         internal static string priceChange {
             get {
                 return ResourceManager.GetString("priceChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Date.
+        /// </summary>
+        internal static string priceChangeDate {
+            get {
+                return ResourceManager.GetString("priceChangeDate", resourceCulture);
             }
         }
         
