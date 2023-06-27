@@ -31,7 +31,8 @@ public class Price
                            Store = new Store()
                                    {
                                        Id = dbo.StoreId,
-                                       Name = dbo.StoreName
+                                       Name = dbo.StoreName,
+                                       Color = dbo.StoreColor,
                                    },
                            Category = dbo.CategoryId == null
                                       ? null

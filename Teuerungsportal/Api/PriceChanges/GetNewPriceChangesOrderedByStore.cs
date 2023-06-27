@@ -26,6 +26,7 @@ public static class GetNewPriceChangesOrderedByStore
 								[pr].[brand],
                                 [pr].[storeId], 
                                 [s].[name] AS [storeName], 
+                                [s].[color] AS [storeColor],
                                 [pr].[categoryId] AS [categoryId], 
                                 [c].[name] AS [categoryName], 
                                 [p].[value] AS [currentValue], 
@@ -52,6 +53,7 @@ public static class GetNewPriceChangesOrderedByStore
                               [categoryName],
                               [storeId],
                               [storeName],
+                              [storeColor],
                               [timestamp],
 							  [currentValue],
                               [previousValue]

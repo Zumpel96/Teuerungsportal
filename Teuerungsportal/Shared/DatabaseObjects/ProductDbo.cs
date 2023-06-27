@@ -20,5 +20,7 @@ public class ProductDbo
 
     public string StoreName { get; set; } = string.Empty;
     
+    public string StoreColor { get; set; } = "#FFFFFF";
+    
     public string StoreBaseUrl { get; set; } = string.Empty;
 }

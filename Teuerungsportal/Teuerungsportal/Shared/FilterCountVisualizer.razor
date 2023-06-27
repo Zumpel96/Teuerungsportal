@@ -1,4 +1,7 @@
-﻿<MudButton Disabled="@IsLoading" Class="@($"filter-button {(IsActive ? string.Empty : "inactive-filter-button")}")" OnClick="@Clicked">
+﻿@{
+    var color = $"border-color: {FilteredCount.Store.Color}!important";
+}
+<MudButton Disabled="@IsLoading" Class="@($"filter-button {(IsActive ? string.Empty : "inactive-filter-button")}")" Style="@color" OnClick="@Clicked">
     <MudGrid Class="d-flex flex-column justify-center align-center m-4">
         <MudText Typo="Typo.h2">@($"{FilteredCount.Count:n0}")</MudText>
         <div class="d-flex flex-row justify-center align-center" style="margin-top: -8px">
@@ -13,6 +16,6 @@
             <MudText Color="Color.Error" Typo="Typo.subtitle1">@($"{FilteredCount.IncreasedCount:n0}")</MudText>
             <MudText Typo="Typo.subtitle1">)</MudText>
         </div>
-        <MudText Typo="Typo.body1">@FilteredCount.StoreName</MudText>
+        <MudText Typo="Typo.body1">@FilteredCount.Store.Name</MudText>
     </MudGrid>
 </MudButton>

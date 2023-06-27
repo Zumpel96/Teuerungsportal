@@ -106,6 +106,8 @@ public partial class InflationTransitionChart
                 }
             }
 
+            var storeObject = this.ChartData.FirstOrDefault(d => d.Store!.Name == store.Key);
+
             this.Data.Add(
                           new Scatter()
                           {
@@ -116,6 +118,7 @@ public partial class InflationTransitionChart
                               Line = new ()
                                      {
                                         Shape  = ShapeEnum.Spline,
+                                        Color = storeObject?.Store?.Color,
                                      },
                           });
         }

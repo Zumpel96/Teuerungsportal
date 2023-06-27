@@ -58,6 +58,7 @@ public static class GetInflationDataWeekly
                         ) 
                         SELECT 
                           [s].[name] AS [StoreName], 
+                          [s].[color] AS [StoreColor], 
                           [g].[inflationValue] AS [Count] 
                         FROM 
                           [grouped_prices] [g] 

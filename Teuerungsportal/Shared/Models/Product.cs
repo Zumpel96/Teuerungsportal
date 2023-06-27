@@ -41,6 +41,7 @@ public class Product
                            Id = (Guid)dbo.StoreId,
                            Name = dbo.StoreName,
                            BaseUrl = dbo.StoreBaseUrl,
+                           Color = dbo.StoreColor,
                        };
 
         this.Category = dbo.CategoryId == null

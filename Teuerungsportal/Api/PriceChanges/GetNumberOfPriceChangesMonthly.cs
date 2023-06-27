@@ -44,6 +44,7 @@ public static class GetNumberOfPriceChangesMonthly
                             ) 
                             SELECT 
                               [name] AS [StoreName], 
+                              [color] AS [StoreColor], 
                               (
                                 SELECT 
                                   COUNT([id]) 
@@ -65,7 +66,7 @@ public static class GetNumberOfPriceChangesMonthly
                               [dbo].[store] [s]
                             WHERE [s].[hidden] = 0
                             GROUP BY 
-                              [s].[name], [s].[id];",
+                              [s].[name], [s].[color], [s].[id];",
                 commandType: System.Data.CommandType.Text,
                 connectionStringSetting: "SqlConnectionString")]
         IEnumerable<FilteredCountDbo> products)

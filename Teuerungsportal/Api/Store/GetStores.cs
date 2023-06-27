@@ -19,6 +19,7 @@ public static class GetStores
                 commandText: @"
                                 SELECT 
                                   [id], 
+                                  [color],
                                   [name], 
                                   [baseUrl]
                                 FROM 
