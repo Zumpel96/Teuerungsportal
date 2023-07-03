@@ -249,6 +249,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string close {
+            get {
+                return ResourceManager.GetString("close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We use Cookies.
         /// </summary>
         internal static string cookieConsent {

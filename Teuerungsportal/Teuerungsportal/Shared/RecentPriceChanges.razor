@@ -26,6 +26,7 @@
         }
         <MudTh>@L?["price"]</MudTh>
         <MudTh>@L?["priceChange"]</MudTh>
+        <MudTh></MudTh>
         @if (!HideDetails)
         {
             <MudTh></MudTh>
@@ -89,6 +90,12 @@
                 }
             </div>
         </MudTd>
+        @if (!HideFavorite)
+        {
+            <MudTd Class="responsive-table-text">
+                <MudIconButton Color="@(Favorites.Contains(context.Product!.Id) ? Color.Primary : Color.Default)" Icon="@Icons.Material.Filled.Favorite" OnClick="@(() => ToggleProductFavorite(context.Product))"/>
+            </MudTd>
+        }
         @if (!HideDetails)
         {
             <MudTd Class="responsive-table-text">

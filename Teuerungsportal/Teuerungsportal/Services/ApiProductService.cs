@@ -126,4 +126,13 @@ public class ApiProductService : ProductService
 
         return data ?? new FilteredCount();
     }
+
+    /// <inheritdoc />
+    public async Task<string> GetProductUrl(Guid productId)
+    {
+        var response = await this.Client.GetAsync($"{BaseUrl}/product/url/{productId}");
+
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
+    }
 }
