@@ -15,10 +15,18 @@ public partial class ProductDetails
     [Inject]
     private PriceService? PriceService { get; set; }
 
+    [Inject]
+    private ProductService? ProductService { get; set; }
+
+    [Inject]
+    private IStringLocalizer<Language>? L { get; set; }
+
     [CascadingParameter]
     private MudDialogInstance? MudDialog { get; set; }
 
     private ICollection<Price> PriceHistory { get; set; } = new List<Price>();
+
+    private string Url { get; set; } = string.Empty;
 
     private bool IsLoading { get; set; }
 
@@ -30,13 +38,14 @@ public partial class ProductDetails
 
     private async Task LoadData()
     {
-        if (this.PriceService == null || this.IsLoading)
+        if (this.PriceService == null  || this.ProductService == null || this.IsLoading)
         {
             return;
         }
         
         this.IsLoading = true;
         this.PriceHistory = await this.PriceService.GetProductPriceChanges(this.Product.Id);
+        this.Url = await this.ProductService.GetProductUrl(this.Product.Id);
         this.IsLoading = false;
         
         this.StateHasChanged();

@@ -11,11 +11,15 @@
 
         <MudGrid Class="mt-8">
             <MudItem Style="min-width: 36rem">
-                <RecentPriceChanges IsLoading="@IsLoading" PriceChanges="@PriceHistory" HideDetails HideBrand HideCategory HideStore HideName/>
+                <RecentPriceChanges IsLoading="@IsLoading" PriceChanges="@PriceHistory" HideDetails HideBrand HideCategory HideStore HideName HideFavorite/>
             </MudItem>
         </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Submit">Close</MudButton>
+        @if (!string.IsNullOrEmpty(Url))
+        {
+            <MudButton Color="Color.Secondary" Href="@($"{Url}")" Target="blank">@L?["onlineShopLink"]</MudButton>
+        }
+        <MudButton Color="Color.Primary" OnClick="Submit">@L?["close"]</MudButton>
     </DialogActions>
 </MudDialog>

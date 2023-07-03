@@ -35,6 +35,9 @@ public partial class RecentPriceChanges
     public bool HideDetails { get; set; }
 
     [Parameter]
+    public bool HideFavorite { get; set; }
+
+    [Parameter]
     public bool IsLoading { get; set; }
 
     [Parameter]
@@ -44,7 +47,23 @@ public partial class RecentPriceChanges
     private IDialogService? DialogService { get; set; }
 
     [Inject]
+    private FavoriteService? FavoriteService { get; set; }
+
+    [Inject]
     private IStringLocalizer<Language>? L { get; set; }
+
+    private ICollection<Guid> Favorites { get; set; } = new List<Guid>();
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        if (this.FavoriteService == null)
+        {
+            return;
+        }
+        
+        this.Favorites = await this.FavoriteService.GetFavorites();
+    }
 
     private async Task ShowProductDetails(Product? product)
     {
@@ -60,5 +79,24 @@ public partial class RecentPriceChanges
                       };
 
         await this.DialogService.ShowAsync<ProductDetails>(product.Name, parameters, options);
+    }
+
+    private async Task ToggleProductFavorite(Product? product)
+    {
+        if (this.FavoriteService == null || product == null)
+        {
+            return;
+        }
+        
+        if (!this.Favorites.Contains(product.Id))
+        {
+            await this.FavoriteService.FavoriteProduct(product.Id);
+        }
+        else
+        {
+            await this.FavoriteService.UnFavoriteProduct(product.Id);
+        }
+
+        this.Favorites = await this.FavoriteService.GetFavorites();
     }
 }

@@ -294,4 +294,7 @@
     <data name="priceChangeDate" xml:space="preserve">
         <value>Änderungsdatum</value>
     </data>
+    <data name="close" xml:space="preserve">
+        <value>Schließen</value>
+    </data>
 </root>
