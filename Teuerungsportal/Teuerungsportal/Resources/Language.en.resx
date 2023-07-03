@@ -178,7 +178,7 @@
         <value>Source Code</value>
     </data>
     <data name="liabilityText" xml:space="preserve">
-        <value>Despite careful content control, we assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content.</value>
+        <value>All shown data are only for reference and may contain errors with varying causes. Despite careful content control, we assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content.</value>
     </data>
     <data name="liability" xml:space="preserve">
         <value>Liablitiy Notice</value>
