@@ -420,7 +420,7 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich..
+        ///   Looks up a localized string similar to Alle angezeigten Daten dienen als Anhaltspunkt und können Fehler aus diversesten Gründen beinhalten (Rundungsfehler, Crawling-Fehler, ...). Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich..
         /// </summary>
         internal static string liabilityText {
             get {

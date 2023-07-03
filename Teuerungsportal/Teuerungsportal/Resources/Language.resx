@@ -181,7 +181,7 @@
         <value>Haftungshinweis</value>
     </data>
     <data name="liabilityText" xml:space="preserve">
-        <value>Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</value>
+        <value>Alle angezeigten Daten dienen als Anhaltspunkt und können Fehler aus diversesten Gründen beinhalten (Rundungsfehler, Crawling-Fehler, ...). Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</value>
     </data>
     <data name="citation" xml:space="preserve">
         <value>Zitatrecht</value>
