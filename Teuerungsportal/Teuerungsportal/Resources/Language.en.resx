@@ -297,4 +297,7 @@
     <data name="close" xml:space="preserve">
         <value>Close</value>
     </data>
+    <data name="favorites" xml:space="preserve">
+        <value>Favorite Products</value>
+    </data>
 </root>

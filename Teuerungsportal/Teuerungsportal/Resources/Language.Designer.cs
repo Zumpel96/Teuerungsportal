@@ -348,6 +348,15 @@ namespace Teuerungsportal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lieblingsprodukte.
+        /// </summary>
+        internal static string favorites {
+            get {
+                return ResourceManager.GetString("favorites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deutsch.
         /// </summary>
         internal static string german {

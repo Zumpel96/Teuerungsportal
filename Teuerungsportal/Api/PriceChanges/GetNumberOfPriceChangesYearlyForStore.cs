@@ -8,7 +8,6 @@ namespace Api.v2;
 using System.Collections.Generic;
 using System.Linq;
 using Shared.DatabaseObjects;
-using Teuerungsportal.Models;
 
 public static class GetNumberOfPriceChangesYearlyForStore
 {

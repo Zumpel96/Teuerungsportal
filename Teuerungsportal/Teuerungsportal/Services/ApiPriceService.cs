@@ -1,5 +1,6 @@
 namespace Teuerungsportal.Services;
 
+using System.Net.Http.Json;
 using Newtonsoft.Json;
 using Teuerungsportal.Models;
 using Teuerungsportal.Services.Interfaces;
@@ -25,6 +26,32 @@ public class ApiPriceService : PriceService
         var data = JsonConvert.DeserializeObject<List<FilteredCount>>(responseBody);
 
         return data ?? new List<FilteredCount>();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<FilteredCount>> GetFavoritesPriceChangesCount(string? filter, ICollection<Guid> favorites)
+    {
+        var response = await this.Client.PostAsJsonAsync($"{BaseUrl}/prices/favorites{filter}", favorites);
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<ICollection<FilteredCount>>(responseBody);
+
+        return data ?? new List<FilteredCount>();
+    }
+
+    /// <inheritdoc />
+    public async Task<ICollection<Price>> GetFavoritesPriceChanges(string? filter, int page, ICollection<Guid> favorites)
+    {
+        var response = await this.Client.PostAsJsonAsync($"{BaseUrl}/prices/favorites/{page}{filter}", favorites);
+
+        response.EnsureSuccessStatusCode();
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        var data = JsonConvert.DeserializeObject<ICollection<Price>>(responseBody);
+
+        return data ?? new List<Price>();
     }
 
     /// <inheritdoc />

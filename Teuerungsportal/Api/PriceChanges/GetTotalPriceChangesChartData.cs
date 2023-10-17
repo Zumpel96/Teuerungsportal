@@ -16,7 +16,7 @@ public static class GetTotalPriceChangesChartData
     public static IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/chart")] HttpRequest req,
         [Sql(
-                commandText: @"
+                commandText: $@"
                                 WITH [previous_prices] AS
                                   (SELECT [p].[id],
                                           [p].[productId],

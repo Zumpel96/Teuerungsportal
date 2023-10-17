@@ -5,17 +5,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace Api.v2;
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Shared.DatabaseObjects;
+using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
+using Teuerungsportal.Models;
 
-public static class GetNumberOfPriceChangesDailyForStore
+public static class GetNumberOfPriceChangesTotalForFavorites
 {
-    [FunctionName("GetNumberOfPriceChangesForStoreV2")]
-    public static IActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/prices/store/{storeId}/day")] HttpRequest req,
-        [Sql(
-                commandText: @"
+    private static string Query = @"                          
                           WITH [previous_prices] AS (
                             SELECT 
                               [p].[id], 
@@ -40,9 +41,11 @@ public static class GetNumberOfPriceChangesDailyForStore
                               LEFT JOIN [dbo].[category] [c] ON [pr].[categoryId] = [c].[id] 
                             WHERE 
                               [s].[hidden] = 0
+                              AND [pr].[id] IN (@productIds)
                           ) 
                           SELECT 
                             [name] AS [StoreName], 
+                            [color] AS [StoreColor], 
                             (
                               SELECT 
                                 COUNT([id]) 
@@ -55,7 +58,6 @@ public static class GetNumberOfPriceChangesDailyForStore
                                     [previous_prices] 
                                   WHERE 
                                     [previousValue] IS NOT NULL
-									                  AND [timestamp] >= CAST(GETDATE() AS DATE)
                                 ) AS sub 
                               WHERE 
                                 [sub].[storeId] = [s].[id]
@@ -72,7 +74,6 @@ public static class GetNumberOfPriceChangesDailyForStore
                                     [previous_prices] 
                                   WHERE 
                                     [previousValue] IS NOT NULL 
-									                  AND [timestamp] >= CAST(GETDATE() AS DATE)
                                     AND [previousValue] < [currentValue]
                                 ) AS sub 
                               WHERE 
@@ -90,7 +91,6 @@ public static class GetNumberOfPriceChangesDailyForStore
                                     [previous_prices] 
                                   WHERE 
                                     [previousValue] IS NOT NULL 
-									                  AND [timestamp] >= CAST(GETDATE() AS DATE)
                                     AND [previousValue] > [currentValue]
                                 ) AS sub 
                               WHERE 
@@ -100,16 +100,49 @@ public static class GetNumberOfPriceChangesDailyForStore
                             [dbo].[store] [s] 
                           WHERE 
                             [s].[hidden] = 0 
-                            AND [s].[id] = @storeId
                           GROUP BY 
                             [s].[name], 
-                            [s].[id];",
-                parameters: "@storeId={storeId}",
-                commandType: System.Data.CommandType.Text,
-                connectionStringSetting: "SqlConnectionString")]
-        IEnumerable<FilteredCountDbo> products)
+                            [s].[color], 
+                            [s].[id];";
+
+    [FunctionName("GetNumberOfPriceChangesTotalForFavoritesV2")]
+    public static async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v2/prices/favorites")] HttpRequest req)
     {
-      var countList = products.ToList();
-      return !countList.Any() ? new OkObjectResult(0) : new OkObjectResult(countList.First());
+        var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+        
+        var productIds = JsonConvert.DeserializeObject<List<Guid>>(requestBody);
+        if (productIds == null)
+        {
+          return new OkObjectResult(new List<FilteredCount>());
+        }
+        
+        var stringIds = productIds.Select(p => $"'{p}'");
+        var alteredQuery = Query.Replace("@productIds", string.Join(',', stringIds));
+        
+        await using var connection = new SqlConnection(Environment.GetEnvironmentVariable("SqlConnectionString"));
+        await using var command = new SqlCommand(alteredQuery, connection);
+        
+        await connection.OpenAsync();
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var counts = new List<FilteredCount>();
+        while (await reader.ReadAsync())
+        {
+            var count = new FilteredCount()
+                        {
+                            Store = new Store()
+                                    {
+                                        Name = reader["StoreName"].ToString() ?? string.Empty,
+                                        Color = reader["StoreColor"].ToString() ?? string.Empty,
+                                    },
+                            Count = (int)reader["Count"],
+                            IncreasedCount = (int)reader["IncreasedCount"],
+                            DecreasedCount = (int)reader["DecreasedCount"],
+                        };
+            counts.Add(count);
+        }
+
+        return new OkObjectResult(counts);
     }
 }
