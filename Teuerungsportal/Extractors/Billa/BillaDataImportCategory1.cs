@@ -17,14 +17,20 @@ public static class BillaDataImportCategory1
         ILogger log)
     {
         log.LogInformation("Request received - Starting");
-        var dataExtractor = new BillaDataExtractor("B2-1", dbProducts, dbPrices);
-        try
+
+        for (var i = 0; i < 10; i++)
         {
-            await dataExtractor.Run(log);
+            log.LogInformation($"Starting page {i}");
+            var dataExtractor = new BillaDataExtractor("obst-und-gemuese-13751", i, dbProducts, dbPrices);
+            try
+            {
+                await dataExtractor.Run(log);
+            }
+            catch (Exception e)
+            {
+                log.LogInformation($"{e}");
+            }
         }
-        catch (Exception e)
-        {
-            log.LogInformation($"{e}");
-        }
+
     }
 }

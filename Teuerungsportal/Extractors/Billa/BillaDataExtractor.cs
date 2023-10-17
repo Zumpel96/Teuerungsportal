@@ -24,10 +24,10 @@ public class BillaDataExtractor
 
     private IAsyncCollector<PriceDto> DbPrices { get; set; }
 
-    public BillaDataExtractor(string category, IAsyncCollector<ProductDto> dbProducts, IAsyncCollector<PriceDto> dbPrices)
+    public BillaDataExtractor(string category, int page, IAsyncCollector<ProductDto> dbProducts, IAsyncCollector<PriceDto> dbPrices)
     {
         this.Client = new HttpClient();
-        this.Url = $"https://shop.billa.at/api/search/full?category={category}&includeSort[]=rank&sort=rank&pageSize=1000000";
+        this.Url = $"https://shop.billa.at/api/categories/{category}/products?page={page}&pageSize=500";
 
         var sqlConnectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
         this.SqlConnection = new SqlConnection(sqlConnectionString);
@@ -66,25 +66,17 @@ public class BillaDataExtractor
 
         // Iterate over Data
         log.LogTrace("Processing request response");
-        foreach (var tile in responseData["tiles"])
+        foreach (var data in responseData["results"])
         {
-            if (tile["type"] != "product")
-            {
-                log.LogTrace("Skipping Non-Product");
-                continue;
-            }
-
-            var data = tile["data"];
-
             try
             {
                 DataLoading.ProcessProductWithPrice(
-                                                    data["articleId"],
+                                                    data["sku"],
                                                     data["name"],
-                                                    data["canonicalPath"],
-                                                    data["brand"],
+                                                    data["slug"],
+                                                    data["brand"]["name"],
                                                     this.BillaStoreId,
-                                                    data["price"]["final"],
+                                                    (float)data["price"]["regular"]["value"] / 100f,
                                                     existingData,
                                                     upsertProducts,
                                                     insertPrices,
