@@ -297,4 +297,31 @@
     <data name="close" xml:space="preserve">
         <value>Close</value>
     </data>
+    <data name="quoteText" xml:space="preserve">
+        <value>(Translation) The establishment of its own price database by the federal government is considered by various experts to be of little benefit, as there are already numerous price comparison platforms in the market.</value>
+    </data>
+    <data name="quoteSource" xml:space="preserve">
+        <value>Ministry of Economic Affairs - ÖVP</value>
+    </data>
+    <data name="goodbyeHeader" xml:space="preserve">
+        <value>Thank you for Everything</value>
+    </data>
+    <data name="goodbyeInitial" xml:space="preserve">
+        <value>It's unfortunately come to this. Longer than originally anticipated, I will be shutting down the inflation portal. The main reason for this is the following quote, which was published today:</value>
+    </data>
+    <data name="goodbyeTextA" xml:space="preserve">
+        <value>As some may already know, I had the honor of discussing with Mr. Minister of Economics, Mag. Dr. Martin Kocher. In this context, several measures to combat inflation were discussed. However, the main topic was a transparency law that would have required merchants above a certain size to input price data into a database provided by the Republic of Austria. Throughout this meeting, the importance was emphasized several times, as transparency platforms like the inflation portal can only function effectively when there is legal certainty. This is not currently the case. I have already received a fake legal letter once, but a lawsuit could have been filed against me at any time. Fortunately, this did not happen. Furthermore, grocery retailers are not obligated to publish price data, and they partially resist, intentionally or unintentionally, by making it more difficult to extract the data.</value>
+    </data>
+    <data name="goodbyeTextB" xml:space="preserve">
+        <value>As mentioned earlier, it has been repeatedly emphasized that a transparency law is urgently needed. I even offered my support in drafting a corresponding concept, and I did so free of charge. Unfortunately, this assistance was not accepted either. It has now become known that the ÖVP did not even consult with the coalition partner, despite promising to do so at the meeting "in the next few days". This is a slap in the face. However, what is even more outrageous is the fact that now the portal operators, including myself, are being portrayed as the guilty parties. This is a scandal. If one were to argue in this manner, what would come next? Will the police be disbanded because there are 3-4 neighborhood watch groups? Will schools be closed because there are also tutoring institutes?</value>
+    </data>
+    <data name="goodbyeTextC" xml:space="preserve">
+        <value>A capable government should be able to address a problem rather than simply saying, "There's already something in place," especially when it's legally in a gray area. A transparency law could have addressed many individual issues. For example, smaller retailers could have aligned their prices with those of larger ones to gain an economic advantage, potentially leading to a decline in the disappearance of small local shops ("Greislersterbens") and thus pushing prices downward. Therefore, it is all the more disappointing that NO party has been found to seriously advocate for this.</value>
+    </data>
+    <data name="goodbyeTextD" xml:space="preserve">
+        <value>All of this was not implemented. Instead, it appears that the blame is now being placed on the portal operators.</value>
+    </data>
+    <data name="goodbyeThanks" xml:space="preserve">
+        <value>Once again, a thousand thanks to all supporters. It's been a great time, and I've met many wonderful people. I hope the platform has helped you at least a bit, and that you'll continue to keep an eye on prices. Your support and dedication have truly been invaluable, and I'm sorry to have to close the platform. But your enthusiasm and ideas will always be remembered. Thank you so much for everything.</value>
+    </data>
 </root>

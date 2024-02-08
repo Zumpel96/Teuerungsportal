@@ -2,281 +2,42 @@
 
 <PageTitle>@L?["appName"]</PageTitle>
 
-<MudGrid>
-
-<MudItem xs="12">
-    <MudText Typo="Typo.h1">@L?["priceHistory"]</MudText>
-    @if (IsLoadingPriceHistory)
-    {
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="400px"/>
-    }
-    else
-    {
-        <InflationTransitionChart ChartData="@InflationHistory"/>
-    }
-</MudItem>
-
-<MudItem xs="12" Class="my-8">
-<MudGrid>
-<MudItem xs="12" md="6" lg="4">
-    <MudPaper Class="dashboard-card">
-        <MudGrid>
-            <MudItem xs="12">
-                <MudText Typo="Typo.h2">@L?["newProducts"]</MudText>
-            </MudItem>
-
-            <MudItem xs="12" Class="d-flex align-center flex-column">
-                @if (IsLoadingProductsCounts)
-                {
-                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="6rem"/>
-                }
-                else
-                {
-                    <MudText Class="justify-center dashboard-heading" Align="Align.Center" Style="font-size: 4rem">@($"{ProductsCounts.Sum(c => c.Count):n0}")</MudText>
-                }
-
-                <div style="width: 160px;">
-                    <MudSelect T="string" Variant="Variant.Text" AdornmentColor="Color.Primary" AnchorOrigin="Origin.BottomCenter" Value="SelectedFilter" ValueChanged="FilterChanged">
-                        <MudSelectItem Value="@("/day")">@L?["today"]</MudSelectItem>
-                        <MudSelectItem Value="@("/week")">@L?["thisWeek"]</MudSelectItem>
-                        <MudSelectItem Value="@("/month")">@L?["thisMonth"]</MudSelectItem>
-                        <MudSelectItem Value="@("/year")">@L?["thisYear"]</MudSelectItem>
-                        <MudSelectItem Value="@("")">@L?["allTime"]</MudSelectItem>
-                    </MudSelect>
-                </div>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudGrid>
-                    @if (IsLoadingProductsCounts)
-                    {
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="60%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="30%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="40%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="20%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="80%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="25%" Height="1.5rem"/>
-                        </MudItem>
-                    }
-                    else
-                    {
-                        var orderedProductsCounts = ProductsCounts.OrderByDescending(p => p.Count).Take(3);
-                        @foreach (var productsCount in orderedProductsCounts)
-                        {
-                            <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@productsCount.Store.Name</MudText>
-                            </MudItem>
-                            <MudItem xs="6" Class="justify-end d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Right">@($"{productsCount.Count:n0}")</MudText>
-                            </MudItem>
-                        }
-                    }
-                </MudGrid>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Text" Color="Color.Primary" Href="/new">@L?["moreInfos"]</MudButton>
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-</MudItem>
-
-<MudItem xs="12" md="6" lg="4">
-    <MudPaper Class="dashboard-card">
-        <MudGrid>
-            <MudItem xs="12">
-                <MudText Typo="Typo.h2">@L?["priceChanges"]</MudText>
-            </MudItem>
-
-            <MudItem xs="12" Class="d-flex align-center flex-column">
-                @if (IsLoadingPriceChangesCount)
-                {
-                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="6rem"/>
-                }
-                else
-                {
-                    <MudText Class="justify-center dashboard-heading" Align="Align.Center" Style="font-size: 4rem">@($"{PriceChangesCounts.Sum(c => c.Count):n0}")</MudText>
-                }
-
-                <div style="width: 160px;">
-                    <MudSelect T="string" Variant="Variant.Text" AdornmentColor="Color.Primary" AnchorOrigin="Origin.BottomCenter" Value="SelectedFilter" ValueChanged="FilterChanged">
-                        <MudSelectItem Value="@("/day")">@L?["today"]</MudSelectItem>
-                        <MudSelectItem Value="@("/week")">@L?["thisWeek"]</MudSelectItem>
-                        <MudSelectItem Value="@("/month")">@L?["thisMonth"]</MudSelectItem>
-                        <MudSelectItem Value="@("/year")">@L?["thisYear"]</MudSelectItem>
-                        <MudSelectItem Value="@("")">@L?["allTime"]</MudSelectItem>
-                    </MudSelect>
-                </div>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudGrid>
-                    @if (IsLoadingPriceChangesCount)
-                    {
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="60%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="30%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="40%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="20%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="80%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="25%" Height="1.5rem"/>
-                        </MudItem>
-                    }
-                    else
-                    {
-                        var orderedPriceChanges = PriceChangesCounts.OrderByDescending(p => p.Count).Take(3);
-                        @foreach (var priceChange in orderedPriceChanges)
-                        {
-                            <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.Store.Name</MudText>
-                            </MudItem>
-                            <MudItem xs="6" Class="justify-end d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Right">@($"{priceChange.Count:n0}")</MudText>
-                            </MudItem>
-                        }
-                    }
-                </MudGrid>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Text" Color="Color.Primary" Href="/changes">@L?["moreInfos"]</MudButton>
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-</MudItem>
-
-<MudItem xs="12" md="6" lg="4">
-    <MudPaper Class="dashboard-card">
-        <MudGrid>
-            <MudItem xs="12">
-                <MudText Typo="Typo.h2">@L?["inflation"]</MudText>
-            </MudItem>
-
-            <MudItem xs="12" Class="d-flex align-center flex-column">
-                @if (IsLoadingInflationData || !InflationData.Any())
-                {
-                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="6rem"/>
-                }
-                else
-                {
-                    <MudText Class="justify-center dashboard-heading" Align="Align.Center" Style="font-size: 4rem">@($"{InflationData.Average(c => c.Count):n2}")%</MudText>
-                }
-
-                <div style="width: 160px;">
-                    <MudSelect T="string" Variant="Variant.Text" AdornmentColor="Color.Primary" AnchorOrigin="Origin.BottomCenter" Value="SelectedFilter" ValueChanged="FilterChanged">
-                        <MudSelectItem Value="@("/day")">@L?["today"]</MudSelectItem>
-                        <MudSelectItem Value="@("/week")">@L?["thisWeek"]</MudSelectItem>
-                        <MudSelectItem Value="@("/month")">@L?["thisMonth"]</MudSelectItem>
-                        <MudSelectItem Value="@("/year")">@L?["thisYear"]</MudSelectItem>
-                        <MudSelectItem Value="@("")">@L?["allTime"]</MudSelectItem>
-                    </MudSelect>
-                </div>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudGrid>
-                    @if (IsLoadingInflationData)
-                    {
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="60%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="30%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="40%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="20%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-start d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="80%" Height="1.5rem"/>
-                        </MudItem>
-                        <MudItem xs="6" Class="justify-end d-flex">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="25%" Height="1.5rem"/>
-                        </MudItem>
-                    }
-                    else
-                    {
-                        var orderedPriceChanges = InflationData.OrderByDescending(p => p.Count).Take(3);
-                        @foreach (var priceChange in orderedPriceChanges)
-                        {
-                            <MudItem xs="6" Class="justify-start d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Left">@priceChange.Store.Name</MudText>
-                            </MudItem>
-                            <MudItem xs="6" Class="justify-end d-flex">
-                                <MudText Typo="Typo.body1" Align="Align.Right">@($"{priceChange.Count:n3}%")</MudText>
-                            </MudItem>
-                        }
-                    }
-                </MudGrid>
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Handshake" Color="Color.Primary" Href="https://paypal.me/BRuckenstuhl" Target="blank">@L?["support"]</MudButton>
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-</MudItem>
-</MudGrid>
-</MudItem>
-
-<MudItem xs="12" lg="12">
-    <MudText Typo="Typo.h1">@L?["topChanges"]</MudText>
-
-    <MudButton Variant="Variant.Text" Color="@(ShowDecreasesData ? Color.Primary : Color.Transparent)" OnClick="@(() => ChangeTopData(true))">
-        @L?["decreases"]
-    </MudButton>
-    <MudButton Variant="Variant.Text" Color="@(ShowDecreasesData ? Color.Transparent : Color.Primary)" OnClick="@(() => ChangeTopData(false))">
-        @L?["increases"]
-    </MudButton>
-
-    @if (ShowDecreasesData)
-    {
-        @if (TopPriceChanges.Any() || IsLoadingPriceChanges)
-        {
-            <RecentPriceChanges PriceChanges="@TopPriceChanges" HideDate HideCategory IsLoading="@IsLoadingPriceChanges"/>
-        }
-        else
-        {
-            <MudText Class="mt-3">
-                @L?["noTopChanges"]
+<MudContainer>
+    <MudItem xs="12">
+        <MudCard>
+            <MudText Typo="Typo.h1">
+                @L?["goodbyeHeader"]
             </MudText>
-        }
-    }
-    else
-    {
-        @if (WorstPriceChanges.Any() || IsLoadingPriceChanges)
-        {
-            <RecentPriceChanges PriceChanges="@WorstPriceChanges" HideDate HideCategory IsLoading="@IsLoadingPriceChanges"/>
-        }
-        else
-        {
-            <MudText Class="mt-3">
-                @L?["noWorstChanges"]
+
+            <MudText Typo="Typo.body1" Class="mb-3">
+                @L?["goodbyeInitial"]
             </MudText>
-        }
-    }
-</MudItem>
-</MudGrid>
+
+            <BlockQuote Text="@L?["quoteText"]" Quote="@L?["quoteSource"]" Url="https://www.derstandard.at/story/3000000206583/von-regierung-angekuendigte-vergleichsplattform-fuer-lebensmittel-kommt-nicht"></BlockQuote>
+
+            <MudText Typo="Typo.body1" Class="my-3">
+                @L?["goodbyeTextA"]
+            </MudText>
+
+            <MudText Typo="Typo.body1" Class="mb-3">
+                @L?["goodbyeTextB"]
+            </MudText>
+
+            <MudText Typo="Typo.body1" Class="mb-3">
+                @L?["goodbyeTextC"]
+            </MudText>
+
+            <MudText Typo="Typo.body1" Class="mb-3">
+                @L?["goodbyeTextD"]
+            </MudText>
+
+            <MudText Typo="Typo.body1" Class="mb-3">
+                @L?["goodbyeThanks"]
+            </MudText>
+
+            <MudText Typo="Typo.body1">
+                - Bernhard
+            </MudText>
+        </MudCard>
+    </MudItem>
+</MudContainer>

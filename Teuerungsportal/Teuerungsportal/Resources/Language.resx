@@ -297,4 +297,31 @@
     <data name="close" xml:space="preserve">
         <value>Schließen</value>
     </data>
+    <data name="quoteSource" xml:space="preserve">
+        <value>Wirtschaftsministerium - ÖVP</value>
+    </data>
+    <data name="quoteText" xml:space="preserve">
+        <value>Die Etablierung einer eigenen Preisdatenbank seitens des Bundes wird von diversen Expertinnen und Experten als wenig zielführend betrachtet, da es am Markt bereits eine Vielzahl an Preisvergleichsplattformen gibt.</value>
+    </data>
+    <data name="goodbyeHeader" xml:space="preserve">
+        <value>Vielen Dank für Alles</value>
+    </data>
+    <data name="goodbyeInitial" xml:space="preserve">
+        <value>Es ist leider soweit. Länger als ursprünglich angenommen werde ich das Teuerungsportal einstellen. Der Hauptgrund dafür ist folgendes Zitat, welches heute veröffentlicht wurde:</value>
+    </data>
+    <data name="goodbyeTextA" xml:space="preserve">
+        <value>Wie einige vielleicht wissen, hatte ich die Ehre, mich mit Herrn Wirtschaftsminister Mag. Dr. Martin Kocher zu unterhalten. In diesem Zusammenhang wurden einige Maßnahmen zur Bekämpfung der Teuerung erörtert. Das Hauptthema war jedoch ein Transparenzgesetz, das Händler ab einer bestimmten Größe verpflichtet hätte, Preisdaten in eine von der Bundesrepublik Österreich bereitgestellte Datenbank einzupflegen. Während dieses Treffens wurde mehrmals die Wichtigkeit betont, da Transparenzplattformen wie das Teuerungsportal nur dann funktionieren können, wenn eine rechtliche Sicherheit besteht. Diese ist in der aktuellen Form nicht gegeben. Ich habe bereits einmal ein gefälschtes Anwaltsschreiben erhalten, jedoch hätte jederzeit eine Klage gegen mich eingereicht werden können. Glücklicherweise ist dies nicht passiert. Darüber hinaus sind die Lebensmitteleinzelhändler nicht verpflichtet, Preisdaten zu veröffentlichen, und sie wehren sich daher teilweise, beabsichtigt oder unbeabsichtigt, indem sie das Auslesen der Daten umständlicher gestalten.</value>
+    </data>
+    <data name="goodbyeTextB" xml:space="preserve">
+        <value>Wie bereits erwähnt wurde, wurde mehrmals darauf hingewiesen, dass ein Transparenzgesetz dringend erforderlich ist. Ich habe sogar meine Unterstützung bei der Ausarbeitung eines entsprechenden Konzepts angeboten, und das unentgeltlich. Leider wurde auch diese Hilfe nicht angenommen. Es ist nun bekannt geworden, dass sich die ÖVP nicht einmal mit dem Koalitionspartner abgesprochen hat, obwohl dies bei dem Treffen "in den nächsten Tagen" versprochen wurde. Dies ist ein Schlag ins Gesicht. Was jedoch noch viel empörender ist, ist die Tatsache, dass nun die Portalbetreiber, zu denen auch ich gehöre, als Schuldige dargestellt werden. Das ist ein Skandal. Wenn man so argumentieren möchte, was kommt als nächstes? Wird die Polizei eingestellt, weil es 3-4 Nachbarschaftswachen gibt? Werden Schulen geschlossen, weil es ja auch Nachhilfeinstitute gibt?</value>
+    </data>
+    <data name="goodbyeTextC" xml:space="preserve">
+        <value>Eine fähige Regierung sollte in der Lage sein, sich mit einem Problem auseinanderzusetzen und nicht einfach zu sagen: "Es gibt ja schon etwas", besonders wenn dies rechtlich in einer Grauzone liegt. Ein Transparenzgesetz hätte viele individuelle Probleme angehen können. Beispielsweise hätten sich kleinere Händler an den Preisen der "Großen" orientieren können, um so einen wirtschaftlichen Vorteil zu erlangen, was zu einem Rückgang des Greislersterbens hätte führen können und dadurch die Preise nach unten gedrückt hätte. Daher ist es umso Enttäuschender, dass sich KEINE Partei gefunden hat sich hierfür ernsthaft einzusetzen.</value>
+    </data>
+    <data name="goodbyeTextD" xml:space="preserve">
+        <value>All das wurde nicht umgesetzt. Stattdessen sollen nun offenbar die Portalbetreiber die Schuld tragen.</value>
+    </data>
+    <data name="goodbyeThanks" xml:space="preserve">
+        <value>Nochmals tausend Dank an alle Unterstützer und Unterstützerinnen. Es war eine tolle Zeit, und ich habe viele nette Menschen kennengelernt. Ich hoffe, dass die Plattform euch zumindest ein bisschen geholfen hat und ihr auch weiterhin die Preise im Auge behaltet. Eure Unterstützung und euer Engagement waren wirklich unbezahlbar, und es tut mir leid, dass ich die Plattform schließen muss. Doch eure Begeisterung und eure Ideen werden immer in Erinnerung bleiben. Vielen Dank für alles.</value>
+    </data>
 </root>

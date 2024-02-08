@@ -1,20 +1,6 @@
 ﻿<MudNavMenu Bordered Style="height: 100%">
     <div class="d-flex justify-space-between flex-column" style="height: 100%">
         <div>
-            <EditForm Model="@Search" OnValidSubmit="@Redirect">
-                <DataAnnotationsValidator/>
-                <MudTextField Class="mx-6 mb-2 search-input" @bind-Value="@Search.Text" Label="@L?["search"]" For="@(() => Search.Text)" Variant="Variant.Text" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"/>
-            </EditForm>
-
-            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">@L?["dashboard"]</MudNavLink>
-
-            <MudNavLink Href="/changes" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">@L?["priceChanges"]</MudNavLink>
-
-            <MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddShoppingCart">@L?["newProducts"]</MudNavLink>
-
-            @* <MudNavLink Href="/categories" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Category">@L?["categories"]</MudNavLink> *@
-
-            <MudNavLink Href="/stores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Store">@L?["stores"]</MudNavLink>
         </div>
         <div>
             <MudDivider/>
