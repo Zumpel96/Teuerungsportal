@@ -13,6 +13,9 @@
 ## Description
 The "Teuerungsportal" (Translated: inflation portal) is a portal to keep track of the inflation in austrian supermarkets and also to compare prices.
 
+![grafik](https://github.com/user-attachments/assets/2663d35f-f9db-4e35-a830-869c07ae5e6b)
+
+
 ## Features
 - compare prices
 - track inflation
